@@ -1,69 +1,54 @@
 import React, { Component } from 'react';
 import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './Admin-add.css';
 
-class Admin_add extends Component {
+class Admin_addoption extends Component {
 
 
     constructor() {
     super();
     this.state = {
-        newQuestion :{},
-        submit:false
+        newOption:{}
     }
   }
 
     handleSubmit(e) {
-      this.setState({newQuestion:{
+      this.setState({newOption:{
+        option_id  : this.refs.option_id.value,
         question_id  : this.refs.question_id.value,
-        question  : this.refs.question.value,
-        start_date  : this.refs.start_date.value,
-        end_date   : this.refs.end_date.value
+        option  : this.refs.option.value
       }}, function(){
-          this.props.addQuestion(this.state.newQuestion);
+          this.props.addOption(this.state.newOption);
       }
     );
-      this.setState({submit:true});
       e.preventDefault();
+      alert("added");
     }
 
   render() {
-
-    if(this.state.submit)
-    {
-      return(
-        <Redirect to="/admin/add_question/option" />
-      );
-    }
-    else{
-    
+    console.log(this.props.question_id);
     return (
       <div className="Admin-add">
       <Jumbotron>
           <Col xs={14} xsOffset={6}>
-              <h2>Add-question</h2>
+              <h2>Add-option</h2>
           </Col>
         </Jumbotron>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <Row className="row-space">
             <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="number" ref="question_id" placeholder="Question id"/>
+              <input className="form-control" type="number" ref="option_id" placeholder="option id" />
             </Col>
           </Row>
           <Row className="row-space">
             <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="text" ref="question" placeholder="Question"/>
+              <input className="form-control" type="number" ref="question_id" placeholder="question id" />
             </Col>
             </Row>
             <Row className="row-space">
             <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="date" ref="start_date"/>
-            </Col>
-            </Row>
-            <Row className="row-space">
-            <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="date" ref="end_date"/>
+              <input className="form-control" type="text" ref="option" placeholder="option"/>
             </Col>
             </Row>
             <Row className="row-space">
@@ -75,7 +60,6 @@ class Admin_add extends Component {
       </div>
     );
   }
-  }
 }
 
-export default Admin_add;
+export default Admin_addoption;

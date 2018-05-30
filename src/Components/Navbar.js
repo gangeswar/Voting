@@ -17,8 +17,8 @@ class Menubar extends Component {
               </Navbar.Form>
 
             <Nav pullRight>
-              <NavItem eventKey={1} componentClass={Link} href="/question" to="/question">
-                User
+              <NavItem eventKey={1} componentClass={Link} href="/register" to="/register">
+                Register
               </NavItem>
               <NavItem eventKey={2} componentClass={Link} href="/admin" to="/admin">
               Admin
@@ -30,10 +30,10 @@ class Menubar extends Component {
                 <Col xsPull={2} smPull={5} mdPull={10} lgPull={20} >
                 <Navbar className="sidenav" inverse collapseOnSelect>
                     <Link to="/">LOGO</Link>
-                    <Link to="#">About</Link>
-                    <Link to="#">Services</Link>
-                    <Link to="#">Clients</Link>
-                    <Link to="#">Contact</Link>
+                    <Link to="#"></Link>
+                    <Link to="#"></Link>
+                    <Link to="#"></Link>
+                    <Link to="#"></Link>
                   </Navbar>
               </Col>
             </Row>

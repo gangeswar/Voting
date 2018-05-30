@@ -3,8 +3,10 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import Menubar from './Components/Navbar';
 import Login from './Components/Login';
+import Register from './Components/Register';
 import Admin from './Components/Admin';
 import Adminadd from './Components/Admin-add';
+import Adminaddoption from './Components/Admin-addoption';
 import QueOpt from './Components/QueOpt';
 
 
@@ -12,6 +14,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      register:[],
       questions : [],
       options : [],
       hasError:false
@@ -109,11 +112,25 @@ componentDidCatch() {
   this.setState(state => ({...state, hasError:true}));
 }
 
-addQuestionfunction(add) {
-    console.log(add);
+addUser(add_user) {
+    console.log(add_user);
+    let register =this.state.register;
+    register.push(add_user);
+    this.setState({register:register});
+}
+
+addQuestionfunction(add_question) {
+    console.log(add_question);
     let questions =this.state.questions;
-    questions.push(add);
+    questions.push(add_question);
     this.setState({questions:questions});
+}
+
+addOptionfunction(add_option) {
+    console.log(add_option);
+    let options =this.state.options;
+    options.push(add_option);
+    this.setState({options:options});
 }
 
 deleteQuestion(id) {
@@ -133,9 +150,11 @@ if(this.state.hasError)
       <Router>
       <div className="App">
         <Menubar />
-        <Route exact path="/" component={Login} />
+        <Route exact path="/" component={() => <Login users={this.state.register} />}/>
+        <Route exact path="/register" component={() => <Register registerUser={this.addUser.bind(this)}/>}/>
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/admin/add_question" component={() => <Adminadd  addQuestion={this.addQuestionfunction.bind(this)} />}/>
+        <Route exact path="/admin/add_question/option" component={() => <Adminaddoption  question_id={this.state.questions.question_id} addOption={this.addOptionfunction.bind(this)} />}/>
         <Route exact path="/question" component={() => <QueOpt questions={this.state.questions} options={this.state.options} onDelete = {this.deleteQuestion.bind(this)}/>}/>
 
       </div>
