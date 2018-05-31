@@ -10,18 +10,9 @@ class Menubar extends Component {
       <div >
         <Navbar className="Menubar" inverse collapseOnSelect>
             <Navbar.Collapse>
-              <Navbar.Form>
-                <Col xs={4} xsOffset={4}>
-                  <FormControl type="text" id="search" name="search" placeholder="Search.." />
-                </Col>
-              </Navbar.Form>
-
             <Nav pullRight>
               <NavItem eventKey={1} componentClass={Link} href="/register" to="/register">
                 Register
-              </NavItem>
-              <NavItem eventKey={2} componentClass={Link} href="/admin" to="/admin">
-              Admin
               </NavItem>
             </Nav>
 

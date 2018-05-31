@@ -6,8 +6,7 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import Admin from './Components/Admin';
 import Adminadd from './Components/Admin-add';
-import Adminaddoption from './Components/Admin-addoption';
-import QueOpt from './Components/QueOpt';
+import Question_item from './Components/Question_items';
 
 
 class App extends Component {
@@ -153,15 +152,13 @@ if(this.state.hasError)
         <Route exact path="/" component={() => <Login users={this.state.register} />}/>
         <Route exact path="/register" component={() => <Register registerUser={this.addUser.bind(this)}/>}/>
         <Route exact path="/admin" component={Admin} />
-        <Route exact path="/admin/add_question" component={() => <Adminadd  addQuestion={this.addQuestionfunction.bind(this)} />}/>
-        <Route exact path="/admin/add_question/option" component={() => <Adminaddoption  question_id={this.state.questions.question_id} addOption={this.addOptionfunction.bind(this)} />}/>
-        <Route exact path="/question" component={() => <QueOpt questions={this.state.questions} options={this.state.options} onDelete = {this.deleteQuestion.bind(this)}/>}/>
-
+        <Route exact path="/admin/add_question" component={() => <Adminadd  addQuestion={this.addQuestionfunction.bind(this)} addOption={this.addOptionfunction.bind(this)} />}/>
+        <Route exact path="/question" component={() => <Question_item questions={this.state.questions} options={this.state.options} onDelete = {this.deleteQuestion.bind(this)}/>}/>
       </div>
       </Router>
     );
   }
-}
+  }
 }
 
 export default App;

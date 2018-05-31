@@ -10,6 +10,7 @@ class Admin_add extends Component {
     super();
     this.state = {
         newQuestion :{},
+        newOption:{},
         submit:false
     }
   }
@@ -20,10 +21,18 @@ class Admin_add extends Component {
         question  : this.refs.question.value,
         start_date  : this.refs.start_date.value,
         end_date   : this.refs.end_date.value
-      }}, function(){
-          this.props.addQuestion(this.state.newQuestion);
-      }
-    );
+        }}, function(){
+            this.props.addQuestion(this.state.newQuestion);
+        }
+      );
+      this.setState({newOption:{
+        option_id  : this.refs.option_id.value,
+        question_id  : this.refs.question_id.value,
+        option  : this.refs.option.value
+        }}, function(){
+            this.props.addOption(this.state.newOption);
+        }
+      );
       this.setState({submit:true});
       e.preventDefault();
     }
@@ -33,11 +42,11 @@ class Admin_add extends Component {
     if(this.state.submit)
     {
       return(
-        <Redirect to="/admin/add_question/option" />
+        <Redirect to="/" />
       );
     }
     else{
-    
+
     return (
       <div className="Admin-add">
       <Jumbotron>
@@ -55,8 +64,18 @@ class Admin_add extends Component {
             <Col xs={4} xsOffset={4}>
               <input className="form-control" type="text" ref="question" placeholder="Question"/>
             </Col>
-            </Row>
-            <Row className="row-space">
+          </Row>
+          <Row className="row-space">
+            <Col xs={4} xsOffset={4}>
+              <input className="form-control" type="number" ref="option_id" placeholder="option id" />
+            </Col>
+          </Row>
+          <Row className="row-space">
+          <Col xs={4} xsOffset={4}>
+            <input className="form-control" type="text" ref="option" placeholder="option"/>
+          </Col>
+          </Row>
+          <Row className="row-space">
             <Col xs={4} xsOffset={4}>
               <input className="form-control" type="date" ref="start_date"/>
             </Col>

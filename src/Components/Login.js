@@ -9,42 +9,53 @@ class Login extends Component {
   constructor() {
   super();
   this.state = {
-      submit:false
+      login:false,
+      admin:false
+    }
   }
-}
 
   handleSubmit(e) {
-    var flag=false;
+    let admin="admin"
+    let password="123"
+
+    if(admin===this.refs.User.value){
+      if(password===this.refs.Password.value)
+      {
+        this.setState({admin:true});
+        console.log("asas");
+      }
+    }
+    else{
+      this.setState({admin:false});
     for(var i of this.props.users)
     {
-      console.log(i.user_name+""+i.password);
       if(i.user_name===this.refs.User.value)
       {
         if(i.password==this.refs.Password.value)
         {
-          flag=true;
+          this.setState({login:true});
         }
       }
       else{
-        flag=false;
+        this.setState({login:false});
+        alert("not a valid user");
       }
     }
-    if(flag==true)
-    {
-        alert("success");
-    }
-    else{
-      alert("not a valid user");
-    }
-    this.setState({submit:true});
-    e.preventDefault();
   }
+  e.preventDefault();
+}
 
   render() {
-    if(this.state.submit)
+    if( this.state.login)
     {
       return(
         <Redirect to="/question" />
+      );
+    }
+    else if(this.state.admin)
+    {
+      return(
+        <Redirect to="/admin" />
       );
     }
     else {

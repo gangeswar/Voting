@@ -11,11 +11,19 @@ class Register extends Component {
     super();
     this.state = {
         newUser :{},
-        submit:false
+        submit:false,
+        register:false
     }
   }
 
     handleSubmit(e) {
+      if((this.refs.Email.value==="")||(this.refs.User.value==="")||(this.refs.Password.value==="")){
+          this.setState({register:false});
+          e.preventDefault();
+          alert("Empty field");
+      }
+      else {
+      this.setState({register:true});
       this.setState({newUser:{
         user_id  : uuid.v4(),
         email  : this.refs.Email.value,
@@ -29,8 +37,9 @@ class Register extends Component {
       e.preventDefault();
       alert("successfully login");
     }
+  }
     render() {
-      if(this.state.submit)
+      if((this.state.submit) && (this.state.register))
       {
         return(
           <Redirect to="/" />
@@ -64,7 +73,7 @@ class Register extends Component {
           <Button type="submit" bsStyle="success">Register</Button>
         </Col>
         <Col xsPull={1} xs={2} xsOffset={2}>
-            <Button bsStyle="danger">Reset</Button>
+            <Button type="reset" bsStyle="danger">Reset</Button>
         </Col>
         </form>
       </div>
