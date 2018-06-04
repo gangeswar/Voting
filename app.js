@@ -3,8 +3,7 @@ const morgan = require("morgan");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 
-const login = require("./module/login");
-const signup = require("./module/signup");
+const user = require("./module/user");
 const question = require("./module/questions");
 const option = require("./module/options");
 
@@ -20,10 +19,10 @@ mongoose.connect('mongodb://127.0.0.1/my_database',{
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
-app.use('/api/login',login);
-app.use('/api/signup',signup);
+app.use('/api/user',user);
 app.use('/api/question',question);
 app.use('/api/option',option);
+app.use('/api',option);
 
 
 app.use((req, res, next) => {

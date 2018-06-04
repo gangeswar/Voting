@@ -50,8 +50,20 @@ router.get('/:question_id',(req, res, next) =>{
     });
 });
 
+router.put('/:question_id',(req, res, next) =>{
+  const id = req.params.question_id;
+  Questions.findByIdAndUpdate({_id: id},req.body).exec().then(doc =>{
+    Questions.findOne({_id: id}).then(doc =>{
+      res.status(200).json(doc);
+    });
+  }).catch(err =>{
+    res.status(500).json({error:"user does not exist"})
+  });
+});
+
+
 router.delete('/:question_id',(req, res, next) =>{
-    const id = req.params.user_id;
+    const id = req.params.question_id;
     Questions.remove({_id: id}).exec().then(doc =>{
       res.status(200).json({message: "is delete"});
     }).catch(err =>{
