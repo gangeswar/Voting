@@ -21,7 +21,6 @@ app.use(bodyparser.json());
 
 app.use('/api/user',user);
 app.use('/api/question',question);
-app.use('/api/option',option);
 app.use('/api',option);
 
 

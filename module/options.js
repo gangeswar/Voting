@@ -5,39 +5,41 @@ const router = express.Router();
 
 const Options = require('../model/optionsSchema');
 
-router.get('/',(req, res, next) => {
-    Options.find().then(doc=>{
-        res.status(200).json(doc);
-    }).catch(err =>{
-      res.status(500).json({error:err})
+router.post('/question/:question_id/option',(req, res, next) => {
+  const que_id = req.params.question_id;
+  Options.find( { question_id:que_id } ).exec().then(doc =>{
+      Options.find({option: req.body.option}).then(opt=>{
+        if(opt.length >= 1)
+        {
+          return res.status(409).json({
+            message: "option already exist"
+          })
+        }
+        else {
+
+            const options = new Options({
+            _id : new mongoose.Types.ObjectId(),
+            question_id : que_id,
+            option : req.body.option
+          });
+          options.save().then( doc=> {
+            res.status(201).json(doc)
+          }).catch(err => {
+            res.status(500).json({error:err
+          })
+        });
+        }
+
+      });
     });
 });
 
-
-router.post('/',(req, res, next) => {
-  Options.find({option: req.body.option}).then(opt=>{
-    if(opt.length >= 1)
-    {
-      return res.status(409).json({
-        message: "option already exist"
-      })
-    }
-    else{
-        const options = new Options({
-        _id : new mongoose.Types.ObjectId(),
-        question_id : req.body.question_id,
-        option : req.body.option
-      });
-      options.save().then( doc=> {
-        res.status(201).json(doc)
-      }).catch(err => {
-        res.status(500).json({error:err
-      })
+router.get('/allquestion/alloption',(req, res, next) =>{
+    Options.find().exec().then(doc =>{
+      res.status(200).json(doc);
+    }).catch(err =>{
+      res.status(500).json({error:"option does not exist"})
     });
-
-    }
-  });
-
 });
 
 router.get('/question/:question_id/option',(req, res, next) =>{
