@@ -28,7 +28,7 @@ class Admin extends Component {
           </Link>
           </Col>
           <Col xs={6}  sm={4}  md={3}>
-          <Link to="#" className="btn btn-sq-lg btn-success">
+          <Link to="/admin/userdetail" className="btn btn-sq-lg btn-success">
                 <br/> <br/><br/>
                  Total User
           </Link>
@@ -37,7 +37,7 @@ class Admin extends Component {
         </Row>
         <Row className="box-space">
           <Col xsOffset={3} xs={6} sm={4} md={3}>
-          <Link to="#" className="btn btn-sq-lg  btn-primary">
+          <Link to="/admin/totalquestion" className="btn btn-sq-lg  btn-primary">
                  <br/> <br/><br/>
                  Total Question
           </Link>

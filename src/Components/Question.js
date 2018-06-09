@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
-class User extends Component {
+class Question extends Component {
 
   deleteQuestion(id){
     this.props.onDelete(id);
@@ -10,9 +10,9 @@ class User extends Component {
 
   render() {
     return (
-      <div className="User">
+      <div className="Question">
         <Col  xsOffset={4}>
-          <strong>{this.props.list_question.question_id} . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong><a href="#" onClick={this.deleteQuestion.bind(this,this.props.list_question.question_id)} >X</a><br />
+          <strong>{this.props.list_question._id} . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong><a href="#" onClick={this.deleteQuestion.bind(this,this.props.list_question.question_id)} >X</a><br />
           <input type="radio" name={this.props.list_question.question_id} />{this.props.list_question.option}<br />
         </Col>
       </div>
@@ -20,4 +20,4 @@ class User extends Component {
   }
 }
 
-export default User;
+export default Question;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
 import './Admin-add.css';
@@ -16,25 +17,31 @@ class Admin_add extends Component {
   }
 
     handleSubmit(e) {
-      this.setState({newQuestion:{
-        question_id  : this.refs.question_id.value,
+      e.preventDefault();
+      var optionIndex = [this.refs.optionA.value,this.refs.optionB.value,this.refs.optionC.value,this.refs.optionD.value];
+
+      for(let index of optionIndex)
+      {
+        console.log(index);
+      }
+
+      axios.post(`http://172.24.125.116:8000/api/question`, {
         question  : this.refs.question.value,
         start_date  : this.refs.start_date.value,
         end_date   : this.refs.end_date.value
-        }}, function(){
-            this.props.addQuestion(this.state.newQuestion);
+      }).then(res => {
+        console.log(res.data._id);
+        for(let index of optionIndex)
+        {
+          axios.post(`http://172.24.125.116:8000/api/question/${res.data._id}/option`, {
+          option: index
         }
-      );
-      this.setState({newOption:{
-        option_id  : this.refs.option_id.value,
-        question_id  : this.refs.question_id.value,
-        option  : this.refs.option.value
-        }}, function(){
-            this.props.addOption(this.state.newOption);
-        }
-      );
-      this.setState({submit:true});
-      e.preventDefault();
+      )
+      }
+
+    }
+    ).catch(error => console.log("error"));
+    this.setState({submit:true});
     }
 
   render() {
@@ -57,22 +64,27 @@ class Admin_add extends Component {
         <form onSubmit={this.handleSubmit.bind(this)}>
           <Row className="row-space">
             <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="number" ref="question_id" placeholder="Question id"/>
-            </Col>
-          </Row>
-          <Row className="row-space">
-            <Col xs={4} xsOffset={4}>
               <input className="form-control" type="text" ref="question" placeholder="Question"/>
             </Col>
           </Row>
           <Row className="row-space">
-            <Col xs={4} xsOffset={4}>
-              <input className="form-control" type="number" ref="option_id" placeholder="option id" />
-            </Col>
+          <Col xs={4} xsOffset={4}>
+            <input className="form-control" type="text" ref="optionA" placeholder="option-A"/>
+          </Col>
           </Row>
           <Row className="row-space">
           <Col xs={4} xsOffset={4}>
-            <input className="form-control" type="text" ref="option" placeholder="option"/>
+            <input className="form-control" type="text" ref="optionB" placeholder="option-B"/>
+          </Col>
+          </Row>
+          <Row className="row-space">
+          <Col xs={4} xsOffset={4}>
+            <input className="form-control" type="text" ref="optionC" placeholder="option-C"/>
+          </Col>
+          </Row>
+          <Row className="row-space">
+          <Col xs={4} xsOffset={4}>
+            <input className="form-control" type="text" ref="optionD" placeholder="option-D"/>
           </Col>
           </Row>
           <Row className="row-space">
