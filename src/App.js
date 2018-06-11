@@ -8,10 +8,10 @@ import Login from './Components/Login';
 import UserProfile from './Components/user_profile';
 import Register from './Components/Register';
 import Admin from './Components/Admin';
-import Adminadd from './Components/Admin-add';
+import AdminAddQuestion from './Components/Admin-add';
 import AdminUserdetail from './Components/Admin-User_detail';
 import AdminTotalquestion from './Components/Admin-Total_question';
-import Question_item from './Components/Question_items';
+import QuestionItem from './Components/Question_items';
 
 
 class App extends Component {
@@ -84,8 +84,8 @@ if(this.state.hasError)
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/admin/userdetail" component={() => <AdminUserdetail userDetail={this.state.register} />} />
         <Route exact path="/admin/totalquestion" component={() => <AdminTotalquestion totalQuestion={this.state.questions} />} />
-        <Route exact path="/admin/add_question" component={() => <Adminadd  addQuestion={this.addQuestionfunction.bind(this)} addOption={this.addOptionfunction.bind(this)} />}/>
-        <Route exact path="/question" component={() => <Question_item questions={this.state.questions} options={this.state.options} onDelete = {this.deleteQuestion.bind(this)}/>}/>
+        <Route exact path="/admin/add_question" component={() => <AdminAddQuestion  addQuestion={this.addQuestionfunction.bind(this)} addOption={this.addOptionfunction.bind(this)} />}/>
+        <Route exact path="/question" component={() => <QuestionItem questions={this.state.questions} options={this.state.options} onDelete = {this.deleteQuestion.bind(this)}/>}/>
         <Route exact path="/user_profile" component={UserProfile} />
       </div>
       </Router>

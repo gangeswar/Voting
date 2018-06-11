@@ -35,7 +35,7 @@ class Register extends Component {
       })
       .catch(error => {
         this.setState({register:false});
-        alert(error.response.status);
+        alert(error.response.data.error);
       });
     }
   }
@@ -50,30 +50,30 @@ class Register extends Component {
     return (
       <div className="Register">
       <Jumbotron>
-          <Col xs={14} xsOffset={6}>
+          <Col  xsOffset={5} smOffset={5}>
               <h2>Register</h2>
           </Col>
         </Jumbotron>
         <form onSubmit={this.handleSubmit.bind(this)}>
         <Row className="row-space">
-          <Col xsPush={1} xs={3} xsOffset={4}>
+          <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
             <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" />
           </Col>
         </Row>
         <Row className="row-space">
-          <Col xsPush={1} xs={3} xsOffset={4}>
+          <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
             <input className="form-control" type="text" ref="User" placeholder="User-Name" />
           </Col>
         </Row>
         <Row className="row-space">
-          <Col xsPush={1} xs={3} xsOffset={4}>
+          <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
             <input className="form-control" type="password" ref="Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
           </Col>
         </Row>
-        <Col xsPush={1} xs={1} xsOffset={4}>
+        <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
           <Button type="submit" bsStyle="primary">Register</Button>
         </Col>
-        <Col xsPull={1} xs={2} xsOffset={2}>
+        <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
             <Button type="reset" bsStyle="primary">Reset</Button>
         </Col>
         </form>

@@ -8,7 +8,7 @@ import axios from 'axios';
 class AdminUserdetail extends Component {
 
   onClickDeleteUserDetail(cell, row, userDetail){
-    axios.delete(`http://172.24.125.116:8000/api/user/${userDetail._id}`);
+    axios.delete(`http://172.24.125.116:8000/api/user/${userDetail._id}`).then(res => window.location.reload()).catch(error => console.log(error));
 
    }
 

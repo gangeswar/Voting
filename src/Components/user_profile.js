@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import uuid from 'uuid';
 import axios from 'axios';
 import { FormGroup, FormControl} from 'react-bootstrap';
 import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
@@ -20,7 +19,6 @@ class UserProfile extends Component {
 
   handleSubmit(e){
         e.preventDefault();
-      
         if(this.refs.oldPassword.value==localStorage.getItem("password"))
         {
         axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`,{
@@ -36,18 +34,13 @@ class UserProfile extends Component {
   }
 
   render() {
-    var email_id = localStorage.getItem("email_id");
-    var user_name = localStorage.getItem("user_name");
 
     if(this.state.update)
     {
-      alert("hai");
       return(
           <Redirect to="/"/>
       );
     }
-    else{
-      alert("hello")
       return (
         <div className="UserProfile">
         <Jumbotron>
@@ -57,29 +50,29 @@ class UserProfile extends Component {
           </Jumbotron>
           <form onSubmit={this.handleSubmit.bind(this)}>
           <Row className="row-space">
-            <Col xsPush={1} xs={3} xsOffset={4}>
-              <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={email_id}/>
+            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+              <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")}/>
             </Col>
           </Row>
           <Row className="row-space">
-            <Col xsPush={1} xs={3} xsOffset={4}>
-              <input className="form-control" type="text" ref="User" placeholder="User-Name" value={user_name}/>
+            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+              <input className="form-control" type="text" ref="User" placeholder="User-Name" value={localStorage.getItem("user_name")}/>
             </Col>
           </Row>
           <Row className="row-space">
-            <Col xsPush={1} xs={3} xsOffset={4}>
+            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
               <input className="form-control" type="password" ref="oldPassword" placeholder="currentPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
             </Col>
           </Row>
           <Row className="row-space">
-            <Col xsPush={1} xs={3} xsOffset={4}>
+            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
               <input className="form-control" type="password" ref="newPassword" placeholder="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
             </Col>
           </Row>
-          <Col xsPush={1} xs={1} xsOffset={4}>
+          <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3}>
             <Button type="submit" bsStyle="primary">Update</Button>
           </Col>
-          <Col xsPull={1} xs={2} xsOffset={2}>
+          <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0}>
               <Button type="reset" bsStyle="primary">Reset</Button>
           </Col>
           </form>
@@ -87,5 +80,5 @@ class UserProfile extends Component {
       );
       }
 }
-}
+
 export default UserProfile;

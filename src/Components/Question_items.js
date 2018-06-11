@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Jumbotron, Grid, Row, Col, Button, Image} from 'react-bootstrap'
 import Question from './Question'
 
-class Question_item extends Component {
+class QuestionItem extends Component {
 
   deleteQuestion(id)  {
       this.props.onDelete(id);
@@ -39,10 +39,10 @@ class Question_item extends Component {
     });
 
     return (
-      <div className="Question_item">
+      <div className="QuestionItem">
       <Jumbotron>
           <Col xs={14} xsOffset={6}>
-              <h2>User</h2>
+              <h2>Questions</h2>
           </Col>
         </Jumbotron>
           {question_item}
@@ -51,4 +51,4 @@ class Question_item extends Component {
   }
 }
 
-export default Question_item;
+export default QuestionItem;

@@ -10,8 +10,7 @@ class Login extends Component {
   constructor() {
   super();
   this.state = {
-      login:false,
-      admin:false
+      login:-1
     }
   }
 
@@ -29,11 +28,10 @@ class Login extends Component {
             localStorage.setItem("email_id",JSON.parse(localStorage.getItem("user")).email_id);
             localStorage.setItem("user_name",JSON.parse(localStorage.getItem("user")).user_name);
             localStorage.setItem("password",JSON.parse(localStorage.getItem("user")).password);
-            console.log(localStorage.getItem("admin"));
-
+            this.setState({login:localStorage.getItem("admin")});
         })
         .catch(error=> {
-          alert("not a valid user");
+        console.log(error.response.data.error)
         });
 
 }
@@ -54,25 +52,25 @@ class Login extends Component {
     return (
       <div className="Login">
       <Jumbotron>
-          <Col xs={14} xsOffset={6}>
+          <Col xsOffset={5} smOffset={5}>
               <h2>Login</h2>
           </Col>
         </Jumbotron>
         <form onSubmit={this.handleSubmit.bind(this)}>
         <Row className="row-space">
-          <Col xsPush={1} xs={3} xsOffset={4}>
+          <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
             <input className="form-control" type="text" ref="Email" placeholder="Email_id" />
           </Col>
         </Row>
         <Row className="row-space">
-          <Col xsPush={1} xs={3} xsOffset={4}>
+          <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
             <input className="form-control" type="password" ref="Password" placeholder="Password" />
           </Col>
         </Row>
-        <Col xsPush={1} xs={1} xsOffset={4}>
+        <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
            <Button type="submit" bsStyle="success">Login</Button>
         </Col>
-        <Col xsPull={1} xs={2} xsOffset={2}>
+        <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
             <Button type="reset" bsStyle="danger">Reset</Button>
         </Col>
         </form>

@@ -23,18 +23,18 @@ class Menubar extends Component{
     return (
       <div >
         <Navbar className="Menubar" inverse collapseOnSelect>
-        {
-          localStorage.getItem("user_id")==null?
-        <Navbar.Header>
-         <Navbar.Brand>
-           <Link to="/">LOGO</Link>
-         </Navbar.Brand>
-         <Navbar.Toggle />
-        </Navbar.Header>
-        :null
-      }
+            {
+            localStorage.getItem("user_id")==null?
+            <Navbar.Header>
+             <Navbar.Brand>
+               <Link to="/">LOGO</Link>
+             </Navbar.Brand>
+             <Navbar.Toggle />
+            </Navbar.Header>
+            :null
+          }
             <Navbar.Collapse>
-              <Nav pullRight>
+            <Nav pullRight>
             {
               localStorage.getItem("user_id")==null?
               <NavItem eventKey={1} componentClass={Link} href="/register" to="/register">

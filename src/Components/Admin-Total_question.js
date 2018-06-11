@@ -2,19 +2,22 @@ import React, { Component } from 'react'
 import { Button, Jumbotron, Col} from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import axios from 'axios';
-
+import {Link, Redirect} from 'react-router-dom';
 
 
 class AdminTotalquestion extends Component {
+  constructor(){
+      super();
+  }
 
   onClickDeleteTotalQuestion(cell, row, totalQuestion){
     axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
       for (let index of res.data)
       {
-        axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`).then(res => console.log(res)).catch(error => console.log(error) );
+        axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`);
       }
   }
-).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).catch(error => console.log(error));
+).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => window.location.reload()).catch(error => console.log(error));
 
 }
 

@@ -4,7 +4,7 @@ import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
 import './Admin-add.css';
 
-class Admin_add extends Component {
+class AdminAddQuestion extends Component {
 
 
     constructor() {
@@ -55,7 +55,7 @@ class Admin_add extends Component {
     else{
 
     return (
-      <div className="Admin-add">
+      <div className="AdminAddQuestion">
       <Jumbotron>
           <Col xs={14} xsOffset={6}>
               <h2>Add-question</h2>
@@ -109,4 +109,4 @@ class Admin_add extends Component {
   }
 }
 
-export default Admin_add;
+export default AdminAddQuestion;
