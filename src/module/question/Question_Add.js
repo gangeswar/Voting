@@ -36,7 +36,6 @@ class QuestionAdd extends Component {
         }
       )
       }
-
     }
     ).catch(error => console.log("error"));
     this.setState({submit:true});

@@ -10,7 +10,8 @@ class UserProfile extends Component {
     constructor() {
     super();
     this.state = {
-        update:false
+        update:false,
+        error:null
     }
   }
 
@@ -26,7 +27,7 @@ class UserProfile extends Component {
         }).then(res=> {
           this.setState({update:true})
         }).catch(error => {
-          alert(error.response.data.error);
+          this.setState({error:error.response.data.error});
           this.setState({update:false})
         });
   }
@@ -75,8 +76,9 @@ class UserProfile extends Component {
           </Col>
           <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
             <Link to="/">  <Button bsStyle="basic" >Back</Button></Link>
-          </Col>
-          
+          </Col><br/><br/><br/>
+          <div id="right" style={{color:"red"}}>{this.state.error}
+          </div>
           </form>
         </div>
       );

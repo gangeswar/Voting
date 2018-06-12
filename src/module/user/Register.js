@@ -11,17 +11,15 @@ class Register extends Component {
     constructor() {
     super();
     this.state = {
-        newUser :{},
-        submit:false,
-        register:false
+        register:false,
+        error:null
     }
   }
 
     handleSubmit(e) {
       e.preventDefault();
       if((this.refs.Email.value==="")||(this.refs.User.value==="")||(this.refs.Password.value==="")){
-          this.setState({register:false});
-          alert("Empty field");
+          this.setState({register:false,error:"Empty field"});
       }
       else {
       axios.post('http://172.24.125.116:8000/api/user', {
@@ -30,7 +28,7 @@ class Register extends Component {
         password:this.refs.Password.value
       })
       .then(res => {
-        this.setState({register:true});
+        this.setState({register:true,error:null});
         alert(res.data.message);
       })
       .catch(error => {
@@ -79,7 +77,8 @@ class Register extends Component {
         <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
             <Button type="reset" bsStyle="primary">Reset</Button>
         </Col><br/><br/><br/>
-
+        <div id="right" style={{color:"red"}}>{this.state.error}
+        </div>
         <div id="right">
           <strong >already have account?<Link to="/"> login</Link></strong>
           </div>

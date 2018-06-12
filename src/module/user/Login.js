@@ -11,6 +11,7 @@ class Login extends Component {
   super();
   this.state = {
       loginUser:[],
+      error:null,
       login:-1
     }
   }
@@ -29,11 +30,15 @@ class Login extends Component {
               localStorage.setItem("user_id",this.state.loginUser._id);
               localStorage.setItem("email_id",this.state.loginUser.email_id);
               localStorage.setItem("user_name",this.state.loginUser.user_name);
-              this.setState({login:localStorage.getItem("admin")});
+              this.setState({
+                login:localStorage.getItem("admin"),
+                error:null
+            });
+
             })
           })
         .catch(error=> {
-        console.log(error.response.data.error);
+        this.setState({error: error.response.data.error});
         });
 
 }
@@ -75,8 +80,10 @@ class Login extends Component {
         <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
             <Button type="reset" bsStyle="primary">Reset</Button>
         </Col><br/><br/><br/>
+        <div id="right" style={{color:"red"}}>{this.state.error}
+        </div>
         <div id="right">
-          <strong >don't have account?<Link to="/register"> register</Link></strong>
+          <strong>don't have account?<Link to="/register"> register</Link></strong>
           </div>
         </form>
       </div>
