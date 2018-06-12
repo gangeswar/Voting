@@ -4,7 +4,7 @@ import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
 import './Question.css';
 
-class AddQuestion extends Component {
+class QuestionAdd extends Component {
     constructor() {
     super();
     this.state = {
@@ -53,7 +53,7 @@ class AddQuestion extends Component {
     else{
 
     return (
-      <div className="AddQuestion">
+      <div className="QuestionAdd">
       <Jumbotron>
           <Col xs={14} xsOffset={6}>
               <h2>Add-question</h2>
@@ -107,4 +107,4 @@ class AddQuestion extends Component {
   }
 }
 
-export default AddQuestion;
+export default QuestionAdd;

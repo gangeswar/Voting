@@ -73,6 +73,10 @@ class UserProfile extends Component {
           <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0}>
               <Button type="reset" bsStyle="primary">Reset</Button>
           </Col>
+          <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
+            <Link to="/">  <Button bsStyle="basic" >Back</Button></Link>
+          </Col>
+          
           </form>
         </div>
       );

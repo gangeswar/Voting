@@ -5,7 +5,7 @@ import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 
 
-class AdminTotalquestion extends Component {
+class QuestionList extends Component {
   constructor(){
       super();
       this.state={
@@ -74,4 +74,4 @@ class AdminTotalquestion extends Component {
 
 
 
-export default AdminTotalquestion;
+export default QuestionList;

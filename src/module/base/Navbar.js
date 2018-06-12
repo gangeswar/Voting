@@ -46,7 +46,7 @@ class Menubar extends Component{
               localStorage.getItem("user_id")!=null?
               <NavItem >
               <div className="dropdown">
-                <img src={user} width="30" height="30" /><span>{localStorage.getItem("user_name")}</span>
+                <img src={user} width="30" height="30" /><span>  {localStorage.getItem("user_name")}</span>
                   <div className="dropdown-content">
                   <Button onClick={this.userProfile.bind(this)}><Link to="/user_profile">Profile</Link></Button>
                   <Button onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>

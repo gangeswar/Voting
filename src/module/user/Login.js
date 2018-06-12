@@ -70,11 +70,14 @@ class Login extends Component {
           </Col>
         </Row>
         <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
-           <Button type="submit" bsStyle="success">Login</Button>
+           <Button type="submit" bsStyle="primary">Login</Button>
         </Col>
         <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
-            <Button type="reset" bsStyle="danger">Reset</Button>
-        </Col>
+            <Button type="reset" bsStyle="primary">Reset</Button>
+        </Col><br/><br/><br/>
+        <div id="right">
+          <strong >don't have account?<Link to="/register"> register</Link></strong>
+          </div>
         </form>
       </div>
     );

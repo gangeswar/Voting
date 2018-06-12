@@ -39,6 +39,9 @@ class Register extends Component {
       });
     }
   }
+
+
+
     render() {
       if(this.state.register)
       {
@@ -75,7 +78,11 @@ class Register extends Component {
         </Col>
         <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
             <Button type="reset" bsStyle="primary">Reset</Button>
-        </Col>
+        </Col><br/><br/><br/>
+
+        <div id="right">
+          <strong >already have account?<Link to="/"> login</Link></strong>
+          </div>
         </form>
       </div>
     );
