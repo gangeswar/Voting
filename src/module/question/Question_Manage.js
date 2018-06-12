@@ -1,36 +1,77 @@
-import React, { Component } from 'react';
-import {Jumbotron, Grid, Row, Col, Button, Image} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import add_que from '../../media/add_question.png';
+import React, { Component } from 'react'
+import { Button, Jumbotron, Col} from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
+import axios from 'axios';
+import {Link, Redirect} from 'react-router-dom';
 
-const QuestionManage = () => {
-  return(
-  <div className="Admin" >
-     <Jumbotron >
-         <Col xs={14} xsOffset={6} >
-             <h2>Admin</h2>
-         </Col>
-       </Jumbotron>
-     <Row className="box-space">
-         <Col xsPush={3}  sm={4}  mdPush={3}>
-             <Link to="/question/totaluser" className="btn btn-sq-lg btn-success">
-                  <br/> <br/><br/>
-                  Total User
-             </Link>
-         </Col>
-         <Col xsPush={2} smPush={2}  md={2}>
-              <Link to="question/add"><img id="plus" src={add_que} width="170" height="170" /></Link>
-         </Col>
-         <Col xsPush={3} sm={2} >
-             <Link to="/question/totalquestion" className="btn btn-sq-lg  btn-primary">
-                  <br/> <br/><br/>
-                  Total Question
-             </Link>
 
-         </Col>
-      </Row>
-     </div>
-   );
+class QuestionList extends Component {
+  constructor(){
+      super();
+      this.state={
+        totalQuestion : []
+      }
+  }
+
+
+  componentWillMount() {
+      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+          console.log(res.data)
+          this.setState({totalQuestion:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
+  }
+
+   componentDidUpdate(prevProps, prevState) {
+      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+          console.log(res.data)
+          this.setState({totalQuestion:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
+  }
+
+  onClickDeleteTotalQuestion(cell, row, totalQuestion){
+    axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
+      for (let index of res.data)
+      {
+        axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`);
+      }
+  }
+).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => console.log(res)).catch(error => console.log(error));
+
 }
 
-export default QuestionManage;
+   cellButton(cell, row, enumObject, rowIndex) {
+     return (
+        <Button onClick={() =>this.onClickDeleteTotalQuestion(cell, row, this.state.totalQuestion[rowIndex])}>Delete { rowIndex + 1 }</Button>
+     )
+  }
+
+ render() {
+   return (
+    <BootstrapTable data={this.state.totalQuestion}>
+      <TableHeaderColumn dataField='question' isKey>
+          Question
+      </TableHeaderColumn>
+      <TableHeaderColumn dataField='start_date'>
+         Start-date
+       </TableHeaderColumn>
+      <TableHeaderColumn dataField='end_date'>
+        End-date
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField='button'
+        dataFormat={this.cellButton.bind(this)}
+      >
+        Button
+      </TableHeaderColumn>
+   </BootstrapTable>
+  )
+ }
+}
+
+
+
+export default QuestionList;

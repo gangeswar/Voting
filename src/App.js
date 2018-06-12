@@ -7,8 +7,8 @@ import Login from './module/user/Login';
 import UserProfile from './module/user/User_Profile';
 import Register from './module/user/Register';
 import AddQuestion from './module/question/Question_Add';
-import ListUser from './module/user/User_List';
-import ListQuestion from './module/question/Question_List';
+import UserManage from './module/user/User_Manage';
+import QuestionManage from './module/question/Question_Manage';
 import QuestionItem from './module/question/Question_Items';
 
 
@@ -36,8 +36,8 @@ if(this.state.hasError)
         <Menubar />
         <Route exact path="/" component={ Login }/>
         <Route exact path="/register" component={ Register } />
-        <Route exact path="/question/totaluser" component={ ListUser } />
-        <Route exact path="/question/totalquestion" component={ ListQuestion } />
+        <Route exact path="/question/totaluser" component={ UserManage } />
+        <Route exact path="/question/totalquestion" component={ QuestionManage } />
         <Route exact path="/question/add" component={ AddQuestion }/>
         <Route exact path="/question" component={ QuestionItem }/>
         <Route exact path="/user_profile" component={ UserProfile } />

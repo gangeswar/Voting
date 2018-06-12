@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Jumbotron, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import QuestionManage from './Question_Manage'
+import Home from './Home'
 import Question from './Question'
 import './Question.css';
 
@@ -49,7 +49,7 @@ class QuestionItem extends Component {
 
     if(localStorage.getItem("admin")==1)
     {
-        return(<QuestionManage/> );
+        return(<Home/> );
     }
     else{
         return(
