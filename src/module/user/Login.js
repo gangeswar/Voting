@@ -10,28 +10,30 @@ class Login extends Component {
   constructor() {
   super();
   this.state = {
+      loginUser:[],
       login:-1
     }
   }
 
   handleSubmit(e) {
         e.preventDefault();
-
         axios.post(`http://172.24.125.116:8000/api/user/login`, {
           email_id:this.refs.Email.value,
           password:this.refs.Password.value
         })
         .then(res=> {
-            localStorage.setItem("user",JSON.stringify(res.data.message));
-            localStorage.setItem("admin",JSON.parse(localStorage.getItem("user")).isadmin);
-            localStorage.setItem("user_id",JSON.parse(localStorage.getItem("user"))._id);
-            localStorage.setItem("email_id",JSON.parse(localStorage.getItem("user")).email_id);
-            localStorage.setItem("user_name",JSON.parse(localStorage.getItem("user")).user_name);
-            localStorage.setItem("password",JSON.parse(localStorage.getItem("user")).password);
-            this.setState({login:localStorage.getItem("admin")});
-        })
+            axios.get(`http://172.24.125.116:8000/api/user/${res.data.message}`).then(res => {
+              console.log(res.data.message)
+              this.setState({loginUser:res.data.message});
+              localStorage.setItem("admin",this.state.loginUser.isadmin);
+              localStorage.setItem("user_id",this.state.loginUser._id);
+              localStorage.setItem("email_id",this.state.loginUser.email_id);
+              localStorage.setItem("user_name",this.state.loginUser.user_name);
+              this.setState({login:localStorage.getItem("admin")});
+            })
+          })
         .catch(error=> {
-        console.log(error.response.data.error)
+        console.log(error.response.data.error);
         });
 
 }
@@ -40,7 +42,7 @@ class Login extends Component {
     if(localStorage.getItem("admin")==1)
     {
       return(
-        <Redirect to="/admin" />
+        <Redirect to="/question" />
       );
     }
     else if(localStorage.getItem("admin")==0)

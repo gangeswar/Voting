@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Nav, Navbar, NavItem , NavDropdown, MenuItem, FormGroup, FormControl} from 'react-bootstrap';
 import {Jumbotron, Grid, Row, Col, Button, Image} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
-import user from '../media/user.png';
+import user from '../../media/user.png';
 import './Navbar.css'
 
 class Menubar extends Component{
@@ -46,7 +46,7 @@ class Menubar extends Component{
               localStorage.getItem("user_id")!=null?
               <NavItem >
               <div className="dropdown">
-                <img src={user} width="30" height="30" />
+                <img src={user} width="30" height="30" /><span>{localStorage.getItem("user_name")}</span>
                   <div className="dropdown-content">
                   <Button onClick={this.userProfile.bind(this)}><Link to="/user_profile">Profile</Link></Button>
                   <Button onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>

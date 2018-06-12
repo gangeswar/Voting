@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
-import './Admin-add.css';
+import './Question.css';
 
-class AdminAddQuestion extends Component {
-
-
+class AddQuestion extends Component {
     constructor() {
     super();
     this.state = {
@@ -55,7 +53,7 @@ class AdminAddQuestion extends Component {
     else{
 
     return (
-      <div className="AdminAddQuestion">
+      <div className="AddQuestion">
       <Jumbotron>
           <Col xs={14} xsOffset={6}>
               <h2>Add-question</h2>
@@ -109,4 +107,4 @@ class AdminAddQuestion extends Component {
   }
 }
 
-export default AdminAddQuestion;
+export default AddQuestion;

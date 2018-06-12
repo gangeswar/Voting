@@ -7,15 +7,40 @@ import axios from 'axios';
 
 class AdminUserdetail extends Component {
 
+  constructor() {
+    super();
+      this.state={
+        userDetail : []
+      }
+  }
+
+  componentWillMount() {
+      axios.get(`http://172.24.125.116:8000/api/user`).then(res => {
+          console.log(res.data)
+          this.setState({userDetail:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
+  }
+
+   componentDidUpdate(prevProps, prevState) {
+      axios.get(`http://172.24.125.116:8000/api/user`).then(res => {
+          console.log(res.data)
+          this.setState({userDetail:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
+  }
+
   onClickDeleteUserDetail(cell, row, userDetail){
-    axios.delete(`http://172.24.125.116:8000/api/user/${userDetail._id}`).then(res => window.location.reload()).catch(error => console.log(error));
+    axios.delete(`http://172.24.125.116:8000/api/user/${userDetail._id}`).then(res => console.log(res)).catch(error => console.log(error));
 
    }
 
    cellButton(cell, row, enumObject, rowIndex) {
      return (
         <Button
-           onClick={() =>this.onClickDeleteUserDetail(cell, row, this.props.userDetail[rowIndex])}>
+           onClick={() =>this.onClickDeleteUserDetail(cell, row, this.state.userDetail[rowIndex])}>
         Delete { rowIndex + 1 }
         </Button>
      )
@@ -23,7 +48,7 @@ class AdminUserdetail extends Component {
   }
  render() {
    return (
-    <BootstrapTable data={this.props.userDetail}>
+    <BootstrapTable data={this.state.userDetail}>
       <TableHeaderColumn dataField='email_id'>
         email_id
       </TableHeaderColumn>

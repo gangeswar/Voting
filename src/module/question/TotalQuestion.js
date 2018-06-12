@@ -8,6 +8,28 @@ import {Link, Redirect} from 'react-router-dom';
 class AdminTotalquestion extends Component {
   constructor(){
       super();
+      this.state={
+        totalQuestion : []
+      }
+  }
+
+
+  componentWillMount() {
+      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+          console.log(res.data)
+          this.setState({totalQuestion:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
+  }
+
+   componentDidUpdate(prevProps, prevState) {
+      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+          console.log(res.data)
+          this.setState({totalQuestion:res.data})
+      }).catch(error=>
+      {console.log(error.response.error.message)}
+    )
   }
 
   onClickDeleteTotalQuestion(cell, row, totalQuestion){
@@ -17,26 +39,23 @@ class AdminTotalquestion extends Component {
         axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`);
       }
   }
-).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => window.location.reload()).catch(error => console.log(error));
+).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => console.log(res)).catch(error => console.log(error));
 
 }
 
    cellButton(cell, row, enumObject, rowIndex) {
      return (
-        <Button
-           onClick={() =>this.onClickDeleteTotalQuestion(cell, row, this.props.totalQuestion[rowIndex])}>
-        Delete { rowIndex + 1 }
-        </Button>
+        <Button onClick={() =>this.onClickDeleteTotalQuestion(cell, row, this.state.totalQuestion[rowIndex])}>Delete { rowIndex + 1 }</Button>
      )
-
   }
+
  render() {
    return (
-    <BootstrapTable data={this.props.totalQuestion}>
-      <TableHeaderColumn dataField='question'>
+    <BootstrapTable data={this.state.totalQuestion}>
+      <TableHeaderColumn dataField='question' isKey>
           Question
       </TableHeaderColumn>
-      <TableHeaderColumn dataField='start_date' isKey>
+      <TableHeaderColumn dataField='start_date'>
          Start-date
        </TableHeaderColumn>
       <TableHeaderColumn dataField='end_date'>

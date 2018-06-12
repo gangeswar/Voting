@@ -10,27 +10,25 @@ class UserProfile extends Component {
     constructor() {
     super();
     this.state = {
-        newUser :{},
         update:false
     }
-    axios.get(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`).then(res=>
-    localStorage.setItem("user_profile",JSON.stringify(res.data)));
   }
+
+
 
   handleSubmit(e){
         e.preventDefault();
-        if(this.refs.oldPassword.value==localStorage.getItem("password"))
-        {
+        console.log(localStorage.getItem("user_id"));
         axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`,{
           email_id:this.refs.Email.value,
           user_name:this.refs.User.value,
           password:this.refs.newPassword.value
-        }).then(res=> {this.setState({update:true})}).catch(error => {this.setState({update:false})});
-        }
-        else
-        {
-          alert("password cannot match");
-        }
+        }).then(res=> {
+          this.setState({update:true})
+        }).catch(error => {
+          alert(error.response.data.error);
+          this.setState({update:false})
+        });
   }
 
   render() {
