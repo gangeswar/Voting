@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
+import { Jumbotron, Grid, Row, Col, Button, Radio} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import QuestionItem from './Question_Items'
 
 class Question extends Component {
+  constructor(){
+    super();
+    this.state={
+      radioValue:null
+    }
+  }
+
+  click(event){
+    this.setState({radioValue:event.target.value},function() {
+      this.props.clickRadio(this.state.radioValue);
+
+    });
+  }
 
   render() {
     return (
       <ol className="Question">
-        <Col  xsOffset={3}>
-          <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
-          <input type="radio" name={this.props.list_question.question_id} />{this.props.list_question.option}<br />
-        </Col>
+          <Radio name={this.props.list_option.question_id} value= {this.props.list_option._id} onChange={this.click.bind(this)}>{this.props.list_option.option}</Radio>
       </ol>
     );
   }

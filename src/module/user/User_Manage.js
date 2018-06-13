@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-class AdminUserdetail extends Component {
+class UserManage extends Component {
 
   constructor() {
     super();
@@ -71,4 +71,4 @@ class AdminUserdetail extends Component {
 
 
 
-export default AdminUserdetail;
+export default UserManage;

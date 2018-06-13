@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Jumbotron, Col} from 'react-bootstrap';
+import {Jumbotron, Col, Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home'
@@ -12,38 +12,20 @@ class QuestionItem extends Component {
   constructor() {
     super();
     this.state = {
-      questions:[],
-      options:[]
+      questions:[]
     }
   }
 
   componentWillMount() {
       axios.get(`http://172.24.125.116:8000/api/question`)
       .then(res=>this.setState({questions:res.data}));
-
-      axios.get(`http://172.24.125.116:8000/api/allquestion/alloption`)
-      .then(res=>this.setState({options:res.data}));
   }
 
-
   render() {
-    var question_array=[];
-    var list_question;
     var question_item;
-    for(let i of this.state.questions)
-    {
-      question_array.push(i);
-      for(let j of this.state.options)
-      {
-          if(i._id===j.question_id)
-          {
-              question_array.push(j);
-          }
-      }
-    }
-    question_item = question_array.map(list_question => {
+    question_item = this.state.questions.map(list_question => {
         return(
-          <Question   key={list_question._id}  list_question={list_question} />
+          <OptionItem   key={list_question._id}  list_question={list_question} />
         );
     });
 
@@ -65,5 +47,63 @@ class QuestionItem extends Component {
     }
   }
 }
+
+class OptionItem extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      options:[],
+      radio:null
+    }
+  }
+
+  componentWillMount() {
+      axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
+      .then(res=>this.setState({options:res.data}));
+  }
+
+  questionSubmit(e){
+    e.preventDefault();
+    axios.post(`http://172.24.125.116:8000/api/question/answer`, {
+      user_id : localStorage.getItem("user_id"),
+      question_id : this.props.list_question._id,
+      option_id : this.state.radio
+    }).then(res=>{
+        console.log(res.data);
+    })
+    console.log("user_id:"+localStorage.getItem("user_id"));
+    console.log("question_id:"+ this.props.list_question._id)
+    console.log("radio_button_id:"+this.state.radio);
+
+  }
+
+  radioSubmit(selectradio) {
+    this.setState({radio:selectradio});
+  }
+
+  render() {
+
+    var option_item;
+    option_item = this.state.options.map(list_option => {
+        return(
+          <Question  key={list_option._id}  clickRadio = {this.radioSubmit.bind(this)} list_option={list_option} />
+        );
+    });
+
+        return(
+          <ol className="OptionItem">
+            <form onSubmit={this.questionSubmit.bind(this)} >
+            <Col  xsOffset={3}>
+                <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
+                {option_item}
+                <Button type="submit" bsStyle="success">Submit</Button>
+            </Col>
+            </form>
+          </ol>
+        );
+  }
+}
+
 
 export default QuestionItem;
