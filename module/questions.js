@@ -5,6 +5,10 @@ const router = express.Router();
 
 const Questions = require('../model/questionsSchema');
 
+const Answer = require('../model/answerSchema');
+
+const Options = require('../model/optionsSchema');
+
 router.get('/',(req, res, next) => {
     Questions.find().then(doc=>{
         res.status(200).json(doc);
@@ -71,6 +75,81 @@ router.delete('/:question_id',(req, res, next) =>{
     });
 });
 
+router.get('/user/myquestion/:user_id',(req, res, next) =>{
+  const id = req.params.user_id;
+  const available_arr = [];
+  Answer.find({user_id:id}).then(ans => {
+      ans.map(available => {
+        available_arr.push(available.question_id.toString());
+    })
+    Questions.find({_id:{$in:available_arr}}).then(doc=>{
+      res.status(200).json(doc);
+    }).catch(err =>{
+          res.status(500).json({error:err})
+  });
+  }).catch(err =>{
+        es.status(500).json({error:"Nothing in my voting"})
+});
+});
 
+router.get('/user/myquestion/check/:user_id',(req, res, next) =>{
+  const id = req.params.user_id;
+  const available_arr = [];
+  Answer.find({user_id:id}).then(ans => {
+      ans.map(available => {
+        console.log(available)
+        available_arr.push(available.option_id.toString());
+    })
+    Answer.find({_id:{$in:available_arr}}).then(doc=>{
+      res.status(200).json(doc);
+    }).catch(err =>{
+          res.status(500).json({error:err})
+  });
+  }).catch(err =>{
+        es.status(500).json({error:"Nothing in my voting"})
+});
+});
+
+router.post('/myquestion',(req, res, next) =>{
+  Answer.find({user_id: req.body.user_id,question_id : req.body.question_id}).then(ans=>{
+    if((ans.length >= 1))
+    {
+      return res.status(409).json({
+        message: "Question already exist"
+      })
+    }
+    else{
+    const answer = new Answer({
+        _id : new mongoose.Types.ObjectId(),
+        user_id : req.body.user_id,
+        question_id : req.body.question_id,
+        option_id : req.body.option_id
+    });
+    answer.save().then( doc=> {
+      res.status(200).json(doc)
+    }).catch(err => {
+      res.status(500).json({error:err
+    })
+    });
+  }
+});
+});
+
+router.get('/user/availablequestion/:user_id',(req, res, next) =>{
+    const id = req.params.user_id;
+    const available_arr = [];
+    Answer.find({user_id:id}).then(ans => {
+        ans.map(available => {
+          available_arr.push(available.question_id.toString());
+      })
+      Questions.find({_id:{$nin:available_arr}}).then(doc=>{
+        res.status(200).json(doc);
+      }).catch(err =>{
+            res.status(500).json({error:err})
+    });
+    }).then(  console.log(available_arr)).catch(err =>{
+          res.status(500).json({error:"Nothing in my voting"})
+  });
+});
 
 module.exports = router;

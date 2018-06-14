@@ -20,7 +20,7 @@ router.post('/',(req, res, next) => {
     if(user.length >= 1)
     {
       return res.status(409).json({
-        error: "email_id already exist"
+        error: "user already exist"
       })
     }
     else{
@@ -52,7 +52,14 @@ router.post('/',(req, res, next) => {
 router.get('/:user_id',(req, res, next) =>{
     const id = req.params.user_id;
     User.findById(id).exec().then(doc =>{
-      res.status(200).json(doc);
+      res.status(200).json({
+         message:{
+        _id:doc._id,
+        email_id:doc.email_id,
+        user_name:doc.user_name,
+        isadmin:doc.isadmin
+      }
+      });
     }).catch(err =>{
       res.status(500).json({error:"user does not exist"})
     });
@@ -60,12 +67,19 @@ router.get('/:user_id',(req, res, next) =>{
 
 router.put('/:user_id',(req, res, next) =>{
   const id = req.params.user_id;
-  User.findByIdAndUpdate({_id: id},req.body).exec().then(doc =>{
-    User.findOne({_id: id}).then(doc1 =>{
-      res.status(200).json(doc1);
+  User.find({_id: id}).exec().then(doc =>{
+    if(doc.user_id == id)
+    {
+      User.findByIdAndUpdate({_id: id},req.body).then(doc1 =>{
+        console.log(doc1);
+        res.status(200).json(doc1);
     }).catch(err =>{
       res.status(500).json({error:"user does not exist"})
     });
+  }
+  else{
+      res.status(500).json({error:"Current password can't same"});
+    }
   }).catch(err =>{
     res.status(500).json({error:"user does not exist"})
   });
@@ -75,7 +89,7 @@ router.put('/:user_id',(req, res, next) =>{
 router.delete('/:user_id',(req, res, next) =>{
     const id = req.params.user_id;
     User.remove({_id: id}).exec().then(doc =>{
-        res.status(200).json({message:"deleted"});
+        res.status(200).json({message:"user deleted"});
     }).catch(err =>{
       res.status(500).json({error:err})
     });
@@ -88,13 +102,15 @@ router.post('/login', (req, res, next) =>{
   if((user.email_id==req.body.email_id) && (user.password==req.body.password) )
     {
       if(user.isadmin)
-          res.status(200).json({message:user});
+      {
+          res.status(200).json({message:user._id});
+        }
       else{
-        res.status(200).json({message:user});
+        res.status(200).json({message:user._id});
       }
     }
   }).catch(
-  res.status(500).json({error:"not login successfully"})
+  res.status(500).json({error:"Invalid user"})
 );
 })
 });
