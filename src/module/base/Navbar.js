@@ -23,16 +23,15 @@ class Menubar extends Component{
     return (
       <div >
         <Navbar className="Menubar" inverse collapseOnSelect>
-            {
-            localStorage.getItem("user_id")==null?
+
             <Navbar.Header>
              <Navbar.Brand>
                <Link to="/">LOGO</Link>
              </Navbar.Brand>
              <Navbar.Toggle />
             </Navbar.Header>
-            :null
-          }
+
+
             <Navbar.Collapse>
             <Nav pullRight>
             {
@@ -42,6 +41,19 @@ class Menubar extends Component{
               </NavItem>
               :null
             }
+            {
+              localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==0?
+            <NavItem eventKey={2} componentClass={Link} href="/question/myvoting" to="/question/myvoting">Myvoting
+            </NavItem>
+            :null
+            }
+            {
+              localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==0?
+            <NavItem eventKey={3} componentClass={Link} href="/question" to="/question">QuestionList
+            </NavItem>
+            :null
+            }
+
             {
               localStorage.getItem("user_id")!=null?
               <NavItem >
@@ -55,9 +67,11 @@ class Menubar extends Component{
               </NavItem>
               :null
             }
+
+
             </Nav>
             {
-              localStorage.getItem("user_id")!=null?
+              null?
             <Grid>
               <Row className="show-grid">
                 <Col xsPull={2} smPull={5} mdPull={10} lgPull={20} >

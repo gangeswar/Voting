@@ -10,6 +10,7 @@ import AddQuestion from './module/question/Question_Add';
 import UserManage from './module/user/User_Manage';
 import QuestionManage from './module/question/Question_Manage';
 import QuestionItem from './module/question/Question_Items';
+import MyVoting from './module/question/My_Voting';
 
 
 class App extends Component {
@@ -38,6 +39,7 @@ if(this.state.hasError)
         <Route exact path="/register" component={ Register } />
         <Route exact path="/question/totaluser" component={ UserManage } />
         <Route exact path="/question/totalquestion" component={ QuestionManage } />
+        <Route exact path="/question/myvoting" component={ MyVoting } />
         <Route exact path="/question/add" component={ AddQuestion }/>
         <Route exact path="/question" component={ QuestionItem }/>
         <Route exact path="/user_profile" component={ UserProfile } />

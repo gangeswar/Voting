@@ -15,8 +15,6 @@ class UserProfile extends Component {
     }
   }
 
-
-
   handleSubmit(e){
         e.preventDefault();
         console.log(localStorage.getItem("user_id"));

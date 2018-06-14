@@ -17,9 +17,15 @@ class QuestionItem extends Component {
   }
 
   componentWillMount() {
-      axios.get(`http://172.24.125.116:8000/api/question`)
+      axios.get(`http://172.24.125.116:8000/api/question/user/availablequestion/${localStorage.getItem("user_id")}`)
       .then(res=>this.setState({questions:res.data}));
   }
+
+  componentDidUpdate(prevProps, prevState) {
+         axios.get(`http://172.24.125.116:8000/api/question/user/availablequestion/${localStorage.getItem("user_id")}`).then(res => {
+           this.setState({questions:res.data})
+       })
+ }
 
   render() {
     var question_item;
@@ -54,7 +60,9 @@ class OptionItem extends Component {
     super();
     this.state = {
       options:[],
-      radio:null
+      radio:null,
+      questionItem:0,
+      radio_arr:[]
     }
   }
 
@@ -65,12 +73,13 @@ class OptionItem extends Component {
 
   questionSubmit(e){
     e.preventDefault();
-    axios.post(`http://172.24.125.116:8000/api/question/answer`, {
+    axios.post(`http://172.24.125.116:8000/api/question/myquestion`, {
       user_id : localStorage.getItem("user_id"),
       question_id : this.props.list_question._id,
       option_id : this.state.radio
     }).then(res=>{
-        console.log(res.data);
+      console.log(res.data.option_id);
+        this.setState({radio_arr:res.data.option_id});
     })
     console.log("user_id:"+localStorage.getItem("user_id"));
     console.log("question_id:"+ this.props.list_question._id)
@@ -87,7 +96,7 @@ class OptionItem extends Component {
     var option_item;
     option_item = this.state.options.map(list_option => {
         return(
-          <Question  key={list_option._id}  clickRadio = {this.radioSubmit.bind(this)} list_option={list_option} />
+          <Question  key={list_option._id}  clickRadio = {this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
         );
     });
 

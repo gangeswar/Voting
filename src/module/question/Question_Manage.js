@@ -5,7 +5,7 @@ import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 
 
-class QuestionList extends Component {
+class QuestionManage extends Component {
   constructor(){
       super();
       this.state={
@@ -15,24 +15,26 @@ class QuestionList extends Component {
 
 
   componentWillMount() {
+
       axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
-          console.log(res.data)
           this.setState({totalQuestion:res.data})
       }).catch(error=>
-      {console.log(error.response.error.message)}
-    )
+      {console.log(error.response.error.message)})
   }
 
    componentDidUpdate(prevProps, prevState) {
+     if(localStorage.getItem("admin")==1)
+     {
       axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
-          console.log(res.data)
           this.setState({totalQuestion:res.data})
       }).catch(error=>
       {console.log(error.response.error.message)}
-    )
-  }
+      )
+    }
+}
 
-  onClickDeleteTotalQuestion(cell, row, totalQuestion){
+
+onClickDeleteTotalQuestion(cell, row, totalQuestion){
     axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
       for (let index of res.data)
       {
@@ -50,6 +52,7 @@ class QuestionList extends Component {
   }
 
  render() {
+
    return (
     <BootstrapTable data={this.state.totalQuestion}>
       <TableHeaderColumn dataField='question' isKey>
@@ -68,10 +71,12 @@ class QuestionList extends Component {
         Button
       </TableHeaderColumn>
    </BootstrapTable>
-  )
+ );
+
  }
 }
 
 
 
-export default QuestionList;
+
+export default QuestionManage;
