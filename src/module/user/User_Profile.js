@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { FormGroup, FormControl} from 'react-bootstrap';
-import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
+import { Jumbotron, Row, Col, Button} from 'react-bootstrap';
 import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
 

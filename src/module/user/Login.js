@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { FormGroup, FormControl} from 'react-bootstrap';
-import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
+import { Jumbotron, Row, Col, Button} from 'react-bootstrap';
 import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
 
@@ -9,7 +8,7 @@ class Login extends Component {
 
   constructor() {
   super();
-  this.state = {
+  this.state={
       loginUser:[],
       error:null,
       login:-1
@@ -44,13 +43,13 @@ class Login extends Component {
 }
 
   render() {
-    if(localStorage.getItem("admin")==1)
+    if(localStorage.getItem("admin")==="1")
     {
       return(
         <Redirect to="/question" />
       );
     }
-    else if(localStorage.getItem("admin")==0)
+    else if(localStorage.getItem("admin")==="0")
     {
       return(
         <Redirect to="/question" />

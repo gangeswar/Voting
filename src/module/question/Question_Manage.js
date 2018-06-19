@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Button, Jumbotron, Col} from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 import axios from 'axios';
-import {Link, Redirect} from 'react-router-dom';
 
 
 class QuestionManage extends Component {
@@ -15,39 +14,29 @@ class QuestionManage extends Component {
 
 
   componentWillMount() {
-
       axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
           this.setState({totalQuestion:res.data})
       }).catch(error=>
-      {console.log(error.response.error.message)})
+      {console.log(error.response.error.message)});
   }
 
-   componentDidUpdate(prevProps, prevState) {
-     if(localStorage.getItem("admin")==1)
-     {
-      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
-          this.setState({totalQuestion:res.data})
-      }).catch(error=>
-      {console.log(error.response.error.message)}
-      )
-    }
-}
 
 
-onClickDeleteTotalQuestion(cell, row, totalQuestion){
+
+onClickDeleteTotalQuestion(cell, row, rowIndex ,totalQuestion){
     axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
       for (let index of res.data)
       {
         axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`);
       }
+    }
+  ).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => {  const array = this.state.totalQuestion; array.splice(rowIndex,1); this.setState({totalQuestion:array});}
+  ).catch(error => console.log(error));
   }
-).then(res => {axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)}).then(res => console.log(res)).catch(error => console.log(error));
-
-}
 
    cellButton(cell, row, enumObject, rowIndex) {
      return (
-        <Button onClick={() =>this.onClickDeleteTotalQuestion(cell, row, this.state.totalQuestion[rowIndex])}>Delete { rowIndex + 1 }</Button>
+        <Button onClick={() =>this.onClickDeleteTotalQuestion(cell, row, rowIndex ,this.state.totalQuestion[rowIndex])}>Delete { rowIndex + 1 }</Button>
      )
   }
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import uuid from 'uuid';
 import axios from 'axios';
-import { FormGroup, FormControl} from 'react-bootstrap';
-import { Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
+import { Jumbotron, Row, Col, Button} from 'react-bootstrap';
 import {Link, Redirect} from 'react-router-dom';
 import './Login.css';
 
@@ -14,7 +12,8 @@ class Register extends Component {
         register:false,
         email_error:null,
         name_error:null,
-        password_error:null
+        password_error:null,
+        Conflict_error:null
     }
   }
 
@@ -55,11 +54,10 @@ class Register extends Component {
       })
       .then(res => {
         this.setState({register:true,error:null});
-        alert(res.data.message);
       })
       .catch(error => {
         this.setState({register:false});
-        alert(error.response.data.error);
+        this.setState({Conflict_error:error.response.data.error})
       });
     }
   }
@@ -98,18 +96,21 @@ class Register extends Component {
         </Row>
         <Row className="row-space">
           <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-            <input className="form-control" type="password" ref="Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" onBlur={this.check.bind(this)}/>
+            <input className="form-control" type="password" ref="Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" onBlur={this.check.bind(this)}/>
             <span style={{color:"red"}}>{this.state.password_error}
             </span>
           </Col>
         </Row>
+
+
         <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
           <Button type="submit" bsStyle="primary">Register</Button>
         </Col>
         <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
             <Button type="reset" bsStyle="primary">Reset</Button>
-        </Col><br/><br/><br/>
-
+        </Col><br/><br/>
+        <span id="right" style={{color:"red"}}>{this.state.Conflict_error}
+        </span>
         <div id="right">
           <strong >already have account?<Link to="/"> login</Link></strong>
           </div>

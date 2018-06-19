@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Col, Row, Jumbotron, Button} from 'react-bootstrap'
-import {Link, Redirect} from 'react-router-dom';
+import { Redirect} from 'react-router-dom';
 import './Question.css';
 
 class QuestionAdd extends Component {
@@ -17,18 +17,11 @@ class QuestionAdd extends Component {
     handleSubmit(e) {
       e.preventDefault();
       var optionIndex = [this.refs.optionA.value,this.refs.optionB.value,this.refs.optionC.value,this.refs.optionD.value];
-
-      for(let index of optionIndex)
-      {
-        console.log(index);
-      }
-
       axios.post(`http://172.24.125.116:8000/api/question`, {
         question  : this.refs.question.value,
         start_date  : this.refs.start_date.value,
         end_date   : this.refs.end_date.value
       }).then(res => {
-        console.log(res.data._id);
         for(let index of optionIndex)
         {
           axios.post(`http://172.24.125.116:8000/api/question/${res.data._id}/option`, {

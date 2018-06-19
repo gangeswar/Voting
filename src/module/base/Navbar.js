@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import {Nav, Navbar, NavItem , NavDropdown, MenuItem, FormGroup, FormControl} from 'react-bootstrap';
-import {Jumbotron, Grid, Row, Col, Button, Image} from 'react-bootstrap'
+import {Nav, Navbar, NavItem } from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap'
 import {Link, Redirect} from 'react-router-dom';
 import user from '../../media/user.png';
+import logo from '../../media/fingerprint2.png';
 import './Navbar.css'
 
 class Menubar extends Component{
@@ -25,9 +26,7 @@ class Menubar extends Component{
         <Navbar className="Menubar" inverse collapseOnSelect>
 
             <Navbar.Header>
-             <Navbar.Brand>
-               <Link to="/">LOGO</Link>
-             </Navbar.Brand>
+               <Link to="/"><img src={logo} alt="logo" width="65" height="55" /></Link>
              <Navbar.Toggle />
             </Navbar.Header>
 
@@ -35,20 +34,20 @@ class Menubar extends Component{
             <Navbar.Collapse>
             <Nav pullRight>
             {
-              localStorage.getItem("user_id")==null?
+              localStorage.getItem("user_id")===null?
               <NavItem eventKey={1} componentClass={Link} href="/register" to="/register">
                 Register
               </NavItem>
               :null
             }
             {
-              localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==0?
+              localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="0"?
             <NavItem eventKey={2} componentClass={Link} href="/question/myvoting" to="/question/myvoting">Myvoting
             </NavItem>
             :null
             }
             {
-              localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==0?
+              localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="0"?
             <NavItem eventKey={3} componentClass={Link} href="/question" to="/question">QuestionList
             </NavItem>
             :null
@@ -58,10 +57,10 @@ class Menubar extends Component{
               localStorage.getItem("user_id")!=null?
               <NavItem >
               <div className="dropdown">
-                <img src={user} width="30" height="30" /><span>  {localStorage.getItem("user_name")}</span>
+                <img src={user} alt="user" width="30" height="30" /><span>  {localStorage.getItem("user_name")}</span>
                   <div className="dropdown-content">
-                  <Button onClick={this.userProfile.bind(this)}><Link to="/user_profile">Profile</Link></Button>
-                  <Button onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>
+                  <Button className="dropbtn" onClick={this.userProfile.bind(this)}><Link to="/user_profile">Profile</Link></Button>
+                  <Button className="dropbtn" onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>
                   </div>
                 </div>
               </NavItem>
