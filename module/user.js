@@ -17,7 +17,7 @@ router.get('/',(req, res, next) => {
 router.post('/',(req, res, next) => {
   User.find({email_id: req.body.email_id}).then(user=>{
     console.log(user.length);
-    if(user.length >= 1)
+    if(user.length)
     {
       return res.status(409).json({
         error: "user already exist"

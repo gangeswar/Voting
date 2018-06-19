@@ -97,14 +97,10 @@ router.get('/user/myquestion/check/:user_id',(req, res, next) =>{
   const available_arr = [];
   Answer.find({user_id:id}).then(ans => {
       ans.map(available => {
-        console.log(available)
+        console.log(available.option_id)
         available_arr.push(available.option_id.toString());
     })
-    Answer.find({_id:{$in:available_arr}}).then(doc=>{
-      res.status(200).json(doc);
-    }).catch(err =>{
-          res.status(500).json({error:err})
-  });
+      res.status(200).json(available_arr)
   }).catch(err =>{
         es.status(500).json({error:"Nothing in my voting"})
 });
@@ -112,7 +108,7 @@ router.get('/user/myquestion/check/:user_id',(req, res, next) =>{
 
 router.post('/myquestion',(req, res, next) =>{
   Answer.find({user_id: req.body.user_id,question_id : req.body.question_id}).then(ans=>{
-    if((ans.length >= 1))
+    if(ans.length )
     {
       return res.status(409).json({
         message: "Question already exist"
