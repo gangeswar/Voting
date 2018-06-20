@@ -1,33 +1,49 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 import axios from 'axios';
-import { Jumbotron, Row, Col, Button} from 'react-bootstrap';
-import {Link, Redirect} from 'react-router-dom';
+import {
+    Jumbotron,
+    Row,
+    Col,
+    Button
+} from 'react-bootstrap';
+import {
+    Link,
+    Redirect
+} from 'react-router-dom';
 import './Login.css';
 
 class UserProfile extends Component {
 
     constructor() {
-    super();
-    this.state = {
-        update:false,
-        error:null
+        super();
+        this.state = {
+            update: false,
+            error: null
+        }
     }
-  }
 
-  handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
         console.log(localStorage.getItem("user_id"));
-        axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`,{
-          email_id:this.refs.Email.value,
-          user_name:this.refs.User.value,
-          password:this.refs.newPassword.value
-        }).then(res=> {
-          this.setState({update:true})
+        axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`, {
+            email_id: this.refs.Email.value,
+            user_name: this.refs.User.value,
+            password: this.refs.newPassword.value
+        }).then(res => {
+            this.setState({
+                update: true
+            })
         }).catch(error => {
-          this.setState({error:error.response.data.error});
-          this.setState({update:false})
+            this.setState({
+                error: error.response.data.error
+            });
+            this.setState({
+                update: false
+            })
         });
-  }
+    }
 
   render() {
 
@@ -41,43 +57,44 @@ class UserProfile extends Component {
         <div className="UserProfile">
         <Jumbotron>
             <Col xs={14} xsOffset={6}>
-                <h2>Profile Update</h2>
+            <h2>Profile Update</h2>
             </Col>
-          </Jumbotron>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-          <Row className="row-space">
-            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-              <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")}/>
-            </Col>
-          </Row>
-          <Row className="row-space">
-            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-              <input className="form-control" type="text" ref="User" placeholder="User-Name" value={localStorage.getItem("user_name")}/>
-            </Col>
-          </Row>
-          <Row className="row-space">
-            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-              <input className="form-control" type="password" ref="oldPassword" placeholder="currentPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
-            </Col>
-          </Row>
-          <Row className="row-space">
-            <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-              <input className="form-control" type="password" ref="newPassword" placeholder="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
-            </Col>
-          </Row>
-          <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3}>
+        </Jumbotron>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+            <Row className="row-space">
+                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")}/>
+                </Col>
+            </Row>
+            <Row className="row-space">
+                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <input className="form-control" type="text" ref="User" placeholder="User-Name" value={localStorage.getItem("user_name")}/>
+                </Col>
+            </Row>
+            <Row className="row-space">
+                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <input className="form-control" type="password" ref="oldPassword" placeholder="currentPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+                </Col>
+            </Row>
+            <Row className="row-space">
+                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <input className="form-control" type="password" ref="newPassword" placeholder="newPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" />
+                </Col>
+            </Row>
+            <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3}>
             <Button type="submit" bsStyle="primary">Update</Button>
-          </Col>
-          <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0}>
-              <Button type="reset" bsStyle="primary">Reset</Button>
-          </Col>
-          <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
-            <Link to="/">  <Button bsStyle="basic" >Back</Button></Link>
-          </Col><br/><br/><br/>
-          <div id="right" style={{color:"red"}}>{this.state.error}
-          </div>
-          </form>
-        </div>
+            </Col>
+            <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0}>
+            <Button type="reset" bsStyle="primary">Reset</Button>
+            </Col>
+            <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
+            <Link to="/">
+            <Button bsStyle="basic" >Back</Button></Link>
+            </Col><br/><br/><br/>
+            <div id="right" style={{color:"red"}}>{this.state.error}
+            </div>
+        </form>
+    </div>
       );
       }
 }

@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import {Jumbotron, Col, Button} from 'react-bootstrap';
+import React, {
+    Component
+} from 'react';
+import {
+    Jumbotron,
+    Col,
+    Button
+} from 'react-bootstrap';
 import axios from 'axios';
 import Home from './Home'
 import Question from './Question'
@@ -8,28 +14,32 @@ import './Question.css';
 
 class QuestionItem extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      questions:[]
+    constructor() {
+        super();
+        this.state = {
+            questions: []
+        }
     }
-  }
 
-  submitQuestion(id){
-    const questions =this.state.questions;
-    const index = questions.findIndex(x => x._id===id);
-    questions.splice(index,1);
-    this.setState({questions:questions});
-  }
+    submitQuestion(id) {
+        const questions=this.state.questions;
+        const index=questions.findIndex(x => x._id===id);
+        questions.splice(index, 1);
+        this.setState({
+            questions: questions
+        });
+    }
 
-  componentWillMount(){
-    axios.get(`http://172.24.125.116:8000/api/question/user/availablequestion/${localStorage.getItem("user_id")}`)
-    .then(res=>this.setState({questions:res.data}));
-  }
+    componentWillMount() {
+        axios.get(`http://172.24.125.116:8000/api/question/user/availablequestion/${localStorage.getItem("user_id")}`)
+            .then(res => this.setState({
+                questions: res.data
+            }));
+    }
 
   render() {
     var question_item;
-    question_item = this.state.questions.map(list_question => {
+    question_item=this.state.questions.map(list_question => {
         return(
           <OptionItem   key={list_question._id} onDelete={this.submitQuestion.bind(this)}  list_question={list_question} />
         );
@@ -41,14 +51,14 @@ class QuestionItem extends Component {
     }
     else{
         return(
-          <div className="QuestionItem">
-          <Jumbotron>
-              <Col xs={14} xsOffset={6}>
-                  <h2>Questions</h2>
-              </Col>
-            </Jumbotron>
-          {question_item}
-          </div>
+            <div className="QuestionItem">
+                <Jumbotron>
+                    <Col xs={14} xsOffset={6}>
+                        <h2>Questions</h2>
+                    </Col>
+                </Jumbotron>
+                {question_item}
+            </div>
         );
     }
   }
@@ -92,20 +102,20 @@ class OptionItem extends Component {
     var option_item;
     option_item=this.state.options.map(list_option => {
         return(
-          <Question  key={list_option._id}  clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
+            <Question  key={list_option._id} clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
         );
     });
 
         return(
-          <ol className="OptionItem">
-            <form>
-            <Col  xsOffset={3}>
-                <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
-                {option_item}
-                <Button  onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
-            </Col>
-            </form>
-          </ol>
+            <ol className="OptionItem">
+                <form>
+                    <Col  xsOffset={3}>
+                        <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
+                            {option_item}
+                        <Button  onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+                    </Col>
+                </form>
+            </ol>
         );
   }
 }

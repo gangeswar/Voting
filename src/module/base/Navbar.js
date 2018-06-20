@@ -1,25 +1,39 @@
-import React, { Component } from 'react';
-import {Nav, Navbar, NavItem } from 'react-bootstrap';
-import {Grid, Row, Col, Button} from 'react-bootstrap'
-import {Link, Redirect} from 'react-router-dom';
+import React, {
+    Component
+} from 'react';
+import {
+    Nav,
+    Navbar,
+    NavItem
+} from 'react-bootstrap';
+import {
+    Grid,
+    Row,
+    Col,
+    Button
+} from 'react-bootstrap'
+import {
+    Link,
+    Redirect
+} from 'react-router-dom';
 import user from '../../media/user.png';
 import logo from '../../media/fingerprint2.png';
 import './Navbar.css'
 
-class Menubar extends Component{
-  session(){
-    localStorage.removeItem("user_id");
-    if(localStorage.getItem("admin")) {
-      localStorage.removeItem("admin");
-      <Redirect to="/"></Redirect>
+class Menubar extends Component {
+    session() {
+        localStorage.removeItem("user_id");
+        if (localStorage.getItem("admin")) {
+            localStorage.removeItem("admin");
+            <Redirect to="/" > < /Redirect>
+        }
     }
-  }
 
-  userProfile(){
-    if(localStorage.getItem("admin")) {
-      <Redirect to="/user_profile" />
+    userProfile() {
+        if (localStorage.getItem("admin")) {
+            <Redirect to="/user_profile" / >
+        }
     }
-  }
   render(){
     return (
       <div >
@@ -30,7 +44,6 @@ class Menubar extends Component{
              <Navbar.Toggle />
             </Navbar.Header>
 
-
             <Navbar.Collapse>
             <Nav pullRight>
             {
@@ -40,12 +53,14 @@ class Menubar extends Component{
               </NavItem>
               :null
             }
+
             {
               localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="0"?
             <NavItem eventKey={2} componentClass={Link} href="/question/myvoting" to="/question/myvoting">Myvoting
             </NavItem>
             :null
             }
+
             {
               localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="0"?
             <NavItem eventKey={3} componentClass={Link} href="/question" to="/question">QuestionList
@@ -66,11 +81,10 @@ class Menubar extends Component{
               </NavItem>
               :null
             }
-
-
             </Nav>
+
             {
-              null?
+            null?
             <Grid>
               <Row className="show-grid">
                 <Col xsPull={2} smPull={5} mdPull={10} lgPull={20} >
@@ -90,7 +104,7 @@ class Menubar extends Component{
     </Navbar>
       </div>
     );
-}
+  }
 }
 
 export default Menubar;
