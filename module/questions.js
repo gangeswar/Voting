@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const mergeJSON = require("merge-json") ;
+const moment = require("moment");
 const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
@@ -97,27 +99,32 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
     const id = req.params.user_id;
 
     const count_option = Answer.aggregate([
-        {
-            $group: {
-                _id: "$option_id",
-                count_options: {
-                    $sum: 1
-                }
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                count_options: 1
-            }
-        },
-    ])
-    console.log(count_option);
-    count_option.then(doc => {
-        console.log(doc)
-    })
+
+        { $group: {
+         _id: {
+           question_id: "$question_id",
+           option_id: "$option_id"
+         },
+         optionCount: { $sum: 1 }
+        }},
+
+        { $group: {
+         _id: "$_id.question_id",
+         TotalCount: { $sum: "$optionCount" },
+         Options: {
+             $push: {
+                 _id: "$_id.option_id",
+                 count: "$optionCount",
+                 percentage: {$multiply: ["$optionCount", 100]
+               }
+             }
+         }
+    }},
+
+])
 
     Answer.aggregate([
+
         {
             $match: {
                 user_id: ObjectId(id)
@@ -151,32 +158,70 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
                 option_id: 1
             }
         },
-
     ]).then(doc => {
-        res.status(200).json(doc);
+      const option_select=[];
+      const question=[];
+      const option=[];
+      for(var i of doc)
+      {
+        question.push({question:i.Question,option_id:i.option_id});
+        for(var j of i.Options)
+        {
+          option.push(j);
+        }
+      }
+
+      count_option.then(doc2=>{
+          const question2=[];
+          const option2=[];
+          const final=[];
+        for(var i of question)
+        {
+          for(var j of doc2)
+          {
+            if(i.question._id.toString()==j._id.toString())
+            {
+              question2.push({_id:j._id,TotalCount:j.TotalCount,question:i.question.question,start_date: moment(i.question.start_date).format('DD/MM/YYYY'),end_date:moment(i.question.end_date).format('DD/MM/YYYY'),options:[],option_id:i.option_id});
+            }
+          }
+        }
+
+      for(var k of option)
+      {
+        for(var l of doc2)
+          {
+            for(var m of l.Options)
+            {
+
+            if(k._id.toString()==m._id.toString())
+            {
+
+                option2.push({_id:m._id,count:m.count,percentage:m.percentage,option:k.option,question_id:k.question_id});
+            }
+          }
+          }
+      }
+
+      for(var questions of question2)
+      {
+
+        final.push({questions});
+        var Total = questions.TotalCount;
+        for(var m of option2)
+        {
+          if(questions._id.toString()==m.question_id.toString())
+          {
+            questions.options.push({_id:m._id,count:m.count,percentage:(m.percentage/Total),option:m.option,question_id:m.question_id});
+          }
+        }
+      }
+
+  res.status(200).json(final);
+        })
+
     }).catch(err => {
         res.status(500).json({
             error: err
-        })
-    });
-    //
-
-
-});
-
-router.get('/user/myquestion/check/:user_id', (req, res, next) => {
-    const id = req.params.user_id;
-    const available_arr = [];
-    Answer.find({
-        user_id: id
-    }).then(ans => {
-        ans.map(available => {
-            available_arr.push(available.option_id.toString());
-        })
-        res.status(200).json(available_arr)
-    }).catch(err => {
-        res.status(500).json({
-            error: "Nothing in my voting"
         })
     });
 });
@@ -240,7 +285,7 @@ router.get('/user/availablequestion/:user_id', (req, res, next) => {
                 error: err
             })
         });
-    }).then(console.log(available_arr)).catch(err => {
+    }).catch(err => {
         res.status(500).json({
             error: "Nothing in my voting"
         })
