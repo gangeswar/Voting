@@ -9,9 +9,12 @@ import {
     Button
 } from 'react-bootstrap'
 import {
+    Link,
     Redirect
 } from 'react-router-dom';
+import dateformat from 'dateformat';
 import './Question.css';
+import QuestionList from './Question_Manage'
 
 class QuestionAdd extends Component {
     constructor() {
@@ -19,14 +22,42 @@ class QuestionAdd extends Component {
         this.state = {
             newQuestion: {},
             newOption: {},
-            submit: false
+            editQuestion: null,
+            submit:false,
+            check:1
+        }
+
+    }
+
+    componentWillMount(){
+        if(this.props.check==0)
+        {
+          localStorage.setItem("question", this.props.edit.question);
+          localStorage.setItem("start_date", dateformat(this.props.edit.start_date,"isoDate"));
+          localStorage.setItem("end_date", dateformat(this.props.edit.end_date,"isoDate"));
+          axios.get(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option`).then(res=>{
+              for(var i in res.data)
+              {
+                  localStorage.setItem("option"+i, res.data[i].option);
+                  localStorage.setItem("_id"+i, res.data[i]._id);
+              }
+          })
+          this.setState({editQuestion:this.props.edit});
+          this.setState({check:this.props.check});
+        }
+        else {
+            this.setState({check:1});
         }
     }
 
     handleSubmit(e) {
+
         e.preventDefault();
-        var optionIndex = [this.refs.optionA.value, this.refs.optionB.value, this.refs.optionC.value, this.refs.optionD.value];
-        axios.post(`http://172.24.125.116:8000/api/question`, {
+        var optionIndex = [this.refs.optionA.value, this.refs.optionB.value,
+          this.refs.optionC.value, this.refs.optionD.value];
+          if(this.state.check)
+          {
+        axios.post(`http://172.24.125.116:8000/api/question/`, {
             question: this.refs.question.value,
             start_date: this.refs.start_date.value,
             end_date: this.refs.end_date.value
@@ -36,74 +67,149 @@ class QuestionAdd extends Component {
                     option: index
                 })
             }
-        }).catch(error => console.log("error"));
-        this.setState({
-            submit: true
-        });
+        }).then(this.setState({submit:true})).catch(error => console.log("error"));
+
+      }
+      else{
+        axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}`, {
+            question: this.refs.question.value,
+            start_date: this.refs.start_date.value,
+            end_date: this.refs.end_date.value
+        }).then(res => {
+            for (let index in optionIndex) {
+                axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option/${localStorage.getItem("_id"+index)}`, {
+                    option: optionIndex[index]
+                })
+            }
+        }).then(this.setState({submit:true})).catch(error => console.log("error"));
+
+      }
+
     }
 
   render() {
     if(this.state.submit)
     {
       return(
-        <Redirect to="/" />
+          <QuestionList/>
       );
     }
     else{
-
-    return (
-      <div className="QuestionAdd">
-          <Jumbotron>
-              <Col xs={14} xsOffset={6}>
-              <h2>Add-question</h2>
-              </Col>
-          </Jumbotron>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="text" ref="question" placeholder="Question"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="text" ref="optionA" placeholder="option-A"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="text" ref="optionB" placeholder="option-B"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="text" ref="optionC" placeholder="option-C"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="text" ref="optionD" placeholder="option-D"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="date" ref="start_date"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={4} xsOffset={4}>
-                  <input className="form-control" type="date" ref="end_date"/>
-                  </Col>
-              </Row>
-              <Row className="row-space">
-                  <Col xs={2} xsOffset={5}>
-                  <Button bsStyle="success" type="submit" >Submit</Button>
-                  </Col>
-              </Row>
-          </form>
-      </div>
-    );
+    if(this.state.check)
+    {
+      return (
+        <div className="QuestionAdd">
+            <Jumbotron>
+                <Col xs={14} xsOffset={6}>
+                <h2>Add-question</h2>
+                </Col>
+            </Jumbotron>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="question" placeholder="Question" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionA" placeholder="option-A" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionB" placeholder="option-B"required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionC" placeholder="option-C" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionD" placeholder="option-D" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="date" ref="start_date" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="date" ref="end_date" required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={2}  xsOffset={4}>
+                    <Button bsStyle="success" type="submit" >Submit</Button>
+                    </Col>
+                    <Col>
+                     <Link to="/question/totalquestion"> <Button >Back</Button></Link>
+                    </Col>
+                </Row>
+            </form>
+        </div>
+      );
+    }
+    else{
+      return (
+        <div className="QuestionAdd">
+            <Jumbotron>
+                <Col xs={14} xsOffset={6}>
+                <h2>Edit-question</h2>
+                </Col>
+            </Jumbotron>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="question" placeholder="Question" defaultValue={localStorage.getItem("question")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionA" placeholder="option-A" defaultValue={localStorage.getItem("option0")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionB" placeholder="option-B" defaultValue={localStorage.getItem("option1")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionC" placeholder="option-C" defaultValue={localStorage.getItem("option2")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="text" ref="optionD" placeholder="option-D"  defaultValue={localStorage.getItem("option3")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="date" ref="start_date" defaultValue={localStorage.getItem("start_date")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={4} xsOffset={4}>
+                    <input className="form-control" type="date" ref="end_date" defaultValue={localStorage.getItem("end_date")} required/>
+                    </Col>
+                </Row>
+                <Row className="row-space">
+                    <Col xs={2}  xsOffset={4} >
+                      <Button bsStyle="primary" type="submit" >Update</Button>
+                    </Col>
+                    <Col>
+                     <Link to="/question/totalquestion"> <Button >Back</Button></Link>
+                    </Col>
+                </Row>
+            </form>
+        </div>
+      );
   }
   }
+}
 }
 
 export default QuestionAdd;

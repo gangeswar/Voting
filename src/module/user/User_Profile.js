@@ -68,7 +68,7 @@ class UserProfile extends Component {
             </Row>
             <Row className="row-space">
                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-                <input className="form-control" type="text" ref="User" placeholder="User-Name" value={localStorage.getItem("user_name")}/>
+                <input className="form-control" type="text" ref="User" placeholder="User-Name" defaultValue={localStorage.getItem("user_name")}/>
                 </Col>
             </Row>
             <Row className="row-space">

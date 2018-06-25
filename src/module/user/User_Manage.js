@@ -7,9 +7,16 @@ import {
 import {
     BootstrapTable,
     TableHeaderColumn
-} from 'react-bootstrap-table'
+} from 'react-bootstrap-table';
+import {
+    Jumbotron,
+    Row,
+    Col
+} from 'react-bootstrap';
+import {
+    Link
+} from 'react-router-dom';
 import axios from 'axios';
-
 
 
 class UserManage extends Component {
@@ -23,7 +30,6 @@ class UserManage extends Component {
 
     componentWillMount() {
         axios.get(`http://172.24.125.116:8000/api/user`).then(res => {
-            console.log(res.data)
             this.setState({
                 userDetail: res.data
             })
@@ -51,16 +57,20 @@ class UserManage extends Component {
     }
  render() {
    return (
+     <div>
+     <Jumbotron>
+         <Col xsOffset={5} >
+         <h2>User List</h2>
+         </Col>
+           <Link to="/"> <Button id="user" bsSize="large">Back</Button></Link>
+     </Jumbotron>
     <BootstrapTable data={this.state.userDetail}>
-      <TableHeaderColumn dataField='email_id'>
+      <TableHeaderColumn dataField='email_id' filter={ { type: 'TextFilter', delay: 1000 } } dataSort>
         email_id
       </TableHeaderColumn>
-      <TableHeaderColumn dataField='user_name' isKey>
+      <TableHeaderColumn dataField='user_name' filter={ { type: 'TextFilter', delay: 1000 } } isKey dataSort>
          Name
        </TableHeaderColumn>
-      <TableHeaderColumn dataField='password'>
-        password
-      </TableHeaderColumn>
       <TableHeaderColumn
         dataField='button'
         dataFormat={this.cellButton.bind(this)}
@@ -68,6 +78,7 @@ class UserManage extends Component {
         Button
       </TableHeaderColumn>
    </BootstrapTable>
+   </div>
   )
  }
 }

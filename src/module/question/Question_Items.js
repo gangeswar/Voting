@@ -31,11 +31,12 @@ class QuestionItem extends Component {
     }
 
     componentWillMount() {
-        axios.get(`http://172.24.125.116:8000/api/question/user/availablequestion/${localStorage.getItem("user_id")}`)
+        axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/availablequestion`)
             .then(res => this.setState({
                 questions: res.data
             }));
     }
+
 
   render() {
     var question_item;
@@ -53,11 +54,13 @@ class QuestionItem extends Component {
         return(
             <div className="QuestionItem">
                 <Jumbotron>
-                    <Col xs={14} xsOffset={6}>
+                    <Col  xsOffset={5}>
                         <h2>Questions</h2>
                     </Col>
                 </Jumbotron>
+                <ol>
                 {question_item}
+                </ol>
             </div>
         );
     }
@@ -78,8 +81,8 @@ class OptionItem extends Component {
   }
 
   componentWillMount() {
-    axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
-    .then(res=>this.setState({options:res.data}));
+
+    this.setState({options:this.props.list_question.options});
   }
 
   submitQuestion(id){
@@ -102,20 +105,20 @@ class OptionItem extends Component {
     var option_item;
     option_item=this.state.options.map(list_option => {
         return(
-            <Question  key={list_option._id} clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
+            <Question key={list_option._id} clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
         );
     });
 
         return(
-            <ol className="OptionItem">
+            <div className="OptionItem">
                 <form>
                     <Col  xsOffset={3}>
-                        <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
+                        <li><strong> {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
                             {option_item}
                         <Button  onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
                     </Col>
                 </form>
-            </ol>
+            </div>
         );
   }
 }

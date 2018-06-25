@@ -20,48 +20,9 @@ class Register extends Component {
         super();
         this.state = {
             register: false,
-            email_error: null,
-            name_error: null,
-            password_error: null,
-            Conflict_error: null
         }
     }
 
-    check(event) {
-        event.preventDefault();
-        if (this.refs.Email.value === "") {
-            this.setState({
-                password_error: null
-            });
-            this.setState({
-                email_error: "E-mail Empty"
-            });
-        } else if (this.refs.User.value === "") {
-            this.setState({
-                email_error: null
-            });
-            this.setState({
-                name_error: "Name empty"
-            });
-        } else if (this.refs.Password.value === "") {
-            this.setState({
-                name_error: null
-            });
-            this.setState({
-                password_error: "Password empty"
-            });
-        } else {
-            this.setState({
-                email_error: null
-            });
-            this.setState({
-                password_error: null
-            });
-            this.setState({
-                name_error: null
-            });
-        }
-    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -110,21 +71,21 @@ class Register extends Component {
     <form onSubmit={this.handleSubmit.bind(this)}>
         <Row className="row-space">
             <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-            <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" onBlur={this.check.bind(this)}/>
+            <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" required/>
             <span style={{color:"red"}}>{this.state.email_error}
             </span>
             </Col>
         </Row>
         <Row className="row-space">
             <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-            <input className="form-control" type="text" ref="User" placeholder="User-Name" onBlur={this.check.bind(this)}/>
+            <input className="form-control" type="text" ref="User" placeholder="User-Name" required/>
             <span style={{color:"red"}}>{this.state.name_error}
             </span>
             </Col>
         </Row>
         <Row className="row-space">
             <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-            <input className="form-control" type="password" ref="Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" onBlur={this.check.bind(this)}/>
+            <input className="form-control" type="password" ref="Password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
             <span style={{color:"red"}}>{this.state.password_error}
             </span>
             </Col>

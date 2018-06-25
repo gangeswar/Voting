@@ -21,10 +21,11 @@ import logo from '../../media/fingerprint2.png';
 import './Navbar.css'
 
 class Menubar extends Component {
+    
+
     session() {
-        localStorage.removeItem("user_id");
         if (localStorage.getItem("admin")) {
-            localStorage.removeItem("admin");
+            localStorage.clear();
             <Redirect to="/" > < /Redirect>
         }
     }
@@ -64,6 +65,20 @@ class Menubar extends Component {
             {
               localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="0"?
             <NavItem eventKey={3} componentClass={Link} href="/question" to="/question">QuestionList
+            </NavItem>
+            :null
+            }
+
+            {
+              localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1"?
+            <NavItem eventKey={4} componentClass={Link} href="/question/totaluser" to="/question/totaluser">Total User
+            </NavItem>
+            :null
+            }
+
+            {
+              localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1"?
+            <NavItem eventKey={5} componentClass={Link} href="/question/totalquestion" to="/question/totalquestion">Total Question
             </NavItem>
             :null
             }

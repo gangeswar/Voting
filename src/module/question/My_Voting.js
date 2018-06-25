@@ -20,27 +20,32 @@ class QuestionItem extends Component {
 
     }
     componentWillMount() {
+      const json_value=[];
         axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/myquestion`)
-            .then(res => this.setState({
-                questions: res.data
-            }));
+            .then(res => {res.data.map(ans=>{
+                json_value.push(ans)
+            })
+            this.setState({questions:json_value})
+          });
     }
 
   render() {
-      var question_item;
-      question_item = this.state.questions.map(list_question => {
+        var questionItem;
+        questionItem=this.state.questions.map(list_question => {
         return(
-            <OptionItem   key={list_question._id}  list_question={list_question.Question} />
+            <OptionItem   key={list_question.questions._id}  list_question={list_question.questions} />
         );
       });
       return(
         <div className="QuestionItem">
             <Jumbotron>
-                <Col xs={14} xsOffset={6}>
+                <Col  xsOffset={5}>
                     <h2>My Voting</h2>
                 </Col>
             </Jumbotron>
-            {question_item}
+            <ol>
+            {questionItem}
+            </ol>
         </div>
       );
     }
@@ -52,41 +57,58 @@ class OptionItem extends Component {
         super();
         this.state = {
             options: [],
-            radio: null,
             myVoting: 1,
-            validateOption: []
         }
     }
 
     componentWillMount() {
-        axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
-            .then(res => this.setState({
-                options: res.data
-            }));
+      const push_option=[];
+      var flag=0;
+      axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
+      .then(res=>{
+        for(var i of res.data)
+        {
+            for(var j of this.props.list_question.options)
+            {
+                if(i._id==j._id)
+                {
+                   push_option.push(j);
+                   flag=0;
+                   break;
+                }
+                else {
+                  flag=1;
+                }
+            }
+            if(flag)
+            {
+             push_option.push(i);
+            }
+        }
+        this.setState({
+             options: push_option
+         });
+      });
 
-        axios.get(`http://172.24.125.116:8000/api/question/user/myquestion/check/${localStorage.getItem("user_id")}`)
-            .then(res => this.setState({
-                validateOption: res.data
-            }));
     }
 
     render() {
         var option_item;
         option_item = this.state.options.map(list_option => {
             return(
-              <Question  key={list_option._id}  list_option={list_option} myVoting={this.state.myVoting} validate={this.state.validateOption}/>
+              <Question  key={list_option._id} list_option={list_option} myVoting={this.state.myVoting} validate={this.props.list_question.option_id} />
             );
         });
 
         return(
-          <ol className="OptionItem">
+          <div className="OptionItem">
             <form >
             <Col  xsOffset={3}>
-                <li><strong> . {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
+                <li><strong>{this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li><br />
                 {option_item}
             </Col>
             </form>
-          </ol>
+          </div>
         );
       }
 }
