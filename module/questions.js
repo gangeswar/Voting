@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const mergeJSON = require("merge-json") ;
+const mergeJSON = require("merge-json");
 const moment = require("moment");
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -27,8 +27,7 @@ router.post('/', (req, res, next) => {
     Questions.find({
         question: req.body.question
     }).then(ques => {
-        console.log(ques.length);
-        if (ques.length >= 1) {
+        if (ques.length) {
 
             return res.status(409).json({
                 message: "Question already exist"
@@ -100,28 +99,37 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
 
     const count_option = Answer.aggregate([
 
-        { $group: {
-         _id: {
-           question_id: "$question_id",
-           option_id: "$option_id"
-         },
-         optionCount: { $sum: 1 }
-        }},
+        {
+            $group: {
+                _id: {
+                    question_id: "$question_id",
+                    option_id: "$option_id"
+                },
+                optionCount: {
+                    $sum: 1
+                }
+            }
+        },
 
-        { $group: {
-         _id: "$_id.question_id",
-         TotalCount: { $sum: "$optionCount" },
-         Options: {
-             $push: {
-                 _id: "$_id.option_id",
-                 count: "$optionCount",
-                 percentage: {$multiply: ["$optionCount", 100]
-               }
-             }
-         }
-    }},
+        {
+            $group: {
+                _id: "$_id.question_id",
+                TotalCount: {
+                    $sum: "$optionCount"
+                },
+                Options: {
+                    $push: {
+                        _id: "$_id.option_id",
+                        count: "$optionCount",
+                        percentage: {
+                            $multiply: ["$optionCount", 100]
+                        }
+                    }
+                }
+            }
+        },
 
-])
+    ])
 
     Answer.aggregate([
 
@@ -159,64 +167,89 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
             }
         },
     ]).then(doc => {
-      const option_select=[];
-      const question=[];
-      const option=[];
-      for(var i of doc)
-      {
-        question.push({question:i.Question,option_id:i.option_id});
-        for(var j of i.Options)
+        const option_select = [];
+        const question = [];
+        const option = [];
+        for (var i of doc)
         {
-          option.push(j);
-        }
-      }
-
-      count_option.then(doc2=>{
-          const question2=[];
-          const option2=[];
-          const final=[];
-        for(var i of question)
-        {
-          for(var j of doc2)
-          {
-            if(i.question._id.toString()==j._id.toString())
+            question.push({
+                question: i.Question,
+                option_id: i.option_id
+            });
+            for (var j of i.Options)
             {
-              question2.push({_id:j._id,TotalCount:j.TotalCount,question:i.question.question,start_date: moment(i.question.start_date).format('DD/MM/YYYY'),end_date:moment(i.question.end_date).format('DD/MM/YYYY'),options:[],option_id:i.option_id});
+                option.push(j);
             }
-          }
         }
 
-      for(var k of option)
-      {
-        for(var l of doc2)
-          {
-            for(var m of l.Options)
+        count_option.then(doc2 => {
+            const question2 = [];
+            const option2 = [];
+            const final = [];
+            for (var i of question)
             {
-
-            if(k._id.toString()==m._id.toString())
-            {
-
-                option2.push({_id:m._id,count:m.count,percentage:m.percentage,option:k.option,question_id:k.question_id});
+                for (var j of doc2)
+                {
+                    if (i.question._id.toString() == j._id.toString())
+                    {
+                        question2.push({
+                            _id: j._id,
+                            TotalCount: j.TotalCount,
+                            question: i.question.question,
+                            start_date: moment(i.question.start_date).format('DD/MM/YYYY'),
+                            end_date: moment(i.question.end_date).format('DD/MM/YYYY'),
+                            options: [],
+                            option_id: i.option_id
+                        });
+                    }
+                }
             }
-          }
-          }
-      }
 
-      for(var questions of question2)
-      {
+            for (var k of option)
+            {
+                for (var l of doc2)
+                {
+                    for (var m of l.Options)
+                    {
 
-        final.push({questions});
-        var Total = questions.TotalCount;
-        for(var m of option2)
-        {
-          if(questions._id.toString()==m.question_id.toString())
-          {
-            questions.options.push({_id:m._id,count:m.count,percentage:(m.percentage/Total),option:m.option,question_id:m.question_id});
-          }
-        }
-      }
+                        if (k._id.toString() == m._id.toString())
+                        {
 
-  res.status(200).json(final);
+                            option2.push({
+                                _id: m._id,
+                                count: m.count,
+                                percentage: m.percentage,
+                                option: k.option,
+                                question_id: k.question_id
+                            });
+                        }
+                    }
+                }
+            }
+
+            for (var questions of question2)
+            {
+
+                final.push({
+                    questions
+                });
+                var Total = questions.TotalCount;
+                for (var m of option2)
+                {
+                    if (questions._id.toString() == m.question_id.toString())
+                    {
+                        questions.options.push({
+                            _id: m._id,
+                            count: m.count,
+                            percentage: (m.percentage / Total),
+                            option: m.option,
+                            question_id: m.question_id
+                        });
+                    }
+                }
+            }
+
+            res.status(200).json(final);
         })
 
     }).catch(err => {
@@ -253,11 +286,89 @@ router.post('/myquestion', (req, res, next) => {
     });
 });
 
-router.get('/count/myquestion', (req, res, next) => {
-    Answer.find().then(doc => {
-        doc.map(available => {
-            console.log(available.user_id.toString());
-        })
+router.get('/user/:user_id/availablequestion', (req, res, next) => {
+    const id = req.params.user_id;
+    const selected_question = Answer.aggregate([
+
+        {
+            $match: {
+                user_id: ObjectId(id)
+            }
+        },
+        {
+            $lookup: {
+                from: 'questionschemas',
+                localField: 'question_id',
+                foreignField: '_id',
+                as: 'Question'
+            }
+        },
+        {
+            $unwind: "$Question"
+        },
+
+        {
+            $lookup: {
+                from: 'optionschemas',
+                localField: 'question_id',
+                foreignField: 'question_id',
+                as: 'Options'
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                Question: 1,
+                Options: 1
+            }
+        }
+    ])
+    Questions.aggregate([
+    {
+        $lookup: {
+            from: 'optionschemas',
+            localField: '_id',
+            foreignField: 'question_id',
+            as: 'Options'
+        }
+    }]).then(doc => {
+        const total = []
+        const available = [];
+        const my_available = [];
+        const available_question = [];
+        selected_question.then(doc1 => {
+            doc.map(ans => {
+                total.push(ans._id.toString())
+            })
+            doc1.map(ans1 => {
+                available.push(ans1.Question._id.toString())
+            })
+            Array.prototype.diff = function(a) {
+                return this.filter(function(i) {
+                    return a.indexOf(i) < 0;
+                });
+            };
+            my_available.push(total.diff(available));
+            // console.log(my_available);
+            doc.map(ans => {
+                for (var i of my_available[0])
+                {
+                    if (ans._id == i)
+                    {
+                        available_question.push({
+                            _id: ans._id,
+                            question: ans.question,
+                            start_date: moment(ans.start_date).format('DD/MM/YYYY'),
+                            end_date: moment(ans.end_date).format('DD/MM/YYYY'),
+                            options: ans.Options
+                        });
+                        break;
+                    }
+                }
+            })
+            res.status(200).json(available_question);
+        });
+
     }).catch(err => {
         res.status(500).json({
             error: err
@@ -265,31 +376,70 @@ router.get('/count/myquestion', (req, res, next) => {
     });
 });
 
-router.get('/user/availablequestion/:user_id', (req, res, next) => {
-    const id = req.params.user_id;
-    const available_arr = [];
-    Answer.find({
-        user_id: id
-    }).then(ans => {
-        ans.map(available => {
-            available_arr.push(available.question_id.toString());
-        })
-        Questions.find({
-            _id: {
-                $nin: available_arr
+router.get('/user/question', (req, res, next) => {
+    Answer.aggregate([
+
+        {
+            $group: {
+                _id: {
+                    question_id: "$question_id",
+                    option_id: "$option_id"
+                },
+                optionCount: {
+                    $sum: 1
+                }
             }
-        }).then(doc => {
-            res.status(200).json(doc);
-        }).catch(err => {
-            res.status(500).json({
-                error: err
+        },
+
+        {
+            $group: {
+                _id: "$_id.question_id",
+                TotalCount: {
+                    $sum: "$optionCount"
+                },
+                Options: {
+                    $push: {
+                        _id: "$_id.option_id",
+                        count: "$optionCount",
+                        percentage: {
+                            $multiply: ["$optionCount", 100]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: 'questionschemas',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'Question'
+            }
+        },
+        {
+            $unwind: "$Question"
+        },
+        {
+            $project: {
+                _id: 1,
+                Question: {
+                    question: 1
+                },
+                TotalCount: 1
+            }
+        }
+
+    ]).then(doc => {
+        const user_question = [];
+        doc.map(question_detail => {
+            user_question.push({
+                _id: question_detail._id,
+                question: question_detail.Question.question,
+                TotalCount: question_detail.TotalCount
             })
-        });
-    }).catch(err => {
-        res.status(500).json({
-            error: "Nothing in my voting"
         })
-    });
+        res.status(200).json(user_question);
+    })
 });
 
 module.exports = router;
