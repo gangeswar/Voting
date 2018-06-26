@@ -8,7 +8,8 @@ import {
     Col,
     Button,
     FormGroup,
-    FormControl
+    FormControl,
+    HelpBlock
 } from 'react-bootstrap';
 import {
     Link,
@@ -31,27 +32,21 @@ class Register extends Component {
 
     getEmailValidation() {
       if (validator.isEmail( this.state.email)) return 'success';
-      else if (!(validator.isEmail( this.state.email)) && this.state.email.length>0 ) return 'error';
-      else{
-        return null;
-      }
+      else if (!(validator.isEmail( this.state.email)) && this.state.email.length>1 ) return 'error';
+      return null;
     }
 
 
     getUserValidation() {
-          if (this.state.userName.length > 5 && this.state.userName.length < 15) return 'success';
-          else if (!(this.state.userName.length > 5 && this.state.userName.length < 15) && this.state.email.length>0) return 'error';
-          else {
-            return null;
-          }
+      if (this.state.userName.length > 5 && this.state.userName.length < 15) return 'success';
+      else if (!(this.state.userName.length > 5 && this.state.userName.length < 15) && this.state.email.length>1) return 'error';
+      return null;
     }
 
     getPasswordValidation() {
-      if (validator.isAlphanumeric( this.state.password) && this.state.password.length > 6 && this.state.password.length <15 ) return 'success';
-      else if(!(validator.isAlphanumeric( this.state.password) && this.state.password.length > 6 && this.state.password.length <15) && this.state.email.length>0) return 'error';
-      else {
-        return null;
-      }
+      if (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(this.state.password) ) return 'success';
+      else if(!(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(this.state.password))&& this.state.email.length>1) return 'error';
+      return null;
     }
 
     handleEmailChange(e) {
@@ -68,7 +63,7 @@ class Register extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        if (!(validator.isEmail(this.state.email) && ((this.state.userName.length > 5) && (this.state.userName.length < 15) )&& (validator.isAlphanumeric( this.state.password) && (this.state.password.length > 6) && (this.state.password.length <15)))) {
+        if (!(validator.isEmail(this.state.email) && ((this.state.userName.length > 5) && (this.state.userName.length < 15) )&& (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(this.state.password)))) {
             this.setState({
                 register: false
             });
@@ -115,6 +110,7 @@ class Register extends Component {
              <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
              <FormGroup
                 validationState={this.getEmailValidation()}
+                 controlId="formValidation1"
                 >
                 <FormControl
                    type="email"
@@ -130,6 +126,7 @@ class Register extends Component {
              <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
              <FormGroup
                 validationState={this.getUserValidation()}
+                 controlId="formValidation2"
                 >
                 <FormControl
                    type="text"
@@ -138,6 +135,7 @@ class Register extends Component {
                    onChange={this.handleUserChange.bind(this)}
                    />
                 <FormControl.Feedback />
+                <HelpBlock>password should between 5 to 15 character.</HelpBlock>
              </FormGroup>
              </Col>
           </Row>
@@ -145,6 +143,7 @@ class Register extends Component {
              <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
              <FormGroup
                 validationState={this.getPasswordValidation()}
+                 controlId="formValidation3"
                 >
                 <FormControl
                    type="password"
@@ -153,6 +152,7 @@ class Register extends Component {
                    onChange={this.handlePasswordChange.bind(this)}
                    />
                 <FormControl.Feedback />
+                <HelpBlock>password should have atleast 1 capital 1 small letter 1 number and length more than 6 character.</HelpBlock>
              </FormGroup>
              </Col>
           </Row>

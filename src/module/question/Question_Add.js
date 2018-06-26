@@ -13,6 +13,7 @@ import {
     Redirect
 } from 'react-router-dom';
 import './Question.css';
+import dateformat from 'dateformat';
 
 class QuestionAdd extends Component {
     constructor() {
@@ -26,9 +27,12 @@ class QuestionAdd extends Component {
 
     }
 
+
     componentWillMount(){
+      console.log(this.props.editQuestion);
         if(this.props.check===0)
         {
+
           this.setState({check:this.props.check});
         }
         else {

@@ -11,7 +11,6 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home';
-import Login from '../../module/user/Login';
 import Question from './Question';
 import './Question.css';
 

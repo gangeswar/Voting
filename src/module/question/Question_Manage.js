@@ -40,8 +40,9 @@ class QuestionManage extends Component {
         }).catch(error => {
             console.log(error.response.error.message)
         });
-    }
 
+
+    }
 
     onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
         axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
@@ -61,14 +62,8 @@ class QuestionManage extends Component {
 
     onClickEditQuestion(cell, row, index){
         this.setState({editQuestion:this.state.totalQuestion[index]});
-
         axios.get(`http://172.24.125.116:8000/api/question/${this.state.totalQuestion[index]._id}/option`).then(res=>{
-          localStorage.setItem("_id", this.state.totalQuestion[index]._id);
-          localStorage.setItem("question", this.state.totalQuestion[index].question);
-          localStorage.setItem("start_date", dateformat(this.state.totalQuestion[index].start_date,"isoDate"));
-          localStorage.setItem("end_date", dateformat(this.state.totalQuestion[index].end_date,"isoDate"));
           this.setState({editOption:res.data});
-
         })
         this.setState({check:0})
     }
@@ -129,7 +124,7 @@ class QuestionManage extends Component {
     );
   }
 return (
-   <EditQuestion   check={this.state.check} editOption={this.state.editOption}/>
+   <EditQuestion   check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>
  );
  }
  else {
@@ -144,11 +139,15 @@ class EditQuestion extends Component {
   {
     for(var i in this.props.editOption)
       {
-          localStorage.setItem("option"+i, this.props.editOption[i].option);
-          localStorage.setItem("_id"+i, this.props.editOption[i]._id);
+        localStorage.setItem("_id", this.props.editQuestion._id);
+        localStorage.setItem("question", this.props.editQuestion.question);
+        localStorage.setItem("start_date", dateformat(this.props.editQuestion.start_date,"isoDate"));
+        localStorage.setItem("end_date", dateformat(this.props.editQuestion.end_date,"isoDate"));
+        localStorage.setItem("option"+i, this.props.editOption[i].option);
+        localStorage.setItem("_id"+i, this.props.editOption[i]._id);
       }
       return (
-         <QuestionAdd   check={this.props.check}/>
+         <QuestionAdd editOption={this.props.editOption} editQuestion={this.props.editQuestion} check={this.props.check}/>
        );
   }
 
