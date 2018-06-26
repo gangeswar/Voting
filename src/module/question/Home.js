@@ -3,18 +3,13 @@ import React, {
 } from 'react';
 import {
     Jumbotron,
-    Row,
     Col
 } from 'react-bootstrap';
 import {
     BootstrapTable,
     TableHeaderColumn
 } from 'react-bootstrap-table'
-import {
-    Link
-} from 'react-router-dom';
 import axios from 'axios';
-import add_que from '../../media/add_question.png';
 
 class Home extends Component{
 

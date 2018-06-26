@@ -33,7 +33,7 @@ class App extends Component {
 
     render() {
     if(this.state.hasError) {
-        return <div>Something went wrong</div>;
+        return <div>Something went wrong page not found !!!</div>;
     }
     return (
       <Router>

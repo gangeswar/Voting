@@ -31,21 +31,19 @@ class Question extends Component {
               </div>
             );
         } else if(this.props.myVoting===1) {
-            console.log(this.props.validate)
               if(this.props.validate===this.props.list_option._id)
               {
-
                 return (
                     <div className="Question">
                       <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} disabled="false" checked>{this.props.list_option.option}<Badge>{this.props.list_option.count} </Badge></Radio>
-                      <CircularProgressbar percentage={this.props.list_option.percentage} text={`${this.props.list_option.percentage}%`} />
+                      <CircularProgressbar percentage={this.props.list_option.percentage} text={`${Math.round(this.props.list_option.percentage)}%`} />
                   </div>
                 );
               } else if (this.props.validate!==this.props.list_option._id) {
                   return (
                       <div className="Question">
                         <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} disabled="false">{this.props.list_option.option}<Badge>{this.props.list_option.count}</Badge></Radio>
-                        <CircularProgressbar percentage={this.props.list_option.percentage==undefined?0:this.props.list_option.percentage} text={`${this.props.list_option.percentage==undefined?0:this.props.list_option.percentage}%`} />
+                        <CircularProgressbar percentage={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} text={`${this.props.list_option.percentage===undefined?0:Math.round(this.props.list_option.percentage)}%`} />
                       </div>
                   );
               }

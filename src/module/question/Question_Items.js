@@ -6,9 +6,13 @@ import {
     Col,
     Button
 } from 'react-bootstrap';
+import {
+    Redirect
+} from 'react-router-dom';
 import axios from 'axios';
-import Home from './Home'
-import Question from './Question'
+import Home from './Home';
+import Login from '../../module/user/Login';
+import Question from './Question';
 import './Question.css';
 
 
@@ -46,6 +50,9 @@ class QuestionItem extends Component {
         );
     });
 
+    if(localStorage.getItem("user_id")!=null)
+    {
+
     if(localStorage.getItem("admin")==="1")
     {
         return(<Home/> );
@@ -65,6 +72,10 @@ class QuestionItem extends Component {
         );
     }
   }
+  else{
+      return(<Redirect to="/"/> );
+  }
+}
 }
 
 class OptionItem extends Component {
@@ -81,11 +92,12 @@ class OptionItem extends Component {
   }
 
   componentWillMount() {
-
     this.setState({options:this.props.list_question.options});
   }
 
   submitQuestion(id){
+    if(this.state.radio!=null)
+    {
      this.props.onDelete(id);
      axios.post(`http://172.24.125.116:8000/api/question/myquestion`, {
        user_id : localStorage.getItem("user_id"),
@@ -94,6 +106,7 @@ class OptionItem extends Component {
      }).then(res=>{
          this.setState({radio_arr:res.data.option_id});
      })
+   }
  }
 
 

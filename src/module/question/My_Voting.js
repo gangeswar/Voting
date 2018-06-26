@@ -5,6 +5,9 @@ import {
     Jumbotron,
     Col
 } from 'react-bootstrap';
+import {
+    Redirect
+} from 'react-router-dom';
 import axios from 'axios';
 import Question from './Question'
 import './Question.css';
@@ -17,19 +20,21 @@ class QuestionItem extends Component {
         this.state = {
             questions: []
         }
-
     }
+
     componentWillMount() {
       const json_value=[];
         axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/myquestion`)
             .then(res => {res.data.map(ans=>{
-                json_value.push(ans)
+                return json_value.push(ans)
             })
             this.setState({questions:json_value})
           });
     }
 
   render() {
+    if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="0")
+    {
         var questionItem;
         questionItem=this.state.questions.map(list_question => {
         return(
@@ -48,8 +53,13 @@ class QuestionItem extends Component {
             </ol>
         </div>
       );
-    }
+  }
+  else {
+    return(<Redirect to="/"/> );
+  }
 }
+}
+
 
 class OptionItem extends Component {
 
@@ -57,7 +67,7 @@ class OptionItem extends Component {
         super();
         this.state = {
             options: [],
-            myVoting: 1,
+            myVoting: 1
         }
     }
 
@@ -70,7 +80,7 @@ class OptionItem extends Component {
         {
             for(var j of this.props.list_question.options)
             {
-                if(i._id==j._id)
+                if(i._id===j._id)
                 {
                    push_option.push(j);
                    flag=0;

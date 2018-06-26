@@ -12,9 +12,7 @@ import {
     Link,
     Redirect
 } from 'react-router-dom';
-import dateformat from 'dateformat';
 import './Question.css';
-import QuestionList from './Question_Manage'
 
 class QuestionAdd extends Component {
     constructor() {
@@ -22,27 +20,15 @@ class QuestionAdd extends Component {
         this.state = {
             newQuestion: {},
             newOption: {},
-            editQuestion: null,
             submit:false,
-            check:1
+            check:0
         }
 
     }
 
     componentWillMount(){
-        if(this.props.check==0)
+        if(this.props.check===0)
         {
-          localStorage.setItem("question", this.props.edit.question);
-          localStorage.setItem("start_date", dateformat(this.props.edit.start_date,"isoDate"));
-          localStorage.setItem("end_date", dateformat(this.props.edit.end_date,"isoDate"));
-          axios.get(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option`).then(res=>{
-              for(var i in res.data)
-              {
-                  localStorage.setItem("option"+i, res.data[i].option);
-                  localStorage.setItem("_id"+i, res.data[i]._id);
-              }
-          })
-          this.setState({editQuestion:this.props.edit});
           this.setState({check:this.props.check});
         }
         else {
@@ -70,30 +56,31 @@ class QuestionAdd extends Component {
         }).then(this.setState({submit:true})).catch(error => console.log("error"));
 
       }
-      else{
-        axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}`, {
-            question: this.refs.question.value,
-            start_date: this.refs.start_date.value,
-            end_date: this.refs.end_date.value
-        }).then(res => {
-            for (let index in optionIndex) {
-                axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option/${localStorage.getItem("_id"+index)}`, {
-                    option: optionIndex[index]
-                })
-            }
-        }).then(this.setState({submit:true})).catch(error => console.log("error"));
+        else{
+          axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}`, {
+              question: this.refs.question.value,
+              start_date: this.refs.start_date.value,
+              end_date: this.refs.end_date.value
+          }).then(res => {
+              for (let index in optionIndex) {
+                  axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option/${localStorage.getItem("_id"+index)}`, {
+                      option: optionIndex[index]
+                  })
+              }
+          }).then(this.setState({submit:true})).catch(error => console.log("error"));
 
-      }
-
+        }
     }
 
   render() {
-    if(this.state.submit)
+    if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="1")
     {
-      return(
-          <QuestionList/>
-      );
-    }
+      if(this.state.submit)
+      {
+        return(
+            <Redirect to="/"/>
+        );
+      }
     else{
     if(this.state.check)
     {
@@ -145,7 +132,7 @@ class QuestionAdd extends Component {
                     <Button bsStyle="success" type="submit" >Submit</Button>
                     </Col>
                     <Col>
-                     <Link to="/question/totalquestion"> <Button >Back</Button></Link>
+                    <Button><Link to="/"> Back</Link> </Button>
                     </Col>
                 </Row>
             </form>
@@ -153,6 +140,7 @@ class QuestionAdd extends Component {
       );
     }
     else{
+
       return (
         <div className="QuestionAdd">
             <Jumbotron>
@@ -201,7 +189,7 @@ class QuestionAdd extends Component {
                       <Button bsStyle="primary" type="submit" >Update</Button>
                     </Col>
                     <Col>
-                     <Link to="/question/totalquestion"> <Button >Back</Button></Link>
+                 <Button><Link to="/"> Back</Link> </Button>
                     </Col>
                 </Row>
             </form>
@@ -209,6 +197,10 @@ class QuestionAdd extends Component {
       );
   }
   }
+}
+else {
+    return(<Redirect to="/"/> );
+}
 }
 }
 

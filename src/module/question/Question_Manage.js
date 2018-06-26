@@ -9,14 +9,15 @@ import {
     TableHeaderColumn
 } from 'react-bootstrap-table'
 import {
-    Link
+    Link,
+    Redirect
 } from 'react-router-dom';
 import {
     Jumbotron,
-    Row,
     Col
 } from 'react-bootstrap';
 import axios from 'axios';
+import dateformat from 'dateformat';
 import QuestionAdd from './Question_Add'
 
 class QuestionManage extends Component {
@@ -25,6 +26,7 @@ class QuestionManage extends Component {
         this.state={
             totalQuestion: [],
             editQuestion: [],
+            editOption:[],
             check:1
         }
     }
@@ -40,10 +42,6 @@ class QuestionManage extends Component {
         });
     }
 
-    componentDidMount(){
-      console.log("asas");
-
-    }
 
     onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
         axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
@@ -63,7 +61,15 @@ class QuestionManage extends Component {
 
     onClickEditQuestion(cell, row, index){
         this.setState({editQuestion:this.state.totalQuestion[index]});
-        localStorage.setItem("_id", this.state.totalQuestion[index]._id);
+
+        axios.get(`http://172.24.125.116:8000/api/question/${this.state.totalQuestion[index]._id}/option`).then(res=>{
+          localStorage.setItem("_id", this.state.totalQuestion[index]._id);
+          localStorage.setItem("question", this.state.totalQuestion[index].question);
+          localStorage.setItem("start_date", dateformat(this.state.totalQuestion[index].start_date,"isoDate"));
+          localStorage.setItem("end_date", dateformat(this.state.totalQuestion[index].end_date,"isoDate"));
+          this.setState({editOption:res.data});
+
+        })
         this.setState({check:0})
     }
 
@@ -82,7 +88,8 @@ class QuestionManage extends Component {
     }
 
  render() {
-
+   if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="1")
+   {
    if(this.state.check)
    {
    return (
@@ -92,7 +99,7 @@ class QuestionManage extends Component {
          <h2>List Question</h2>
          </Col>
          <Col xsOffset={0}>
-             <Link to="/question/add"> <Button bsStyle ="success"  bsSize="large">AddQuestion</Button></Link>
+             <Link to="/question/add"><Button bsStyle="success" bsSize="large">AddQuestion</Button></Link>
              <Link to="/"> <Button id="space" bsSize="large">Back</Button></Link>
           </Col>
      </Jumbotron>
@@ -122,12 +129,29 @@ class QuestionManage extends Component {
     );
   }
 return (
-   <QuestionAdd  edit={this.state.editQuestion} check={this.state.check}/>
+   <EditQuestion   check={this.state.check} editOption={this.state.editOption}/>
  );
  }
+ else {
+   return(<Redirect to="/"/> );
+ }
+}
 }
 
+class EditQuestion extends Component {
 
+  render()
+  {
+    for(var i in this.props.editOption)
+      {
+          localStorage.setItem("option"+i, this.props.editOption[i].option);
+          localStorage.setItem("_id"+i, this.props.editOption[i]._id);
+      }
+      return (
+         <QuestionAdd   check={this.props.check}/>
+       );
+  }
 
+}
 
 export default QuestionManage;

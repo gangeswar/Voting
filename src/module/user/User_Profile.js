@@ -46,7 +46,8 @@ class UserProfile extends Component {
     }
 
   render() {
-
+    if(localStorage.getItem("user_id")!=null)
+    {
     if(this.state.update)
     {
       return(
@@ -97,6 +98,10 @@ class UserProfile extends Component {
     </div>
       );
       }
+      else {
+          return(<Redirect to="/"/> );
+      }
+}
 }
 
 export default UserProfile;

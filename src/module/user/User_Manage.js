@@ -10,11 +10,11 @@ import {
 } from 'react-bootstrap-table';
 import {
     Jumbotron,
-    Row,
     Col
 } from 'react-bootstrap';
 import {
-    Link
+    Link,
+    Redirect
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -56,6 +56,8 @@ class UserManage extends Component {
         );
     }
  render() {
+   if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="1")
+   {
    return (
      <div>
      <Jumbotron>
@@ -81,8 +83,11 @@ class UserManage extends Component {
    </div>
   )
  }
+ else {
+   return(<Redirect to="/"/> );
+ }
 }
 
-
+}
 
 export default UserManage;

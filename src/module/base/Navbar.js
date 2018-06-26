@@ -4,7 +4,8 @@ import React, {
 import {
     Nav,
     Navbar,
-    NavItem
+    NavItem,
+    MenuItem
 } from 'react-bootstrap';
 import {
     Grid,
@@ -21,20 +22,12 @@ import logo from '../../media/fingerprint2.png';
 import './Navbar.css'
 
 class Menubar extends Component {
-    
-
     session() {
         if (localStorage.getItem("admin")) {
             localStorage.clear();
-            <Redirect to="/" > < /Redirect>
         }
     }
 
-    userProfile() {
-        if (localStorage.getItem("admin")) {
-            <Redirect to="/user_profile" / >
-        }
-    }
   render(){
     return (
       <div >
@@ -89,7 +82,7 @@ class Menubar extends Component {
               <div className="dropdown">
                 <img src={user} alt="user" width="30" height="30" /><span>  {localStorage.getItem("user_name")}</span>
                   <div className="dropdown-content">
-                  <Button className="dropbtn" onClick={this.userProfile.bind(this)}><Link to="/user_profile">Profile</Link></Button>
+                  <Button className="dropbtn" ><Link to="/user_profile">Profile</Link></Button>
                   <Button className="dropbtn" onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>
                   </div>
                 </div>
