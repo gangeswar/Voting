@@ -400,10 +400,7 @@ router.get('/user/question', (req, res, next) => {
                 Options: {
                     $push: {
                         _id: "$_id.option_id",
-                        count: "$optionCount",
-                        percentage: {
-                            $multiply: ["$optionCount", 100]
-                        }
+                        count: "$optionCount"
                     }
                 }
             }
