@@ -4,8 +4,7 @@ import React, {
 import {
     Nav,
     Navbar,
-    NavItem,
-    MenuItem
+    NavItem
 } from 'react-bootstrap';
 import {
     Grid,
@@ -14,8 +13,7 @@ import {
     Button
 } from 'react-bootstrap'
 import {
-    Link,
-    Redirect
+    Link
 } from 'react-router-dom';
 import user from '../../media/user.png';
 import logo from '../../media/fingerprint2.png';

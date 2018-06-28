@@ -1,10 +1,12 @@
 import React, {
-    Component
-} from 'react';
+  Component
+}
+from 'react';
 import {
-    BrowserRouter as Router,
-    Route
-} from "react-router-dom";
+  BrowserRouter as Router,
+  Route
+}
+from "react-router-dom";
 
 import Menubar from './module/base/Navbar';
 import Login from './module/user/Login';
@@ -18,39 +20,40 @@ import MyVoting from './module/question/My_Voting';
 
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            hasError: false
-        }
+  constructor() {
+    super();
+    this.state = {
+      hasError: false
     }
+  }
 
-    componentDidCatch() {
-        this.setState(state => ({ ...state,
-            hasError: true
-        }));
-    }
+  componentDidCatch() {
+    this.setState(state => ({...state,
+      hasError: true
+    }));
+  }
 
-    render() {
-    if(this.state.hasError) {
-        return <div>Something went wrong page not found !!!</div>;
-    }
-    return (
+  render() {
+      if (this.state.hasError) {
+        return <div > Something went wrong page not found!!! < /div>;
+      }
+      return (
       <Router>
         <div>
           <Menubar />
-          <Route exact path="/" component={ Login }/>
-          <Route exact path="/register" component={ Register } />
-          <Route exact path="/question/totaluser" component={ UserManage } />
-          <Route exact path="/question/totalquestion" component={ QuestionManage } />
-          <Route exact path="/question/myvoting" component={ MyVoting } />
-          <Route exact path="/question/add" component={ AddQuestion }/>
-          <Route exact path="/question" component={ QuestionItem }/>
-          <Route exact path="/user_profile" component={ UserProfile } />
+            <Route exact path="/" component={ Login }/>
+            <Route exact path="/register" component={ Register } />
+            <Route exact path="/question/totaluser" component={ UserManage } />
+            <Route exact path="/question/totalquestion" component={ QuestionManage } />
+            <Route exact path="/question/myvoting" component={ MyVoting } />
+            <Route exact path="/question/add" component={ AddQuestion }/>
+            <Route exact path="/question" component={ QuestionItem }/>
+            <Route exact path="/user_profile" component={ UserProfile } />
         </div>
       </Router>
       );
-    }
+  }
 }
+
 
 export default App;
