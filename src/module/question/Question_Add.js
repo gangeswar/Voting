@@ -9,7 +9,7 @@ import {
   Jumbotron,
   Button
 }
-from 'react-bootstrap'
+from 'react-bootstrap';
 import {
   Link,
   Redirect
@@ -43,7 +43,6 @@ class QuestionAdd extends Component {
   }
 
   handleSubmit(e) {
-
     e.preventDefault();
     var optionIndex = [this.refs.optionA.value, this.refs.optionB.value,
       this.refs.optionC.value, this.refs.optionD.value

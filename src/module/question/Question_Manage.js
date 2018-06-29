@@ -22,7 +22,6 @@ import {
 }
 from 'react-bootstrap';
 import axios from 'axios';
-import dateformat from 'dateformat';
 import QuestionAdd from './Question_Add'
 
 class QuestionManage extends Component {
@@ -80,11 +79,11 @@ class QuestionManage extends Component {
   }
 
   deleteButton(cell, row, enumObject, rowIndex) {
-    return ( <Button onClick={ () => this.onClickDeleteTotalQuestion(cell, row, rowIndex, this.state.totalQuestion[rowIndex])}> Delete {rowIndex + 1} </Button>);
+    return ( <Button bsStyle="danger" onClick={ () => this.onClickDeleteTotalQuestion(cell, row, rowIndex, this.state.totalQuestion[rowIndex])}> Delete </Button>);
   }
 
   editButton(cell, row, enumObject, rowIndex) {
-    return ( <Button onClick={ () => this.onClickEditQuestion(cell, row, rowIndex)}>Edit {rowIndex + 1} </Button>);
+    return ( <Button bsStyle="info" onClick={ () => this.onClickEditQuestion(cell, row, rowIndex)}>Edit </Button>);
   }
 
  render() {
@@ -127,7 +126,7 @@ class QuestionManage extends Component {
         );
   }
 return (
-   <QuestionAdd   check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>
+   <QuestionAdd check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>
  );
  } else {
    return(

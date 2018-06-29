@@ -7,7 +7,8 @@ import {
   Jumbotron,
   Row,
   Col,
-  Button
+  Button,
+  Alert
 }
 from 'react-bootstrap';
 import {
@@ -59,14 +60,14 @@ class UserProfile extends Component {
     return (
       <div className="UserProfile">
         <Jumbotron>
-            <Col xs={14} xsOffset={6}>
+            <Col xsOffset={5}>
             <h2>Profile Update</h2>
             </Col>
         </Jumbotron>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <Row className="row-space">
             <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-              <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")}/>
+              <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")} disabled/>
             </Col>
           </Row>
           <Row className="row-space">
@@ -93,7 +94,13 @@ class UserProfile extends Component {
           <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
             <Link to="/"><Button bsStyle="basic" >Back</Button></Link>
           </Col><br/><br/><br/>
-          <div id="right" style={{color:"red"}}>{this.state.error}</div>
+          {
+          this.state.error!=null?
+            <Alert bsStyle="danger">
+               <strong className="right">{this.state.error}</strong>
+            </Alert>
+           :null
+          }
         </form>
       </div>
     );

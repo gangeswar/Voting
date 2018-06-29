@@ -10,7 +10,8 @@ import {
   Button,
   FormGroup,
   FormControl,
-  HelpBlock
+  HelpBlock,
+  Alert
 }
 from 'react-bootstrap';
 import {
@@ -29,7 +30,8 @@ class Register extends Component {
       register: false,
       email: "",
       userName: "",
-      password: ""
+      password: "",
+      error:null
     }
   }
 
@@ -42,11 +44,13 @@ class Register extends Component {
 
   getUserValidation() {
     if (this.state.userName.length > 3 && this.state.userName.length < 15) return 'success';
+    else if (!(this.state.userName.length > 3 && this.state.userName.length < 15)&& this.state.userName.length > 0) return 'error';
     return null;
   }
 
   getPasswordValidation() {
     if (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(this.state.password)) return 'success';
+    else if (!(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(this.state.password))&& this.state.password.length > 0) return 'error';
     return null;
   }
 
@@ -65,6 +69,12 @@ class Register extends Component {
   handlePasswordChange(e) {
     this.setState({
       password: e.target.value
+    });
+  }
+
+  reset() {
+    this.setState({
+      email: "", userName: "",   password: "" , error:null
     });
   }
 
@@ -91,7 +101,7 @@ class Register extends Component {
             register: false
           });
           this.setState({
-            Conflict_error: error.response.data.error
+            error: error.response.data.error
           })
         });
     }
@@ -108,7 +118,7 @@ class Register extends Component {
           <div className="Register">
            <Jumbotron>
               <Col  xsOffset={5} smOffset={5}>
-              <h2>Register</h2>
+              <h2>Sign Up</h2>
               </Col>
            </Jumbotron>
            <form onSubmit={this.handleSubmit.bind(this)}>
@@ -120,8 +130,8 @@ class Register extends Component {
                     <FormControl
                        type="email"
                        value={this.state.email}
-                       placeholder="Email Id"
-                       onChange={this.handleEmailChange.bind(this)}/>
+                       placeholder="Email"
+                       onChange={this.handleEmailChange.bind(this)} required/>
                       <FormControl.Feedback />
                     </FormGroup>
                  </Col>
@@ -135,9 +145,9 @@ class Register extends Component {
                        type="text"
                        value={this.state.userName}
                        placeholder="User Name"
-                       onChange={this.handleUserChange.bind(this)}/>
+                       onChange={this.handleUserChange.bind(this)} required/>
                       <FormControl.Feedback />
-                    <HelpBlock> username between 3 to 15 character.</HelpBlock>
+                    <HelpBlock> Username should between 3 to 15 character.</HelpBlock>
                  </FormGroup>
                  </Col>
               </Row>
@@ -150,25 +160,29 @@ class Register extends Component {
                        type="password"
                        value={this.state.password}
                        placeholder="Password"
-                       onChange={this.handlePasswordChange.bind(this)}/>
+                       onChange={this.handlePasswordChange.bind(this)} required/>
                       <FormControl.Feedback />
-                    <HelpBlock>password should have atleast 1 capital 1 small letter 1 number and length more than 6 character.</HelpBlock>
+                    <HelpBlock>Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.</HelpBlock>
                   </FormGroup>
                  </Col>
               </Row>
               <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
-              <Button type="submit" bsStyle="primary">Register</Button>
+                <Button type="submit" bsStyle="primary">Register</Button>
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
-              <Button type="reset" bsStyle="primary">Reset</Button>
+                <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col><br/><br/>
-              <span id="right" style={{color:"red"}}>{this.state.Conflict_error}
-              </span>
-              <div id="right">
+              {
+              this.state.error!=null?
+                <Alert bsStyle="danger">
+                   <strong className="right">{this.state.error}</strong>
+                </Alert>
+               :null
+              }
+              <div className="right">
                  <strong >
                     already have account?
-                    <Link to="/">
-                    login</Link>
+                    <Link to="/"> login</Link>
                  </strong>
               </div>
            </form>

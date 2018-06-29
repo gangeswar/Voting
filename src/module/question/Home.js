@@ -11,15 +11,17 @@ import {
   BootstrapTable,
   TableHeaderColumn
 }
-from 'react-bootstrap-table'
+from 'react-bootstrap-table';
 import axios from 'axios';
+
 
 class Home extends Component {
 
   constructor() {
     super();
     this.state = {
-      questions: []
+      questions: [],
+      row:null
     }
   }
 
@@ -39,7 +41,7 @@ class Home extends Component {
               <h2>Admin</h2>
             </Col>
           </Jumbotron>
-          <BootstrapTable data={this.state.questions}>
+          <BootstrapTable data={this.state.questions} >
             <TableHeaderColumn dataField='_id' isKey >
               Question Id
             </TableHeaderColumn>

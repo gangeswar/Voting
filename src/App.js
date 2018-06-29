@@ -3,6 +3,7 @@ import React, {
 }
 from 'react';
 import {
+  BrowserHistory,
   BrowserRouter as Router,
   Route
 }
@@ -38,7 +39,7 @@ class App extends Component {
         return <div > Something went wrong page not found!!! < /div>;
       }
       return (
-      <Router>
+      <Router history={BrowserHistory}>
         <div>
           <Menubar />
             <Route exact path="/" component={ Login }/>

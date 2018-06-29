@@ -7,7 +7,8 @@ import {
   Jumbotron,
   Row,
   Col,
-  Button
+  Button,
+  Alert
 }
 from 'react-bootstrap';
 import {
@@ -36,7 +37,6 @@ class Login extends Component {
       })
       .then(res => {
         axios.get(`http://172.24.125.116:8000/api/user/${res.data.message}`).then(res => {
-          console.log(res.data.message)
           this.setState({
             loginUser: res.data.message
           });
@@ -56,26 +56,29 @@ class Login extends Component {
           error: error.response.data.error
         });
       });
+  }
 
+  reset() {
+    this.setState({error: null});
   }
 
   render() {
-      if (localStorage.getItem("admin") === "1") {
-        return ( < Redirect to = "/question" / > );
-      } else if (localStorage.getItem("admin") === "0") {
-        return ( < Redirect to = "/question" / > );
+      if (localStorage.getItem("admin")==="1") {
+        return ( <Redirect to="/question" /> );
+      } else if (localStorage.getItem("admin")==="0") {
+        return ( <Redirect to="/question" /> );
       }
       return (
         <div className="Login">
           <Jumbotron>
             <Col xsOffset={5} smOffset={5}>
-              <h2>Login</h2>
+              <h2>Sign In</h2>
             </Col>
           </Jumbotron>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <Row className="row-space">
               <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-                <input className="form-control" type="text" ref="Email" placeholder="Email_id" />
+                <input className="form-control" type="text" ref="Email" placeholder="Email" />
               </Col>
             </Row>
             <Row className="row-space">
@@ -87,14 +90,19 @@ class Login extends Component {
                 <Button type="submit" bsStyle="primary">Login</Button>
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
-                <Button type="reset" bsStyle="primary">Reset</Button>
+                <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col><br/><br/><br/>
-              <div id="right" style={{color:"red"}}>{this.state.error}
-              </div>
-              <div id="right">
+              {
+              this.state.error!=null?
+                <Alert bsStyle="danger">
+                   <strong className="right">{this.state.error}</strong>
+                </Alert>
+               :null
+              }
+              <div className="right">
                 <strong>
                   don't have account?
-                  <Link to="/register">register</Link>
+                  <Link to="/register"> register</Link>
                 </strong>
               </div>
           </form>

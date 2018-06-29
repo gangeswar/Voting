@@ -12,7 +12,8 @@ import {
 }
 from 'react-router-dom';
 import axios from 'axios';
-import Question from './Question'
+import Question from './Question';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './Question.css';
 
 
@@ -113,8 +114,17 @@ class OptionItem extends Component {
         <div className="OptionItem">
           <form >
             <Col  xsOffset={3}>
-              <h4><li><strong>{this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li></h4>
-              {option_item}
+              <ReactCSSTransitionGroup
+                transitionName="list-item"
+                transitionAppear={true}
+                transitionAppearTimeout={500}
+                transitionEnter={true}
+                transitionEnterTimeout={500}
+                transitionLeave={true}
+                transitionLeaveTimeout={500}>
+                <h4><li><strong>{this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
+                  {option_item}
+              </ReactCSSTransitionGroup>
             </Col>
           </form>
         </div>

@@ -5,7 +5,8 @@ from 'react';
 import {
   Jumbotron,
   Col,
-  Button
+  Button,
+  Alert
 }
 from 'react-bootstrap';
 import {
@@ -16,7 +17,6 @@ import axios from 'axios';
 import Home from './Home';
 import Question from './Question';
 import './Question.css';
-
 
 class QuestionItem extends Component {
 
@@ -84,6 +84,7 @@ class OptionItem extends Component {
     this.state = {
       options: [],
       radio: null,
+      click:"",
       questionItem: 0,
       radio_arr: []
     }
@@ -107,12 +108,20 @@ class OptionItem extends Component {
           radio_arr: res.data.option_id
         });
       })
+    } else {
+        this.setState({click:null});
     }
   }
 
   radioSubmit(selectradio) {
     this.setState({
       radio: selectradio
+    });
+  }
+
+  reset() {
+    this.setState({
+      radio: null
     });
   }
 
@@ -128,10 +137,22 @@ class OptionItem extends Component {
       <div className="OptionItem">
         <form>
           <Col  xsOffset={3}>
-            <h4><li><strong> {this.props.list_question.question} {this.props.list_question.start_date} - {this.props.list_question.end_date}</strong></li></h4>
-              {option_item}
-            <Button  onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
-          </Col>
+              <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
+                {option_item}
+              <Col xs={1}>
+             <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+             </Col>
+             <Col xsPush={1} xs={1}>
+                <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
+            </Col><br/><br/>
+             {
+             this.state.click==null && this.state.radio==null?
+             <Alert bsStyle="danger">
+                <strong>Please Select an Option!</strong>
+            </Alert>
+            :null
+          }
+          </Col><br/>
         </form>
       </div>
     );

@@ -54,8 +54,8 @@ class UserManage extends Component {
   }
 
   cellButton(cell, row, enumObject, rowIndex) {
-    return ( <Button onClick={() => this.onClickDeleteUserDetail(cell, row, rowIndex, this.state.userDetail[rowIndex])}>
-        Delete {rowIndex + 1}
+    return ( <Button bsStyle="danger" onClick={() => this.onClickDeleteUserDetail(cell, row, rowIndex, this.state.userDetail[rowIndex])}>
+        Delete
         </Button>
     );
   }
@@ -80,7 +80,7 @@ class UserManage extends Component {
         <TableHeaderColumn
           dataField='button'
           dataFormat={this.cellButton.bind(this)}>
-          Button
+          Delete
         </TableHeaderColumn>
      </BootstrapTable>
    </div>
