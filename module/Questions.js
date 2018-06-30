@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const mergeJSON = require("merge-json") ;
 const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
@@ -160,7 +161,6 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
     const option_select = [];
     const question = [];
     const option = [];
-    console.log(result);
     for (var i of result) {
       question.push({
         question: i.Question,
@@ -369,7 +369,7 @@ router.get('/user/question', (req, res, next) => {
         TotalCount: {
           $sum: "$optionCount"
         },
-        Options: {
+        optionCount: {
           $push: {
             _id: "$_id.option_id",
             count: "$optionCount"
@@ -385,26 +385,61 @@ router.get('/user/question', (req, res, next) => {
       }
     }, {
       $unwind: "$Question"
-    }, {
+    },
+    {
+      $lookup: {
+        from: 'optionschemas',
+        localField: '_id',
+        foreignField: 'question_id',
+        as: 'Options'
+      }
+    },
+     {
       $project: {
         _id: 1,
         Question: {
           question: 1
         },
+        Options:1,
+        optionCount:1,
         TotalCount: 1
       }
     }
-
   ]).then(result => {
     const user_question = [];
+    const option_detail = [];
+    const final = [];
     result.map(question_detail => {
+      for(var i of question_detail.Options) {
+        for(var j of question_detail.optionCount) {
+            if(i._id.toString()==j._id.toString()) {
+              option_detail.push({_id:i._id,question_id:i.question_id,option:i.option,count:j.count});
+            }
+        }
+      }
       user_question.push({
         _id: question_detail._id,
         question: question_detail.Question.question,
+        option:[],
         TotalCount: question_detail.TotalCount
       })
     })
-    res.status(200).json(user_question);
+    for (var questions of user_question) {
+      final.push({
+        questions
+      });
+      for (var m of option_detail) {
+        if (questions._id.toString() == m.question_id.toString()) {
+          questions.option.push({
+            _id: m._id,
+            count: m.count,
+            option: m.option,
+            question_id: m.question_id
+          });
+        }
+      }
+    }
+    res.status(200).json(final);
   })
 });
 

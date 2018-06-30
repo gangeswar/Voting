@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs');
+const validator = require('validator');
 
 const router = express.Router();
 
@@ -22,15 +22,10 @@ router.post('/', (req, res, next) => {
   }).then(user => {
     if (user.length) {
       return res.status(409).json({
-        error: "user already exist"
+        error: "Email already exist"
       })
     } else {
-      bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            error: err
-          });
-        } else {
+        if(validator.isEmail(req.body.email_id) && (( req.body.user_name.length > 3) && ( req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))){
           const user = new User({
             _id: new mongoose.Types.ObjectId(),
             email_id: req.body.email_id,
@@ -47,8 +42,7 @@ router.post('/', (req, res, next) => {
             })
           });
         }
-      });
-    }
+      }
   });
 });
 
