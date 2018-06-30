@@ -29,7 +29,6 @@ class QuestionAdd extends Component {
     }
   }
 
-
   componentWillMount() {
     if (this.props.check === 0) {
       this.setState({

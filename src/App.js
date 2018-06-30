@@ -11,7 +11,6 @@ from "react-router-dom";
 
 import Menubar from './module/base/Navbar';
 import Login from './module/user/Login';
-import UserProfile from './module/user/User_Profile';
 import Register from './module/user/Register';
 import AddQuestion from './module/question/Question_Add';
 import UserManage from './module/user/User_Manage';
@@ -49,7 +48,6 @@ class App extends Component {
             <Route exact path="/question/myvoting" component={ MyVoting } />
             <Route exact path="/question/add" component={ AddQuestion }/>
             <Route exact path="/question" component={ QuestionItem }/>
-            <Route exact path="/user_profile" component={ UserProfile } />
         </div>
       </Router>
       );

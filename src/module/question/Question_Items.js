@@ -121,7 +121,8 @@ class OptionItem extends Component {
 
   reset() {
     this.setState({
-      radio: null
+      radio: null,
+      click:"",
     });
   }
 
@@ -145,14 +146,14 @@ class OptionItem extends Component {
              <Col xsPush={1} xs={1}>
                 <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
             </Col><br/><br/>
-             {
-             this.state.click==null && this.state.radio==null?
-             <Alert bsStyle="danger">
-                <strong>Please Select an Option!</strong>
-            </Alert>
-            :null
+          </Col>
+           {
+           this.state.click==null && this.state.radio==null?
+           <Alert bsStyle="danger">
+              <strong className="right">Please Select an Option!</strong>
+          </Alert>
+          :null
           }
-          </Col><br/>
         </form>
       </div>
     );
