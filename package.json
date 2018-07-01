@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.1",
+    "chart.js": "^2.7.2",
     "dateformat": "^3.0.3",
     "history": "^1.17.0",
     "moment": "^2.22.2",
@@ -11,6 +12,7 @@
     "react-bar-chart": "^0.1.2",
     "react-bootstrap": "^0.32.1",
     "react-bootstrap-table": "^4.3.1",
+    "react-chartjs-2": "^2.7.2",
     "react-circular-progressbar": "^1.0.0",
     "react-d3": "^0.4.0",
     "react-d3-components": "^0.9.1",

@@ -17,11 +17,13 @@ import Report from './Report'
 
 const options = {
   onRowClick: function(row) {
-    localStorage.setItem("value",row._id);
+    localStorage.setItem("rowId",row._id);
+    localStorage.setItem("options",JSON.stringify(row.option));
     window.location.reload();
   },
   onRowDoubleClick: function(row) {
-    localStorage.setItem("value",row._id);
+    localStorage.setItem("rowId",row._id);
+    localStorage.setItem("options",JSON.stringify(row.option));
     window.location.reload();
   }
 };
@@ -33,21 +35,19 @@ class Home extends Component {
     super();
     this.state = {
       questions: [],
+      options:[],
       row:null
     }
   }
 
   componentWillMount() {
-    const json_value = [];
     axios.get(`http://172.24.125.116:8000/api/question/user/question`).then(res => {
-      res.data.map(ans => {
-        return json_value.push(ans)
-      })
       this.setState({
-        questions: json_value,
-        row:localStorage.getItem("value")
+        questions: res.data,
+        row: localStorage.getItem("rowId"),
+        options: JSON.parse(localStorage.getItem("options"))
       })
-    });
+    })
   }
 
   // componentDidMount() {
@@ -55,7 +55,6 @@ class Home extends Component {
   // }
 
   render() {
-      console.log(this.state.questions);
       if(this.state.row==null){
       return (
         <div className="Home">
@@ -80,7 +79,7 @@ class Home extends Component {
    }
    else{
      return(
-       <Report row={this.state.row} />
+       <Report row={this.state.row} options={this.state.options} />
      );
    }
  }

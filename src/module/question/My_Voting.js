@@ -27,14 +27,10 @@ class QuestionItem extends Component {
   }
 
   componentWillMount() {
-    const json_value = [];
     axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/myquestion`)
       .then(res => {
-        res.data.map(ans => {
-          return json_value.push(ans)
-        })
         this.setState({
-          questions: json_value
+          questions: res.data
         })
       });
   }
