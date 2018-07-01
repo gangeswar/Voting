@@ -425,9 +425,9 @@ router.get('/user/question', (req, res, next) => {
       })
     })
     for (var questions of user_question) {
-      final.push({
+      final.push(
         questions
-      });
+      );
       for (var m of option_detail) {
         if (questions._id.toString() == m.question_id.toString()) {
           questions.option.push({
