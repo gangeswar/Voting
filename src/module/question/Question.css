@@ -53,3 +53,8 @@
   transition: opacity 300ms ease-in, transform 300ms ease-in;
   transform:translate(-5em, 0) scale(0,0);
 }
+
+.CircularProgressbar {
+  display: flex;
+  width: 8%;
+}

@@ -50,10 +50,6 @@ class Home extends Component {
     })
   }
 
-  // componentDidMount() {
-  //   localStorage.removeItem("value");
-  // }
-
   render() {
       if(this.state.row==null){
       return (

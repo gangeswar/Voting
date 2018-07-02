@@ -46,8 +46,6 @@ class QuestionManage extends Component {
     });
   }
 
-
-
   onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
     axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
       for (let index of res.data) {

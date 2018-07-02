@@ -36,15 +36,15 @@ class Question extends Component {
             if(this.props.validate===this.props.list_option._id) {
               return (
                 <div className="Question">
-                  <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} disabled="false" checked>{this.props.list_option.option}<Badge>{this.props.list_option.count} </Badge></Radio>
-                  <CircularProgressbar percentage={this.props.list_option.percentage} text={`${Math.round(this.props.list_option.percentage)}%`} />
+                  <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} checked>{this.props.list_option.option}<Badge>{this.props.list_option.count} </Badge></Radio>
+                  <CircularProgressbar className='CircularProgressbar' percentage={this.props.list_option.percentage} text={`${Math.round(this.props.list_option.percentage)}%`} />
                 </div>
               );
             } else if (this.props.validate!==this.props.list_option._id) {
                 return (
                   <div className="Question">
-                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} disabled="false">{this.props.list_option.option}<Badge>{this.props.list_option.count}</Badge></Radio>
-                    <CircularProgressbar percentage={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} text={`${this.props.list_option.percentage===undefined?0:Math.round(this.props.list_option.percentage)}%`} />
+                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} >{this.props.list_option.option}<Badge>{this.props.list_option.count}</Badge></Radio>
+                    <CircularProgressbar className='CircularProgressbar' percentage={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} text={`${this.props.list_option.percentage===undefined?0:Math.round(this.props.list_option.percentage)}%`} />
                   </div>
                 );
               }

@@ -73,14 +73,14 @@ class OptionItem extends Component {
   }
 
   componentWillMount() {
-    const push_option = [];
+    const pushOption = [];
     var flag = 0;
     axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
       .then(res => {
         for (var i of res.data) {
           for (var j of this.props.list_question.options) {
             if (i._id === j._id) {
-              push_option.push(j);
+              pushOption.push(j);
               flag = 0;
               break;
             } else {
@@ -88,11 +88,11 @@ class OptionItem extends Component {
             }
           }
           if (flag) {
-            push_option.push(i);
+            pushOption.push(i);
           }
         }
         this.setState({
-          options: push_option
+          options: pushOption
         });
       });
 
@@ -109,19 +109,21 @@ class OptionItem extends Component {
       return(
         <div className="OptionItem">
           <form >
-            <Col  xsOffset={3}>
-              <ReactCSSTransitionGroup
-                transitionName="list-item"
-                transitionAppear={true}
-                transitionAppearTimeout={500}
-                transitionEnter={true}
-                transitionEnterTimeout={500}
-                transitionLeave={true}
-                transitionLeaveTimeout={500}>
-                <h4><li><strong>{this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
-                  {option_item}
-              </ReactCSSTransitionGroup>
-            </Col>
+            <fieldset disabled>
+              <Col  xsOffset={3}>
+                <ReactCSSTransitionGroup
+                  transitionName="list-item"
+                  transitionAppear={true}
+                  transitionAppearTimeout={500}
+                  transitionEnter={true}
+                  transitionEnterTimeout={500}
+                  transitionLeave={true}
+                  transitionLeaveTimeout={500}>
+                  <h4><li><strong>{this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
+                    {option_item}
+                </ReactCSSTransitionGroup>
+              </Col>
+            </fieldset>
           </form>
         </div>
       );

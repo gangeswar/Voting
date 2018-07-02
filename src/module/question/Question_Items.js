@@ -14,6 +14,8 @@ import {
 }
 from 'react-router-dom';
 import axios from 'axios';
+import dateformat from 'dateformat';
+import moment from 'moment';
 import Home from './Home';
 import Question from './Question';
 import './Question.css';
@@ -94,6 +96,7 @@ class OptionItem extends Component {
     this.setState({
       options: this.props.list_question.options
     });
+
   }
 
   submitQuestion(id) {
@@ -133,30 +136,55 @@ class OptionItem extends Component {
         <Question key={list_option._id} clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
       );
     });
+    const currentDate = new Date();
 
-    return(
-      <div className="OptionItem">
-        <form>
-          <Col  xsOffset={3}>
-              <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
-                {option_item}
-              <Col xs={1}>
-             <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
-             </Col>
-             <Col xsPush={1} xs={1}>
-                <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
-            </Col><br/><br/>
-          </Col>
-           {
-           this.state.click==null && this.state.radio==null?
-           <Alert bsStyle="danger">
-              <strong className="right">Please Select an Option!</strong>
-          </Alert>
-          :null
-          }
-        </form>
-      </div>
-    );
+    var dateString = this.props.list_question.end_date;
+    var dateParts = dateString.split("/");
+    var endDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+    if(endDate>=currentDate)
+      return(
+        <div className="OptionItem">
+          <form>
+            <Col  xsOffset={3}>
+                <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
+                  {option_item}
+                <Col xs={1}>
+               <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+               </Col>
+               <Col xsPush={1} xs={1}>
+                  <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
+              </Col><br/><br/>
+            </Col>
+             {
+             this.state.click==null && this.state.radio==null?
+             <Alert bsStyle="danger">
+                <strong className="right">Please Select an Option!</strong>
+            </Alert>
+            :null
+            }
+          </form>
+        </div>
+      );
+    else {
+      return(
+        <div className="OptionItem">
+          <form>
+            <fieldset disabled>
+              <Col  xsOffset={3}>
+                  <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
+                    {option_item}
+                  <Col xs={1}>
+                 <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+                 </Col>
+                 <Col xsPush={1} xs={1}>
+                    <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
+                </Col><br/><br/>
+              </Col>
+            </fieldset>
+          </form>
+        </div>
+      );
+    }
   }
 }
 

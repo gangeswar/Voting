@@ -80,25 +80,31 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if(localStorage.getItem("user_id")!=null) {
-      axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`, {
-        email_id: this.refs.Email.value,
-        user_name: this.state.userName,
-        oldPassword: this.refs.oldPassword.value,
-        password: this.state.password
-      }).then(res => {
-        this.setState({
-          submit: true
-        })
-      }).catch(error => {
-        this.setState({
-          error: error.response.data.error
-        });
+    if(localStorage.getItem("user_id")!==null) {
+      if (!(validator.isEmail(localStorage.getItem("email_id")) && ((this.state.userName.length > 3) && (this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(this.state.password)))) {
         this.setState({
           submit: false
-        })
-      });
-    } else{
+        });
+      } else {
+          axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`, {
+            email_id: localStorage.getItem("email_id"),
+            user_name: this.state.userName,
+            oldPassword: this.refs.oldPassword.value,
+            password: this.state.password
+          }).then(res => {
+            this.setState({
+              submit: true
+            })
+          }).catch(error => {
+            this.setState({
+              error: error.response.data.error
+            });
+            this.setState({
+              submit: false
+            })
+          });
+        }
+    } else {
       if (!(validator.isEmail(this.state.email) && ((this.state.userName.length > 3) && (this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(this.state.password)))) {
         this.setState({
           submit: false
@@ -116,6 +122,7 @@ class Register extends Component {
             });
           })
           .catch(error => {
+            console.log("err")
             this.setState({
               submit: false
             });
@@ -124,9 +131,8 @@ class Register extends Component {
             })
           });
       }
-  }
+    }
 }
-
 
   render() {
       if (this.state.submit) {
@@ -145,7 +151,16 @@ class Register extends Component {
             <form onSubmit={this.handleSubmit.bind(this)}>
               <Row className="row-space">
                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
-                  <input className="form-control" type="email" ref="Email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="invalid email id" value={localStorage.getItem("email_id")} disabled/>
+                  <FormGroup
+                     validationState={this.getEmailValidation()}
+                      controlId="formValidation1">
+                     <FormControl
+                        type="email"
+                        value={localStorage.getItem("email_id")}
+                        placeholder="Email"
+                        onChange={this.handleEmailChange.bind(this)} disabled/>
+                       <FormControl.Feedback />
+                   </FormGroup>
                 </Col>
               </Row>
               <Row className="row-space">
