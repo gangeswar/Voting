@@ -7,7 +7,7 @@ const optionSchema = mongoose.Schema({
   },
   question_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "questionSchema",
+    ref: "QuestionSchema",
     required: true
   },
   option: {

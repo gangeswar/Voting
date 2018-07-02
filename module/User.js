@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
@@ -20,29 +21,38 @@ router.post('/', (req, res, next) => {
   User.find({
     email_id: req.body.email_id
   }).then(user => {
+    console.log(user.length);
     if (user.length) {
       return res.status(409).json({
-        error: "Email already exist"
+        error: "user already exist"
       })
     } else {
-        if(validator.isEmail(req.body.email_id) && (( req.body.user_name.length > 3) && ( req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))){
-          const user = new User({
-            _id: new mongoose.Types.ObjectId(),
-            email_id: req.body.email_id,
-            user_name: req.body.user_name,
-            password: req.body.password
+      bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if (err) {
+          return res.status(500).json({
+            error: err
           });
-          user.save().then(
-            res.status(200).json({
-              message: "successfully created"
-            })
-          ).catch(err => {
-            res.status(500).json({
-              error: err
-            })
-          });
+        } else {
+          if (validator.isEmail(req.body.email_id) && ((req.body.user_name.length > 3) && (req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
+            const user = new User({
+              _id: new mongoose.Types.ObjectId(),
+              email_id: req.body.email_id,
+              user_name: req.body.user_name,
+              password: req.body.password
+            });
+            user.save().then(
+              res.status(200).json({
+                message: "successfully created"
+              })
+            ).catch(err => {
+              res.status(500).json({
+                error: err
+              })
+            });
+          }
         }
-      }
+      });
+    }
   });
 });
 
