@@ -13,17 +13,22 @@ import {
 }
 from 'react-bootstrap-table';
 import axios from 'axios';
+import "./Question.css";
 import Report from './Report'
 
 const options = {
   onRowClick: function(row) {
     localStorage.setItem("rowId",row._id);
     localStorage.setItem("options",JSON.stringify(row.option));
+    localStorage.setItem("question",row.question);
+    localStorage.setItem("end_date",row.end_date);
     window.location.reload();
   },
   onRowDoubleClick: function(row) {
     localStorage.setItem("rowId",row._id);
     localStorage.setItem("options",JSON.stringify(row.option));
+    localStorage.setItem("question",row.question);
+    localStorage.setItem("end_date",row.end_date);
     window.location.reload();
   }
 };
@@ -45,7 +50,9 @@ class Home extends Component {
       this.setState({
         questions: res.data,
         row: localStorage.getItem("rowId"),
-        options: JSON.parse(localStorage.getItem("options"))
+        options: JSON.parse(localStorage.getItem("options")),
+        question: localStorage.getItem("question"),
+        endDate: localStorage.getItem("end_date")
       })
     })
   }
@@ -53,13 +60,13 @@ class Home extends Component {
   render() {
       if(this.state.row==null){
       return (
-        <div className="Home">
+        <div className="Home" >
           <Jumbotron>
             <Col xsOffset={5} >
               <h2>Admin</h2>
             </Col>
           </Jumbotron>
-          <BootstrapTable data={ this.state.questions } options={ options }>
+          <BootstrapTable data={ this.state.questions } options={ options } hover >
             <TableHeaderColumn dataField='_id' isKey >
               Question Id
             </TableHeaderColumn>
@@ -75,7 +82,7 @@ class Home extends Component {
    }
    else{
      return(
-       <Report row={this.state.row} options={this.state.options} />
+       <Report row={this.state.row} options={this.state.options} question={this.state.question} endDate={this.state.endDate}/>
      );
    }
  }

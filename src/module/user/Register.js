@@ -251,7 +251,7 @@ class Register extends Component {
                        placeholder="User Name"
                        onChange={this.handleUserChange.bind(this)} required/>
                       <FormControl.Feedback />
-                    <HelpBlock> Username should between 3 to 15 character.</HelpBlock>
+                    <HelpBlock> Username should be between 3 to 15 character.</HelpBlock>
                  </FormGroup>
                  </Col>
               </Row>
@@ -266,7 +266,7 @@ class Register extends Component {
                        placeholder="Password"
                        onChange={this.handlePasswordChange.bind(this)} required/>
                       <FormControl.Feedback />
-                    <HelpBlock>Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.</HelpBlock>
+                    <HelpBlock>Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters.</HelpBlock>
                   </FormGroup>
                  </Col>
               </Row>
@@ -286,7 +286,7 @@ class Register extends Component {
               <div className="right">
                  <strong >
                     already have account?
-                    <Link to="/"> login</Link>
+                    <Link to="/"> Login</Link>
                  </strong>
               </div>
            </form>

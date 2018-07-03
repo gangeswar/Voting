@@ -58,3 +58,17 @@
   display: flex;
   width: 8%;
 }
+
+.table-hover tbody tr:hover > td {
+    cursor: pointer;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    margin-top: 10%;
+}
+
+.space {
+  margin-left: 20%;
+}

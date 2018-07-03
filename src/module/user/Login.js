@@ -101,8 +101,8 @@ class Login extends Component {
               }
               <div className="right">
                 <strong>
-                  don't have account?
-                  <Link to="/register"> register</Link>
+                  Don't have account?
+                  <Link to="/register"> Register now</Link>
                 </strong>
               </div>
           </form>

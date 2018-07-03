@@ -15,8 +15,10 @@ import {
   Redirect
 }
 from 'react-router-dom';
-import './Question.css';
 import dateformat from 'dateformat';
+import QuestionList from './Question_Manage';
+import './Question.css';
+
 
 class QuestionAdd extends Component {
   constructor() {
@@ -24,8 +26,7 @@ class QuestionAdd extends Component {
     this.state = {
       newQuestion: {},
       newOption: {},
-      submit: false,
-      check: 0
+      submit: false
     }
   }
 
@@ -41,8 +42,8 @@ class QuestionAdd extends Component {
     }
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     var optionIndex = [this.refs.optionA.value, this.refs.optionB.value,
       this.refs.optionC.value, this.refs.optionD.value
     ];
@@ -79,12 +80,25 @@ class QuestionAdd extends Component {
     }
   }
 
+  back() {
+    this.setState({
+      submit: true,
+      check:0
+    })
+  }
+
   render() {
       if (localStorage.getItem("user_id") != null && localStorage.getItem("admin") === "1") {
         if (this.state.submit) {
-          return (
-            <Redirect to="/"/>
-          );
+          if(this.state.check){
+            return (
+              <Redirect to="totalquestion"/>
+            );
+          } else {
+            return (
+              <QuestionList/>
+            );
+          }
     } else {
       if(this.state.check)
       {
@@ -136,7 +150,7 @@ class QuestionAdd extends Component {
                 <Button bsStyle="success" type="submit" >Submit</Button>
                 </Col>
                 <Col>
-                <Button><Link to="/"> Back</Link> </Button>
+                  <Link to="totalquestion"><Button> Back </Button></Link>
                 </Col>
               </Row>
               </form>
@@ -200,7 +214,7 @@ class QuestionAdd extends Component {
                   <Button bsStyle="primary" type="submit" >Update</Button>
                 </Col>
                 <Col>
-                  <Button><Link to="/"> Back</Link> </Button>
+                  <Button onClick={this.back.bind(this)}> Back </Button>
                 </Col>
               </Row>
             </form>

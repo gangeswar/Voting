@@ -42,6 +42,7 @@ class UserManage extends Component {
       console.log(error.response.error.message)
     });
   }
+
   onClickDeleteUserDetail(cell, row, rowIndex, userDetail) {
     axios.delete(`http://172.24.125.116:8000/api/user/${userDetail._id}`).then(res => {
       const array = this.state.userDetail;
@@ -50,12 +51,31 @@ class UserManage extends Component {
         userDetail: array
       });
     }).catch(error => console.log(error));
+  }
 
+  onClickAdmin(cell, row, rowIndex, userDetail) {
+    console.log(userDetail._id);
+    axios.put(`http://172.24.125.116:8000/api/user/${userDetail._id}`,{
+        isadmin:1
+      }).then(res => {
+      const array = this.state.userDetail;
+      array.splice(rowIndex, 1);
+      this.setState({
+        userDetail: array
+      });
+    }).catch(error => console.log(error));
   }
 
   cellButton(cell, row, enumObject, rowIndex) {
     return ( <Button bsStyle="danger" onClick={() => this.onClickDeleteUserDetail(cell, row, rowIndex, this.state.userDetail[rowIndex])}>
         Delete
+        </Button>
+    );
+  }
+
+  adminButton(cell, row, enumObject, rowIndex) {
+    return ( <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.userDetail[rowIndex])}>
+        Admin Access
         </Button>
     );
   }
@@ -81,6 +101,11 @@ class UserManage extends Component {
           dataField='button'
           dataFormat={this.cellButton.bind(this)}>
           Delete
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          dataField='button'
+          dataFormat={this.adminButton.bind(this)}>
+          Admin
         </TableHeaderColumn>
      </BootstrapTable>
    </div>

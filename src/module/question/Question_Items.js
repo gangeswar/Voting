@@ -14,8 +14,6 @@ import {
 }
 from 'react-router-dom';
 import axios from 'axios';
-import dateformat from 'dateformat';
-import moment from 'moment';
 import Home from './Home';
 import Question from './Question';
 import './Question.css';
@@ -96,7 +94,6 @@ class OptionItem extends Component {
     this.setState({
       options: this.props.list_question.options
     });
-
   }
 
   submitQuestion(id) {
@@ -162,6 +159,13 @@ class OptionItem extends Component {
             </Alert>
             :null
             }
+            {
+            this.state.radio!=null?
+            <Alert bsStyle="success">
+               <strong className="right">Please click submit button</strong>
+           </Alert>
+           :null
+           }
           </form>
         </div>
       );
@@ -181,6 +185,9 @@ class OptionItem extends Component {
                 </Col><br/><br/>
               </Col>
             </fieldset>
+            <Alert bsStyle="warning">
+               <strong className="right">This question expired!</strong>
+           </Alert>
           </form>
         </div>
       );

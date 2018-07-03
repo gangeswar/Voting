@@ -17,6 +17,10 @@ import {
 }
 from 'react-router-dom';
 import {
+  Route
+}
+from "react-router-dom";
+import {
   Jumbotron,
   Col
 }
@@ -31,7 +35,8 @@ class QuestionManage extends Component {
       totalQuestion: [],
       editQuestion: [],
       editOption: [],
-      check: 1
+      check: 1,
+      update:true
     }
   }
 
@@ -44,6 +49,17 @@ class QuestionManage extends Component {
     }).catch(error => {
       console.log(error.response.error.message)
     });
+  }
+
+  componentDidUpdate(){
+    if(this.state.update)
+      axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+        this.setState({
+          totalQuestion: res.data
+        })
+      }).then(doc=> {  this.setState({
+          update:false
+      })} )
   }
 
   onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
@@ -123,9 +139,9 @@ class QuestionManage extends Component {
       </div>
         );
   }
-return (
-   <QuestionAdd check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>
- );
+  return (
+    <Route path="/question/totalquestion" component={ () => <QuestionAdd check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>}/>
+  );
  } else {
    return(
      <Redirect to="/"/>
