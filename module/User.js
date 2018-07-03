@@ -9,7 +9,14 @@ const User = require('../model/UserSchema');
 
 router.get('/', (req, res, next) => {
   User.find().then(result => {
-    res.status(200).json(result);
+    const user=[];
+    result.map(value=>{
+      if(!value.isadmin)
+      {
+        user.push(value);
+      }
+    })
+    res.status(200).json(user);
   }).catch(err => {
     res.status(500).json({
       error: err
@@ -74,25 +81,40 @@ router.get('/:user_id', (req, res, next) => {
 });
 
 router.put('/:user_id', (req, res, next) => {
-  User.findById(req.params.user_id).then(result => {
-    if (result.password.toString() == req.body.oldPassword.toString()) {
-      User.findByIdAndUpdate(req.params.user_id, req.body).then(result => {
-        User.findOne({
-          _id: req.params.user_id
-        }).then(result => {
-          res.status(200).json(result);
+  if(req.body.isadmin) {
+    User.findByIdAndUpdate(req.params.user_id, req.body).then(result => {
+      User.findOne({
+        _id: req.params.user_id
+      }).then(result => {
+        res.status(200).json(result);
+      });
+    }).catch(err => {
+      res.status(500).json({
+        error: "Can't change as admin"
+      })
+    });
+  } else {
+    User.findById(req.params.user_id).then(result => {
+      if (result.password.toString() == req.body.oldPassword.toString()) {
+        User.findByIdAndUpdate(req.params.user_id, req.body).then(result => {
+          User.findOne({
+            _id: req.params.user_id
+          }).then(result => {
+            res.status(200).json(result);
+          });
+        }).catch(err => {
+          res.status(500).json({
+            error: "Current password does not same"
+          })
         });
-      }).catch(err => {
+      } else {
         res.status(500).json({
           error: "Current password does not same"
         })
-      });
-    } else {
-      res.status(500).json({
-        error: "Current password does not same"
-      })
-    }
-  });
+      }
+    });
+  }
+
 });
 
 
