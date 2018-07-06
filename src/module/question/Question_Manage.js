@@ -26,7 +26,8 @@ import {
 }
 from 'react-bootstrap';
 import axios from 'axios';
-import QuestionAdd from './Question_Add'
+import QuestionAdd from './Question_Add';
+
 
 class QuestionManage extends Component {
   constructor() {
@@ -57,15 +58,17 @@ class QuestionManage extends Component {
         this.setState({
           totalQuestion: res.data
         })
-      }).then(doc=> {  this.setState({
+      }).then(doc=> {
+        this.setState({
           update:false
-      })} )
+        })
+    })
   }
 
   onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
     axios.get(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option`).then(res => {
       for (let index of res.data) {
-        axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}/option/${index._id}`);
+        axios.delete(`http://172.24.125.116:8000/api/option/${index._id}`);
       }
     }).then(res => {
       axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)
@@ -86,7 +89,7 @@ class QuestionManage extends Component {
       this.setState({
         editOption: res.data
       });
-    })
+    }).then(this.props.history.replace(`/totalquestion/edit/${this.state.totalQuestion[index]._id}`))
     this.setState({
       check: 0
     })
@@ -101,28 +104,30 @@ class QuestionManage extends Component {
   }
 
  render() {
+
    if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="1") {
      if(this.state.check) {
+       function dateFormatter(old, row) {
+         var cell = new Date(old);
+         return `${('0' + cell.getDate()).slice(-2)}/${('0' + (cell.getMonth() + 1)).slice(-2)}/${cell.getFullYear()}`;
+       }
+
        return (
        <div>
          <Jumbotron>
-           <Col xsOffset={5}>
-              <h2>List Question</h2>
+           <Col xsOffset={4} smOffset={4}>
+              <h1>List Question</h1>
            </Col>
-           <Col xsOffset={0}>
-              <Link to="/question/add"><Button bsStyle="success" bsSize="large">AddQuestion</Button></Link>
-              <Link to="/"> <Button id="space" bsSize="large">Back</Button></Link>
-            </Col>
+              <Link to="/question/add"><Button className="add-button" bsStyle="success" bsSize="large">AddQuestion</Button></Link>
          </Jumbotron>
-
        <BootstrapTable data={this.state.totalQuestion}>
           <TableHeaderColumn dataField='question' filter={ { type: 'TextFilter', delay: 1000 } } isKey dataSort>
             Question
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='start_date' filter={ { type: 'DateFilter', delay: 1000 } } dataSort>
+          <TableHeaderColumn dataField='start_date' dataFormat={ dateFormatter } filter={ { type: 'DateFilter', delay: 1000 } } dataSort>
             Start-date
           </TableHeaderColumn>
-          <TableHeaderColumn dataField='end_date' filter={ { type: 'DateFilter', delay: 1000 } } dataSort>
+          <TableHeaderColumn dataField='end_date' dataFormat={ dateFormatter } filter={ { type: 'DateFilter', delay: 1000 } } dataSort>
             End-date
           </TableHeaderColumn>
           <TableHeaderColumn
@@ -136,11 +141,14 @@ class QuestionManage extends Component {
             Update
           </TableHeaderColumn>
         </BootstrapTable>
+        <Col xsOffset={5} smOffset={5}>
+          <Link to="/"> <Button bsSize="large">Back</Button></Link>
+        </Col>
       </div>
         );
   }
   return (
-    <Route path="/question/totalquestion" component={ () => <QuestionAdd check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion}/>}/>
+    <Route path="/totalquestion/edit/:questionId" component={ () => <QuestionAdd check={this.state.check} editOption={this.state.editOption} editQuestion={this.state.editQuestion} />}/>
   );
  } else {
    return(

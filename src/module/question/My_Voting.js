@@ -46,8 +46,8 @@ class QuestionItem extends Component {
         return(
           <div className="QuestionItem">
             <Jumbotron>
-              <Col  xsOffset={5}>
-                <h2>My Voting</h2>
+              <Col xsOffset={5} smOffset={4}>
+                <h1>My Voting</h1>
               </Col>
             </Jumbotron>
             <ol>

@@ -16,7 +16,6 @@ import {
 }
 from 'react-router-dom';
 import dateformat from 'dateformat';
-import QuestionList from './Question_Manage';
 import './Question.css';
 
 
@@ -24,8 +23,6 @@ class QuestionAdd extends Component {
   constructor() {
     super();
     this.state = {
-      newQuestion: {},
-      newOption: {},
       submit: false
     }
   }
@@ -69,7 +66,7 @@ class QuestionAdd extends Component {
         end_date: this.refs.end_date.value
       }).then(res => {
         for (let index in optionIndex) {
-          axios.put(`http://172.24.125.116:8000/api/question/${localStorage.getItem("_id")}/option/${localStorage.getItem("_id"+index)}`, {
+          axios.put(`http://172.24.125.116:8000/api/option/${localStorage.getItem("_id"+index)}`, {
             option: optionIndex[index]
           })
         }
@@ -81,76 +78,70 @@ class QuestionAdd extends Component {
   }
 
   back() {
+
     this.setState({
-      submit: true,
-      check:0
+      submit: true
     })
   }
 
   render() {
       if (localStorage.getItem("user_id") != null && localStorage.getItem("admin") === "1") {
         if (this.state.submit) {
-          if(this.state.check){
-            return (
-              <Redirect to="totalquestion"/>
-            );
-          } else {
-            return (
-              <QuestionList/>
-            );
-          }
+          return (
+            <Redirect to="/total"/>
+          );
     } else {
       if(this.state.check)
       {
         return (
           <div className="QuestionAdd">
             <Jumbotron>
-                <Col xs={14} xsOffset={6}>
-                <h2>Add-question</h2>
+                <Col xsOffset={4} smOffset={4}>
+                <h1>Add-question</h1>
                 </Col>
             </Jumbotron>
             <form onSubmit={this.handleSubmit.bind(this)}>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="question" placeholder="Question" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionA" placeholder="option-A" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionB" placeholder="option-B"required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionC" placeholder="option-C" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionD" placeholder="option-D" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="date" ref="start_date" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="date" ref="end_date" required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={2}  xsOffset={4}>
+                <Col xs={2}  xsOffset={4} sm={2} smOffset={4}>
                 <Button bsStyle="success" type="submit" >Submit</Button>
                 </Col>
                 <Col>
-                  <Link to="totalquestion"><Button> Back </Button></Link>
+                  <Link to="/totalquestion"><Button> Back </Button></Link>
                 </Col>
               </Row>
               </form>
@@ -169,48 +160,48 @@ class QuestionAdd extends Component {
       return (
         <div className="QuestionAdd">
           <Jumbotron>
-            <Col xs={14} xsOffset={6}>
-            <h2>Edit-question</h2>
+            <Col xsOffset={4} smOffset={4}>
+              <h1>Edit-question</h1>
             </Col>
           </Jumbotron>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <Row className="row-space">
-              <Col xs={4} xsOffset={4}>
+              <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
               <input className="form-control" type="text" ref="question" placeholder="Question" defaultValue={localStorage.getItem("question")} required/>
               </Col>
             </Row>
             <Row className="row-space">
-              <Col xs={4} xsOffset={4}>
+              <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
               <input className="form-control" type="text" ref="optionA" placeholder="option-A" defaultValue={localStorage.getItem("option0")} required/>
               </Col>
             </Row>
             <Row className="row-space">
-              <Col xs={4} xsOffset={4}>
+              <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
               <input className="form-control" type="text" ref="optionB" placeholder="option-B" defaultValue={localStorage.getItem("option1")} required/>
               </Col>
             </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionC" placeholder="option-C" defaultValue={localStorage.getItem("option2")} required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="optionD" placeholder="option-D"  defaultValue={localStorage.getItem("option3")} required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="date" ref="start_date" defaultValue={localStorage.getItem("start_date")} required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={4} xsOffset={4}>
+                <Col xs={4} xsOffset={4} sm={4} smOffset={4}>
                 <input className="form-control" type="date" ref="end_date" defaultValue={localStorage.getItem("end_date")} required/>
                 </Col>
               </Row>
               <Row className="row-space">
-                <Col xs={2}  xsOffset={4} >
+                <Col xs={2}  xsOffset={4} sm={2} smOffset={4}>
                   <Button bsStyle="primary" type="submit" >Update</Button>
                 </Col>
                 <Col>

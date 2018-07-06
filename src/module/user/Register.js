@@ -35,6 +35,12 @@ class Register extends Component {
     }
   }
 
+  componentDidMount(){
+    if(localStorage.getItem("user_id")!==null) {
+      this.props.history.push(`/user_profile/${localStorage.getItem("user_id")}`);
+    }
+  }
+
   getEmailValidation() {
     if (validator.isEmail(this.state.email)) return 'success';
     else if (!(validator.isEmail(this.state.email)) && this.state.email.length > 0) return 'error';
@@ -43,8 +49,9 @@ class Register extends Component {
 
 
   getUserValidation() {
-    if (this.state.userName.length > 3 && this.state.userName.length < 15) return 'success';
-    else if (!(this.state.userName.length > 3 && this.state.userName.length < 15)&& this.state.userName.length > 0) return 'error';
+    console.log();
+    if (validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15)) return 'success';
+    else if (!(validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15))&& this.state.userName.length > 0) return 'error';
     return null;
   }
 
@@ -87,7 +94,6 @@ class Register extends Component {
         });
       } else {
           axios.put(`http://172.24.125.116:8000/api/user/${localStorage.getItem("user_id")}`, {
-            email_id: localStorage.getItem("email_id"),
             user_name: this.state.userName,
             oldPassword: this.refs.oldPassword.value,
             password: this.state.password
@@ -105,7 +111,7 @@ class Register extends Component {
           });
         }
     } else {
-      if (!(validator.isEmail(this.state.email) && ((this.state.userName.length > 3) && (this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(this.state.password)))) {
+      if (!(validator.isEmail(this.state.email) && (validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(this.state.password)))) {
         this.setState({
           submit: false
         });
@@ -122,7 +128,6 @@ class Register extends Component {
             });
           })
           .catch(error => {
-            console.log("err")
             this.setState({
               submit: false
             });
@@ -144,8 +149,8 @@ class Register extends Component {
           return(
           <div className="UserProfile">
             <Jumbotron>
-                <Col xsOffset={5}>
-                <h2>Profile Update</h2>
+                <Col xsOffset={4} smOffset={4}>
+                <h1>Profile Update</h1>
                 </Col>
             </Jumbotron>
             <form onSubmit={this.handleSubmit.bind(this)}>
@@ -205,12 +210,14 @@ class Register extends Component {
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
-                <Link to="/"><Button bsStyle="basic" >Back</Button></Link>
+                <Button bsStyle="basic" ><Link to="/">Back</Link></Button>
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
                 <Alert bsStyle="danger">
-                   <strong className="right">{this.state.error}</strong>
+                  <Col xsOffset={5} smOffset={5} >
+                   <strong>{this.state.error}</strong>
+                  </Col>
                 </Alert>
                :null
               }
@@ -221,8 +228,8 @@ class Register extends Component {
         return (
           <div className="Register">
            <Jumbotron>
-              <Col  xsOffset={5} smOffset={5}>
-              <h2>Sign Up</h2>
+              <Col  xsOffset={4} smOffset={5}>
+              <h1>Sign Up</h1>
               </Col>
            </Jumbotron>
            <form onSubmit={this.handleSubmit.bind(this)}>
@@ -275,19 +282,23 @@ class Register extends Component {
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
-              </Col><br/><br/>
+              </Col><br/><br/><br/>
               {
               this.state.error!=null?
                 <Alert bsStyle="danger">
-                   <strong className="right">{this.state.error}</strong>
+                  <Col xsOffset={4} smOffset={5} >
+                    <strong >{this.state.error}</strong>
+                  </Col>
                 </Alert>
                :null
               }
-              <div className="right">
-                 <strong >
-                    already have account?
+              <div>
+                <Col xsOffset={3} smOffset={4} >
+                  <strong >
+                    Already have account?
                     <Link to="/"> Login</Link>
-                 </strong>
+                  </strong>
+                </Col>
               </div>
            </form>
         </div>

@@ -14,7 +14,6 @@ import {
 }
 from 'react-router-dom';
 import axios from 'axios';
-import Home from './Home';
 import Question from './Question';
 import './Question.css';
 
@@ -51,15 +50,12 @@ class QuestionItem extends Component {
             );
           });
 
-      if (localStorage.getItem("user_id") != null) {
-        if (localStorage.getItem("admin") === "1") {
-          return ( < Home / > );
-        } else {
+      if (localStorage.getItem("user_id") != null && localStorage.getItem("admin")==="0") {
           return (
             <div className="QuestionItem">
               <Jumbotron>
-                <Col xsOffset={5}>
-                  <h2>Questions</h2>
+                <Col xsOffset={4} smOffset={4}>
+                  <h1>Questions</h1>
                 </Col>
               </Jumbotron>
               <ol>
@@ -67,7 +63,6 @@ class QuestionItem extends Component {
               </ol>
             </div>
         );
-      }
     } else {
         return(
           <Redirect to="/"/>
@@ -142,7 +137,7 @@ class OptionItem extends Component {
       return(
         <div className="OptionItem">
           <form>
-            <Col  xsOffset={3}>
+            <Col xsOffset={3}>
                 <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
                   {option_item}
                 <Col xs={1}>
@@ -155,14 +150,18 @@ class OptionItem extends Component {
              {
              this.state.click==null && this.state.radio==null?
              <Alert bsStyle="danger">
-                <strong className="right">Please Select an Option!</strong>
+                <Col xsOffset={4} smOffset={5} >
+                  <strong>Please Select an Option!</strong>
+                </Col>
             </Alert>
             :null
             }
             {
             this.state.radio!=null?
             <Alert bsStyle="success">
-               <strong className="right">Please click submit button</strong>
+              <Col xsOffset={4} smOffset={5} >
+                <strong>Please click submit button</strong>
+              </Col>
            </Alert>
            :null
            }
@@ -186,7 +185,9 @@ class OptionItem extends Component {
               </Col>
             </fieldset>
             <Alert bsStyle="warning">
-               <strong className="right">This question expired!</strong>
+              <Col xsOffset={4} smOffset={5}>
+                <strong >This question expired!</strong>
+              </Col>
            </Alert>
           </form>
         </div>

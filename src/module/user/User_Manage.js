@@ -53,17 +53,10 @@ class UserManage extends Component {
     }).catch(error => console.log(error));
   }
 
-  onClickAdmin(cell, row, rowIndex, userDetail) {
-    console.log(userDetail._id);
+  onClickAdmin(cell, row, rowIndex, userDetail,access) {
     axios.put(`http://172.24.125.116:8000/api/user/${userDetail._id}`,{
-        isadmin:1
-      }).then(res => {
-      const array = this.state.userDetail;
-      array.splice(rowIndex, 1);
-      this.setState({
-        userDetail: array
-      });
-    }).catch(error => console.log(error));
+        isadmin:access
+      })
   }
 
   cellButton(cell, row, enumObject, rowIndex) {
@@ -74,9 +67,15 @@ class UserManage extends Component {
   }
 
   adminButton(cell, row, enumObject, rowIndex) {
-    return ( <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.userDetail[rowIndex])}>
-        Admin Access
+    return (
+      <div>
+        <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.userDetail[rowIndex],1)}>
+          Admin Access
         </Button>
+        <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.userDetail[rowIndex],0)}>
+          cancel Access
+        </Button>
+      </div>
     );
   }
 
@@ -85,10 +84,9 @@ class UserManage extends Component {
    return (
      <div>
        <Jumbotron>
-           <Col xsOffset={5} >
-           <h2>User List</h2>
-           </Col>
-             <Link to="/"> <Button id="user" bsSize="large">Back</Button></Link>
+         <Col xsOffset={5} smOffset={4} >
+           <h1>User List</h1>
+         </Col>
        </Jumbotron>
       <BootstrapTable data={this.state.userDetail}>
         <TableHeaderColumn dataField='email_id' filter={ { type: 'TextFilter', delay: 1000 } } dataSort>
@@ -108,6 +106,9 @@ class UserManage extends Component {
           Admin
         </TableHeaderColumn>
      </BootstrapTable>
+     <Col xsOffset={5} smOffset={5}>
+       <Link to="/"> <Button bsSize="large">Back</Button></Link>
+     </Col>
    </div>
   );
   } else {

@@ -5,14 +5,15 @@ from 'react';
 import {
   Nav,
   Navbar,
-  NavItem
+  NavItem,
+  NavDropdown,
+  MenuItem
 }
 from 'react-bootstrap';
 import {
   Grid,
   Row,
-  Col,
-  Button
+  Col
 }
 from 'react-bootstrap'
 import {
@@ -20,10 +21,25 @@ import {
 }
 from 'react-router-dom';
 import user from '../../media/user.png';
-import logo from '../../media/fingerprint2.png';
 import './Navbar.css'
 
 class Menubar extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      isOpen: false
+    }
+  }
+
+  handleOpen = () => {
+    this.setState({ isOpen: true })
+  }
+
+  handleClose = () => {
+     this.setState({ isOpen: false })
+  }
+
   session() {
     if (localStorage.getItem("admin")) {
       localStorage.clear();
@@ -35,7 +51,9 @@ class Menubar extends Component {
         <div >
           <Navbar className="Menubar" inverse collapseOnSelect>
             <Navbar.Header>
-                <Link to="/"><img src={logo} alt="logo" width="65" height="55" /></Link>
+              <Navbar.Brand className="head-color">
+                <Link to="/"><h3 style={{marginTop:"0"}}>My Voting</h3></Link>
+              </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
 
@@ -65,31 +83,43 @@ class Menubar extends Component {
 
                 {
                   localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1"?
-                  <NavItem eventKey={4} componentClass={Link} href="/question/totaluser" to="/question/totaluser">Total User
+                  <NavItem eventKey={4} componentClass={Link} href="/totaluser" to="/totaluser">Total User
                   </NavItem>
                   :null
                 }
 
                 {
                   localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1"?
-                  <NavItem eventKey={5} componentClass={Link} href="/question/totalquestion" to="/question/totalquestion">Total Question
+                  <NavItem eventKey={5} componentClass={Link} href="/total" to="/total">Total Question
                   </NavItem>
                   :null
                 }
 
                 {
                   localStorage.getItem("user_id")!=null?
-                  <NavItem >
-                  <div className="dropdown">
-                    <img src={user} alt="user" width="30" height="30" /><span>  {localStorage.getItem("user_name")}</span>
-                      <div className="dropdown-content">
-                      <Button className="dropbtn" ><Link to="/register">Profile</Link></Button>
-                      <Button className="dropbtn" onClick={this.session.bind(this)}><Link to="/">Log Out</Link></Button>
-                      </div>
-                    </div>
-                  </NavItem>
+                    <NavDropdown eventKey={6}
+                    title={
+                      <div>
+                       <img className="thumbnail-image"
+                           src={user}
+                           alt="user pic"
+                           width="30"
+                           height="30"/>
+                       <span> {localStorage.getItem("user_name")}</span>
+                       </div>
+                     }
+                      onMouseEnter={ this.handleOpen }
+                      onMouseLeave={ this.handleClose }
+                      open={ this.state.isOpen }
+                      noCaret
+                      id="language-switcher-container">
+                      <MenuItem eventKey={6.1} componentClass={Link} href="/register" to="/register">Profile</MenuItem>
+                      <MenuItem divider />
+                      <MenuItem eventKey={6.2} componentClass={Link} onClick={this.session.bind(this)} href="/" to="/">logout</MenuItem>
+                    </NavDropdown>
                   :null
                 }
+
               </Nav>
               {
                 null?

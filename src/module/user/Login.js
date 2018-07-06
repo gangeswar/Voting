@@ -64,46 +64,50 @@ class Login extends Component {
 
   render() {
       if (localStorage.getItem("admin")==="1") {
-        return ( <Redirect to="/question" /> );
+        return ( <Redirect to="/report" /> );
       } else if (localStorage.getItem("admin")==="0") {
         return ( <Redirect to="/question" /> );
       }
       return (
         <div className="Login">
           <Jumbotron>
-            <Col xsOffset={5} smOffset={5}>
-              <h2>Sign In</h2>
+            <Col xsOffset={4} smOffset={5}>
+              <h1>Sign In</h1>
             </Col>
           </Jumbotron>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <Row className="row-space">
-              <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+              <Col xsOffset={4} xs={5} sm={3} smOffset={4}>
                 <input className="form-control" type="text" ref="Email" placeholder="Email" />
               </Col>
             </Row>
             <Row className="row-space">
-              <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+              <Col xsOffset={4} xs={5} sm={3} smOffset={4}>
                 <input className="form-control" type="password" ref="Password" placeholder="Password" />
               </Col>
             </Row>
-              <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3} >
+              <Col xsPush={1} xs={1} xsOffset={2} smPush={0}  smOffset={4}  sm={1}>
                 <Button type="submit" bsStyle="primary">Login</Button>
               </Col>
-              <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
+              <Col xsPush={1} xs={1} xsOffset={2} smPush={0}  smOffset={0}  sm={1}>
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
                 <Alert bsStyle="danger">
-                   <strong className="right">{this.state.error}</strong>
+                  <Col xsOffset={5} smOffset={5} >
+                    <strong>{this.state.error}</strong>
+                  </Col>
                 </Alert>
                :null
               }
-              <div className="right">
-                <strong>
-                  Don't have account?
-                  <Link to="/register"> Register now</Link>
-                </strong>
+              <div >
+                <Col xsOffset={3} smOffset={4} >
+                  <strong>
+                    Don't have account?
+                    <Link to="/register"> Register now</Link>
+                  </strong>
+                </Col>
               </div>
           </form>
         </div>
