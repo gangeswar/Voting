@@ -6,26 +6,17 @@ const router = express.Router();
 const Options = require('../model/OptionsSchema');
 
 router.post('/question/:question_id/option', (req, res, next) => {
-  Options.find({
-    question_id: req.params.question_id
-  }).exec().then(result => {
-    Options.find({
-      question_id: req.params.question_id,
-      option: req.body.option
-    }).then(option => {
-      const options = new Options({
-        _id: new mongoose.Types.ObjectId(),
-        question_id: req.params.question_id,
-        option: req.body.option
-      });
-      options.save().then(result => {
-        res.status(201).json(result)
-      }).catch(err => {
-        res.status(500).json({
-          error: err
-        })
-      });
-    });
+  const options = new Options({
+    _id: new mongoose.Types.ObjectId(),
+    question_id: req.params.question_id,
+    option: req.body.option
+  });
+  options.save().then(result => {
+    res.status(201).json(result)
+  }).catch(err => {
+    res.status(500).json({
+      error: err
+    })
   });
 });
 
@@ -56,44 +47,35 @@ router.get('/question/:question_id/option/:option_id', (req, res, next) => {
   });
 });
 
-router.put('/question/:question_id/option/:option_id', (req, res, next) => {
-  Options.find({
-    question_id: req.params.question_id
-  }).exec().then(result => {
-    Options.findByIdAndUpdate({
+router.put('/option/:option_id', (req, res, next) => {
+  Options.findByIdAndUpdate({
+    _id: req.params.option_id
+  }, req.body).exec().then(result => {
+    Options.findOne({
       _id: req.params.option_id
-    }, req.body).exec().then(result => {
-      Options.findOne({
-        _id: req.params.option_id
-      }).then(result => {
-        res.status(200).json(result);
-      });
+    }).then(result => {
+      res.status(200).json(result);
     });
   }).catch(err => {
     res.status(500).json({
       error: "user does not exist"
     })
-  });
+});
 });
 
-router.delete('/question/:question_id/option/:option_id', (req, res, next) => {
-  Options.find({
-    question_id: req.params.question_id
+router.delete('/option/:option_id', (req, res, next) => {
+  Options.remove({
+    _id: req.params.option_id
   }).exec().then(result => {
-    Options.remove({
-      _id: req.params.option_id
-    }).exec().then(result => {
-      res.status(200).json({
-        message: "is delete"
-      });
+    res.status(200).json({
+      message: "is delete"
     });
   }).catch(err => {
     res.status(500).json({
-      error: "option does not exist for delete operation"
-    })
-  });
+      error: "user does not exist"
+  })
 });
-
+});
 
 
 module.exports = router;

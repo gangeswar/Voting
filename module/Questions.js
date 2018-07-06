@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const moment = require("moment");
+require('moment/locale/en-gb');
 const mergeJSON = require("merge-json") ;
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -90,7 +91,6 @@ router.delete('/:question_id', (req, res, next) => {
 
 router.get('/user/:user_id/myquestion', (req, res, next) => {
   const id = req.params.user_id;
-
   const count_option = Answer.aggregate([
 
     {
@@ -182,8 +182,8 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
               _id: j._id,
               TotalCount: j.TotalCount,
               question: i.question.question,
-              start_date: moment(i.question.start_date).format('DD/MM/YYYY'),
-              end_date: moment(i.question.end_date).format('DD/MM/YYYY'),
+              start_date: moment(i.question.start_date).format('L'),
+              end_date: moment(i.question.end_date).format('L'),
               options: [],
               option_id: i.option_id
             });
@@ -282,9 +282,7 @@ router.get('/user/:user_id/availablequestion', (req, res, next) => {
       }
     }, {
       $unwind: "$Question"
-    },
-
-    {
+    }, {
       $lookup: {
         from: 'optionschemas',
         localField: 'question_id',
@@ -330,8 +328,8 @@ router.get('/user/:user_id/availablequestion', (req, res, next) => {
             available_question.push({
               _id: ans._id,
               question: ans.question,
-              start_date: moment(ans.start_date).format('DD/MM/YYYY'),
-              end_date: moment(ans.end_date).format('DD/MM/YYYY'),
+              start_date: moment(ans.start_date).format('L'),
+              end_date: moment(ans.end_date).format('L'),
               options: ans.Options
             });
             break;
@@ -422,8 +420,8 @@ router.get('/user/question', (req, res, next) => {
       user_question.push({
         _id: question_detail._id,
         question: question_detail.Question.question,
-        start_date: moment(question_detail.Question.start_date).format('DD/MM/YYYY'),
-        end_date: moment(question_detail.Question.end_date).format('DD/MM/YYYY'),
+        start_date: moment(question_detail.Question.start_date).format('L'),
+        end_date: moment(question_detail.Question.end_date).format('L'),
         TotalCount: question_detail.TotalCount,
         option:[]
       })

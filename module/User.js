@@ -9,14 +9,7 @@ const User = require('../model/UserSchema');
 
 router.get('/', (req, res, next) => {
   User.find().then(result => {
-    const user=[];
-    result.map(value=>{
-      if(!value.isadmin)
-      {
-        user.push(value);
-      }
-    })
-    res.status(200).json(user);
+    res.status(200).json(result);
   }).catch(err => {
     res.status(500).json({
       error: err
@@ -28,7 +21,6 @@ router.post('/', (req, res, next) => {
   User.find({
     email_id: req.body.email_id
   }).then(user => {
-    console.log(user.length);
     if (user.length) {
       return res.status(409).json({
         error: "user already exist"
@@ -40,7 +32,7 @@ router.post('/', (req, res, next) => {
             error: err
           });
         } else {
-          if (validator.isEmail(req.body.email_id) && ((req.body.user_name.length > 3) && (req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
+          if (validator.isEmail(req.body.email_id) && (validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               email_id: req.body.email_id,
@@ -81,7 +73,7 @@ router.get('/:user_id', (req, res, next) => {
 });
 
 router.put('/:user_id', (req, res, next) => {
-  if(req.body.isadmin) {
+  if(req.body.isadmin==1 || req.body.isadmin==0) {
     User.findByIdAndUpdate(req.params.user_id, req.body).then(result => {
       User.findOne({
         _id: req.params.user_id
