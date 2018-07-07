@@ -27,6 +27,7 @@ import {
 from 'react-bootstrap';
 import axios from 'axios';
 import QuestionAdd from './Question_Add';
+import Pagination from '../base/Pagination';
 
 
 class QuestionManage extends Component {
@@ -37,32 +38,41 @@ class QuestionManage extends Component {
       editQuestion: [],
       editOption: [],
       check: 1,
-      update:true
+      update:true,
+      renderedQuestions:[],
+      page:1
     }
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentWillMount() {
-
     axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
       this.setState({
-        totalQuestion: res.data
+        totalQuestion: res.data,
+        renderedQuestions: res.data.slice(0, 5),
+        total: res.data.length,
       })
     }).catch(error => {
       console.log(error.response.error.message)
     });
   }
 
-  componentDidUpdate(){
-    if(this.state.update)
+  handlePageChange(page) {
+    const renderedQuestions = this.state.totalQuestion.slice((page - 1) * 5, (page - 1) * 5 + 5);
+    this.setState({page, renderedQuestions});
+  }
+
+  componentDidUpdate() {
+    if(this.state.update) {
       axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
         this.setState({
-          totalQuestion: res.data
+          totalQuestion: res.data,
+          renderedQuestions: res.data.slice((this.state.page - 1) * 5, (this.state.page - 1) * 5 + 5),
+          total: res.data.length,
+          update: false
         })
-      }).then(doc=> {
-        this.setState({
-          update:false
-        })
-    })
+      })
+    }
   }
 
   onClickDeleteTotalQuestion(cell, row, rowIndex, totalQuestion) {
@@ -71,32 +81,36 @@ class QuestionManage extends Component {
         axios.delete(`http://172.24.125.116:8000/api/option/${index._id}`);
       }
     }).then(res => {
-      axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`)
-    }).then(res => {
-      const array = this.state.totalQuestion;
-      array.splice(rowIndex, 1);
-      this.setState({
-        totalQuestion: array
-      });
+      axios.delete(`http://172.24.125.116:8000/api/question/${totalQuestion._id}`).then(res=>{
+        axios.get(`http://172.24.125.116:8000/api/question`).then(res => {
+          this.setState({
+            totalQuestion: res.data,
+            renderedQuestions: res.data.slice((this.state.page - 1) * 5, (this.state.page - 1) * 5 + 5),
+            total: res.data.length,
+            update: true
+          })
+        })
+      })
+
     }).catch(error => console.log(error));
   }
 
   onClickEditQuestion(cell, row, index) {
     this.setState({
-      editQuestion: this.state.totalQuestion[index]
+      editQuestion: this.state.renderedQuestions[index]
     });
-    axios.get(`http://172.24.125.116:8000/api/question/${this.state.totalQuestion[index]._id}/option`).then(res => {
+    axios.get(`http://172.24.125.116:8000/api/question/${this.state.renderedQuestions[index]._id}/option`).then(res => {
       this.setState({
         editOption: res.data
       });
-    }).then(this.props.history.replace(`/totalquestion/edit/${this.state.totalQuestion[index]._id}`))
+    }).then(this.props.history.replace(`/totalquestion/edit/${this.state.renderedQuestions[index]._id}`))
     this.setState({
       check: 0
     })
   }
 
   deleteButton(cell, row, enumObject, rowIndex) {
-    return ( <Button bsStyle="danger" onClick={ () => this.onClickDeleteTotalQuestion(cell, row, rowIndex, this.state.totalQuestion[rowIndex])}> Delete </Button>);
+    return ( <Button bsStyle="danger" onClick={ () => this.onClickDeleteTotalQuestion(cell, row, rowIndex, this.state.renderedQuestions[rowIndex])}> Delete </Button>);
   }
 
   editButton(cell, row, enumObject, rowIndex) {
@@ -104,14 +118,13 @@ class QuestionManage extends Component {
   }
 
  render() {
-
+     const { page, total } = this.state;
    if(localStorage.getItem("user_id")!=null && localStorage.getItem("admin")==="1") {
      if(this.state.check) {
        function dateFormatter(old, row) {
          var cell = new Date(old);
          return `${('0' + cell.getDate()).slice(-2)}/${('0' + (cell.getMonth() + 1)).slice(-2)}/${cell.getFullYear()}`;
        }
-
        return (
        <div>
          <Jumbotron>
@@ -120,7 +133,7 @@ class QuestionManage extends Component {
            </Col>
               <Link to="/question/add"><Button className="add-button" bsStyle="success" bsSize="large">AddQuestion</Button></Link>
          </Jumbotron>
-       <BootstrapTable data={this.state.totalQuestion}>
+       <BootstrapTable data={this.state.renderedQuestions}>
           <TableHeaderColumn dataField='question' filter={ { type: 'TextFilter', delay: 1000 } } isKey dataSort>
             Question
           </TableHeaderColumn>
@@ -141,6 +154,12 @@ class QuestionManage extends Component {
             Update
           </TableHeaderColumn>
         </BootstrapTable>
+        <Pagination className="pagination"
+        margin={2}
+        page={page}
+        count={Math.ceil(total / 5)}
+        onPageChange={this.handlePageChange}
+        />
         <Col xsOffset={5} smOffset={5}>
           <Link to="/"> <Button bsSize="large">Back</Button></Link>
         </Col>

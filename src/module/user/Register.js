@@ -155,7 +155,7 @@ class Register extends Component {
             </Jumbotron>
             <form onSubmit={this.handleSubmit.bind(this)}>
               <Row className="row-space">
-                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                   <FormGroup
                      validationState={this.getEmailValidation()}
                       controlId="formValidation1">
@@ -169,7 +169,7 @@ class Register extends Component {
                 </Col>
               </Row>
               <Row className="row-space">
-                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                 <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                  <FormGroup
                     validationState={this.getUserValidation()}
                      controlId="formValidation2">
@@ -184,12 +184,12 @@ class Register extends Component {
                  </Col>
               </Row>
               <Row className="row-space">
-                <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                   <input className="form-control" type="password" ref="oldPassword" placeholder="currentPassword" />
                 </Col>
               </Row>
               <Row className="row-space">
-                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                 <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                  <FormGroup
                     validationState={this.getPasswordValidation()}
                      controlId="formValidation3">
@@ -203,14 +203,14 @@ class Register extends Component {
                   </FormGroup>
                  </Col>
               </Row>
-              <Col xsPush={1} xs={1} xsOffset={2}   smOffset={3}>
+              <Col xs={1} xsOffset={2} smOffset={4}>
                 <Button type="submit" bsStyle="primary">Update</Button>
               </Col>
-              <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0}>
+              <Col xs={1} xsOffset={2} smOffset={0}>
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col>
-              <Col xsPush={1} xs={1} xsOffset={2}  smOffset={0}>
-                <Button bsStyle="basic" ><Link to="/">Back</Link></Button>
+              <Col xs={1} xsOffset={2} smOffset={0}>
+                <Link to="/"><Button >Back</Button></Link>
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
@@ -234,7 +234,7 @@ class Register extends Component {
            </Jumbotron>
            <form onSubmit={this.handleSubmit.bind(this)}>
               <Row className="row-space">
-                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                 <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                  <FormGroup
                     validationState={this.getEmailValidation()}
                      controlId="formValidation1">
@@ -248,7 +248,7 @@ class Register extends Component {
                  </Col>
               </Row>
               <Row className="row-space">
-                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                 <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                  <FormGroup
                     validationState={this.getUserValidation()}
                      controlId="formValidation2">
@@ -263,7 +263,7 @@ class Register extends Component {
                  </Col>
               </Row>
               <Row className="row-space">
-                 <Col xsOffset={3} xs={5} sm={3} smOffset={4}>
+                 <Col  xs={8} xsOffset={2} sm={4} smOffset={4}>
                  <FormGroup
                     validationState={this.getPasswordValidation()}
                      controlId="formValidation3">

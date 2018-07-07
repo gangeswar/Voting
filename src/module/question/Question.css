@@ -6,7 +6,6 @@
     margin-top: 6%;
 }
 
-
 .btn-sq-lg {
     width: 250px;
     height: 150px;
@@ -71,7 +70,14 @@
 
 .jumbotron {
   background-color: #444444;
-  margin-top: -5%;
+  margin-top: -4%;
+}
+
+@media only screen and (max-width: 768px) {
+  .jumbotron {
+    background-color: #444444;
+    margin-top: -8%;
+  }
 }
 
 .jumbotron h1 {
@@ -81,4 +87,15 @@
 .add-button {
   position:absolute;
   margin-top:0;
+}
+
+@media only screen and (max-width: 768px) {
+    .add-button {
+      position:absolute;
+      margin-top:-18px;
+    }
+}
+
+.pagination {
+  margin-top: 5%;
 }

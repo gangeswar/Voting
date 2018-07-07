@@ -16,37 +16,67 @@ from 'react-router-dom';
 import axios from 'axios';
 import Question from './Question';
 import './Question.css';
+import Pagination from '../base/Pagination';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class QuestionItem extends Component {
 
   constructor() {
     super();
     this.state = {
-      questions: []
+      questions: [],
+      renderedQuestions: [],
+      page: 1,
+      update:true
     }
-  }
-
-  submitQuestion(id) {
-    const questions = this.state.questions;
-    const index = questions.findIndex(x => x._id === id);
-    questions.splice(index, 1);
-    this.setState({
-      questions: questions
-    });
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentWillMount() {
     axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/availablequestion`)
       .then(res => this.setState({
-        questions: res.data
+        questions: res.data,
+        renderedQuestions: res.data.slice(0, 2),
+        total: res.data.length,
       }));
   }
 
+  componentDidUpdate(){
+    if(this.state.update)
+    {
+      setTimeout(() => {
+        axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/availablequestion`)
+          .then(res => this.setState({
+            questions: res.data,
+            renderedQuestions: res.data.slice((this.state.page - 1) * 2, (this.state.page - 1) * 2 + 2),
+            total: res.data.length,
+            update:false
+          }))
+      })
+    }
+  }
+
+  submitQuestion(id) {
+    axios.get(`http://172.24.125.116:8000/api/question/user/${localStorage.getItem("user_id")}/availablequestion`)
+      .then(res => this.setState({
+        questions: res.data,
+        renderedQuestions: res.data.slice((this.state.page - 1) * 2, (this.state.page - 1) * 2 + 2),
+        total: res.data.length,
+        update:true
+      }))
+  }
+
+  handlePageChange(page) {
+    const renderedQuestions = this.state.questions.slice((page - 1) * 2, (page - 1) * 2 + 2);
+    this.setState({page, renderedQuestions});
+  }
+
   render() {
+      const { page, total } = this.state;
       var question_item;
-      question_item = this.state.questions.map(list_question => {
+      question_item = this.state.renderedQuestions.map(list_question => {
             return (
-              <OptionItem   key={list_question._id} onDelete={this.submitQuestion.bind(this)}  list_question={list_question} />
+              <OptionItem   key={list_question._id} onDelete={this.submitQuestion.bind(this)}  list_question={list_question}/>
             );
           });
 
@@ -58,10 +88,26 @@ class QuestionItem extends Component {
                   <h1>Questions</h1>
                 </Col>
               </Jumbotron>
+              <ReactCSSTransitionGroup
+                transitionName="list-item"
+                transitionAppear={true}
+                transitionAppearTimeout={500}
+                transitionEnter={true}
+                transitionEnterTimeout={500}
+                transitionLeave={true}
+                transitionLeaveTimeout={500}>
               <ol>
                 {question_item}
               </ol>
+              </ReactCSSTransitionGroup>
+              <Pagination
+              margin={2}
+              page={page}
+              count={Math.ceil(total / 2)}
+              onPageChange={this.handlePageChange}
+              />
             </div>
+
         );
     } else {
         return(
@@ -140,10 +186,10 @@ class OptionItem extends Component {
             <Col xsOffset={3}>
                 <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
                   {option_item}
-                <Col xs={1}>
+                <Col xs={1} sm={1}>
                <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
                </Col>
-               <Col xsPush={1} xs={1}>
+               <Col xsOffset={5} smOffset={0} smPush={1} sm={1}>
                   <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
               </Col><br/><br/>
             </Col>
@@ -176,11 +222,11 @@ class OptionItem extends Component {
               <Col  xsOffset={3}>
                   <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
                     {option_item}
-                  <Col xs={1}>
-                 <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+                <Col xs={1} sm={1}>
+                  <Button bsStyle="success">Submit</Button>
                  </Col>
-                 <Col xsPush={1} xs={1}>
-                    <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
+                 <Col xsOffset={5} smOffset={0} smPush={1} sm={1}>
+                    <Button type="reset" bsStyle="info">Clear</Button>
                 </Col><br/><br/>
               </Col>
             </fieldset>

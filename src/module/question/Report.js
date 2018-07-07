@@ -37,8 +37,7 @@ class Report extends Component {
   }
 
   componentWillMount() {
-
-     this.updateDimensions.bind(this);
+   this.updateDimensions.bind(this);
     const optionName=[];
     const optionCount=[];
     const option=[];
@@ -77,7 +76,6 @@ class Report extends Component {
   }
 
   updateDimensions(){
-
      let width = this.refs.div.offsetWidth;
      let height= this.refs.div.offsetHeight;
      this.setState({width:width,height:height});
@@ -105,7 +103,7 @@ class Report extends Component {
       return (
         <div className="Report">
           <Jumbotron>
-            <Col xsOffset={4} smOffset={3} >
+            <Col xsOffset={4} smOffset={4} >
               <h1>Question Report</h1>
             </Col>
           </Jumbotron>

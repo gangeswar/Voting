@@ -71,25 +71,25 @@ class Login extends Component {
       return (
         <div className="Login">
           <Jumbotron>
-            <Col xsOffset={4} smOffset={5}>
+            <Col xsOffset={5} smOffset={5}>
               <h1>Sign In</h1>
             </Col>
           </Jumbotron>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <Row className="row-space">
-              <Col xsOffset={4} xs={5} sm={3} smOffset={4}>
+              <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                 <input className="form-control" type="text" ref="Email" placeholder="Email" />
               </Col>
             </Row>
             <Row className="row-space">
-              <Col xsOffset={4} xs={5} sm={3} smOffset={4}>
+              <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
                 <input className="form-control" type="password" ref="Password" placeholder="Password" />
               </Col>
             </Row>
-              <Col xsPush={1} xs={1} xsOffset={2} smPush={0}  smOffset={4}  sm={1}>
+              <Col xsPush={1} xs={1} xsOffset={2} smOffset={3}  sm={1}>
                 <Button type="submit" bsStyle="primary">Login</Button>
               </Col>
-              <Col xsPush={1} xs={1} xsOffset={2} smPush={0}  smOffset={0}  sm={1}>
+              <Col xsPush={1} xs={1} xsOffset={2} smOffset={0}  sm={1}>
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
               </Col><br/><br/><br/>
               {
@@ -102,7 +102,7 @@ class Login extends Component {
                :null
               }
               <div >
-                <Col xsOffset={3} smOffset={4} >
+                <Col xsOffset={2} smOffset={4} >
                   <strong>
                     Don't have account?
                     <Link to="/register"> Register now</Link>
