@@ -42,7 +42,6 @@ class UserManage extends Component {
     axios.get(`http://172.24.125.116:8000/api/user`).then(res => {
       this.setState({
         userDetail: res.data,
-        isadmin: res.data.map(admin=>(admin.isadmin)),
         renderedUsers: res.data.slice(0, 5),
         total: res.data.length
       })
@@ -83,27 +82,45 @@ class UserManage extends Component {
 
   onClickAdmin(cell, row, rowIndex, userDetail,access) {
     this.setState({update:true});
+    axios.get(`http://172.24.125.116:8000/api/user`)
+      .then(res => this.setState({
+        userDetail: res.data,
+        renderedUsers: res.data.slice((this.state.page - 1) * 5, (this.state.page - 1) * 5 + 5),
+        total: res.data.length,
+        update:true
+      }))
     axios.put(`http://172.24.125.116:8000/api/user/${userDetail._id}`,{
         isadmin:access
       })
   }
 
   cellButton(cell, row, enumObject, rowIndex) {
-    return ( <Button bsStyle="danger" onClick={() => this.onClickDeleteUserDetail(cell, row, rowIndex, this.state.renderedUsers[rowIndex])}>
-        Delete
+    return (
+      <div>
+      {
+        row.isadmin===0?
+        <Button bsStyle="danger" onClick={() => this.onClickDeleteUserDetail(cell, row, rowIndex, this.state.renderedUsers[rowIndex])}>
+          Delete
         </Button>
+        :null
+      }
+    </div>
     );
   }
 
   adminButton(cell, row, enumObject, rowIndex) {
     return (
       <div>
+      {
+        row.isadmin===0?
         <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.renderedUsers[rowIndex],1)}>
           Admin Access
         </Button>
-        <Button bsStyle="success" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.renderedUsers[rowIndex],0)}>
-          cancel Access
+        :
+        <Button bsStyle="warning" onClick={() => this.onClickAdmin(cell, row, rowIndex, this.state.renderedUsers[rowIndex],0)}>
+          Cancel Access
         </Button>
+      }
       </div>
     );
   }
@@ -114,7 +131,7 @@ class UserManage extends Component {
      return (
        <div>
          <Jumbotron>
-           <Col xsOffset={5} smOffset={4} >
+           <Col xsOffset={4} smOffset={4} >
              <h1>User List</h1>
            </Col>
          </Jumbotron>
