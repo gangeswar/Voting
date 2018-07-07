@@ -8,7 +8,13 @@ const router = express.Router();
 const User = require('../model/UserSchema');
 
 router.get('/', (req, res, next) => {
-  User.find().then(result => {
+  User.aggregate([
+    {
+      $project:{
+        password:0
+      }
+    }
+  ]).then(result => {
     res.status(200).json(result);
   }).catch(err => {
     res.status(500).json({
@@ -32,7 +38,7 @@ router.post('/', (req, res, next) => {
             error: err
           });
         } else {
-          if (validator.isEmail(req.body.email_id) && (validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
+          if (validator.isEmail(req.body.email_id) && (validator.isAlpha(req.body.user_name) && (req.body.user_name.length > 3 && req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               email_id: req.body.email_id,

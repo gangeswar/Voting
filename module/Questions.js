@@ -194,9 +194,7 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
       for (var k of option) {
         for (var l of doc2) {
           for (var m of l.Options) {
-
             if (k._id.toString() == m._id.toString()) {
-
               option2.push({
                 _id: m._id,
                 count: m.count,
@@ -210,7 +208,6 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
       }
 
       for (var questions of question2) {
-
         final.push({
           questions
         });
@@ -405,7 +402,6 @@ router.get('/user/question', (req, res, next) => {
       }
     }
   ]).then(result => {
-    console.log(result);
     const user_question = [];
     const option_detail = [];
     const final = [];
