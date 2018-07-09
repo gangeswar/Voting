@@ -37,7 +37,6 @@ class Report extends Component {
   }
 
   componentWillMount() {
-   this.updateDimensions.bind(this);
     const optionName=[];
     const optionCount=[];
     const option=[];
@@ -75,16 +74,6 @@ class Report extends Component {
     );
   }
 
-  updateDimensions(){
-     let width = this.refs.div.offsetWidth;
-     let height= this.refs.div.offsetHeight;
-     this.setState({width:width,height:height});
-   }
-
-   componentDidMount(){
-      window.addEventListener("resize", this.updateDimensions.bind(this));
-   }
-
   render() {
       const currentDate = new Date();
       const dateParts = this.props.endDate.split("/");
@@ -93,13 +82,9 @@ class Report extends Component {
       percentage = this.state.optionDetail.map(value =>
         {
           return(
-            <Progress circularProgress={value.percentage}/>
+            <Progress key={value._id} circularProgress={value.percentage}/>
           );
         });
-      const canStyle = {
-          height: this.state.heigth,
-         width: this.state.width
-       };
       return (
         <div className="Report">
           <Jumbotron>
@@ -116,7 +101,6 @@ class Report extends Component {
                 </Alert>
             :null
           }
-
           <div className="report-table">
             <h4><strong>{this.props.question}</strong></h4>
           <BootstrapTable data={ this.state.optionDetail } >
@@ -139,7 +123,6 @@ class Report extends Component {
           </div>
           <div className="center-progress" >
           <Bar
-            style={canStyle}
             data={ {
               labels: this.state.option,
               datasets: [
@@ -155,7 +138,7 @@ class Report extends Component {
               ]
             } }
             width={this.state.width}
-    	       height={this.state.height}
+  	        height={this.state.height}
             options={{
               maintainAspectRatio: false,
               scales: {

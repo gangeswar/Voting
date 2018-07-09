@@ -55,7 +55,7 @@ class Home extends Component {
     if(localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1") {
       this.props.history.push("/report");
     } else {
-        this.props.history.push("/");
+      this.props.history.push("/");
     }
   }
 
@@ -106,14 +106,13 @@ class Home extends Component {
               </TableHeaderColumn>
             </BootstrapTable>
             <Pagination
-            margin={2}
-            page={page}
-            count={Math.ceil(total / 5)}
-            onPageChange={this.handlePageChange}/>
+              margin={2}
+              page={page}
+              count={Math.ceil(total / 5)}
+              onPageChange={this.handlePageChange}/>
           </div>
         );
     } else {
-
      return(
        <div>
          <Report row={this.state.row} options={this.state.options} question={this.state.question} endDate={this.state.endDate}/>

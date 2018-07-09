@@ -25,8 +25,8 @@ import './Navbar.css'
 
 class Menubar extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       isOpen: false
     }
@@ -102,7 +102,7 @@ class Menubar extends Component {
                      }
                       onMouseEnter={ this.handleOpen }
                       onMouseLeave={ this.handleClose }
-                      open={ this.state.isOpen }
+                      defaultOpen={ this.state.isOpen }
                       noCaret
                       id="language-switcher-container">
                       <MenuItem eventKey={6.1} componentClass={Link} href="/register" to="/register">Profile</MenuItem>

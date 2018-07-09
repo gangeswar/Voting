@@ -68,9 +68,12 @@ class QuestionItem extends Component {
               transitionEnterTimeout={500}
               transitionLeave={true}
               transitionLeaveTimeout={500}>
-            <ol>
+            {
+            questionItem.length===0?<Col smOffset={4}><h2>There is no data to display</h2></Col>
+            :<ol>
               {questionItem}
             </ol>
+            }
             <Pagination
               margin={2}
               page={page}
@@ -103,10 +106,10 @@ class OptionItem extends Component {
     var flag = 0;
     axios.get(`http://172.24.125.116:8000/api/question/${this.props.list_question._id}/option`)
       .then(res => {
-        for (var i of res.data) {
-          for (var j of this.props.list_question.options) {
-            if (i._id === j._id) {
-              pushOption.push(j);
+        for (var questionObject of res.data) {
+          for (var optionObject of this.props.list_question.options) {
+            if (questionObject._id === optionObject._id) {
+              pushOption.push(optionObject);
               flag = 0;
               break;
             } else {
@@ -114,7 +117,7 @@ class OptionItem extends Component {
             }
           }
           if (flag) {
-            pushOption.push(i);
+            pushOption.push(questionObject);
           }
         }
         this.setState({

@@ -82,7 +82,7 @@ class Register extends Component {
 
   reset() {
     this.setState({
-      email: "", userName: "",   password: "" , error:null
+      email: "", userName: localStorage.getItem("user_id")!==null?localStorage.getItem("user_name"):"",   password: "" , error:null
     });
   }
 
@@ -298,6 +298,19 @@ class Register extends Component {
                 </Col>
                :null
               }
+
+              {
+              ((this.state.email==="") && (this.state.userName==="") && (this.state.password===""))?
+                <Col sm={4} smOffset={4}>
+                  <Alert bsStyle="danger">
+                    <Col xsOffset={4} smOffset={4} >
+                      <strong >Empty Field</strong>
+                    </Col>
+                  </Alert>
+                </Col>
+               :null
+              }
+
                </form>
               </Row>
               <div>

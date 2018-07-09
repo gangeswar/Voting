@@ -74,13 +74,12 @@ class QuestionItem extends Component {
 
   render() {
       const { page, total } = this.state;
-      var question_item;
-      question_item = this.state.renderedQuestions.map(list_question => {
+      var questionItem;
+      questionItem = this.state.renderedQuestions.map(list_question => {
             return (
               <OptionItem   key={list_question._id} onDelete={this.submitQuestion.bind(this)}  list_question={list_question}/>
             );
           });
-
       if (localStorage.getItem("user_id") != null && localStorage.getItem("admin")==="0") {
           return (
             <div className="QuestionItem">
@@ -97,16 +96,21 @@ class QuestionItem extends Component {
                 transitionEnterTimeout={500}
                 transitionLeave={true}
                 transitionLeaveTimeout={500}>
-              <ol>
-                {question_item}
-              </ol>
+              {
+                questionItem.length===0?<Col smOffset={4}><h2>There is no data to display</h2></Col>
+                :<ol>
+                  {questionItem}
+                </ol>
+              }
               </ReactCSSTransitionGroup>
+
               <Pagination
               margin={2}
               page={page}
               count={Math.ceil(total / 2)}
               onPageChange={this.handlePageChange}
               />
+
             </div>
         );
     } else {
@@ -197,11 +201,11 @@ class OptionItem extends Component {
              {
              this.state.click==null && this.state.radio==null?
              <Col smOffset={3} sm={4}>
-             <Alert bsStyle="danger" >
-                <Col xsOffset={4} smOffset={3} >
-                  <strong>Please Select an Option!</strong>
-                </Col>
-            </Alert>
+               <Alert bsStyle="danger" >
+                  <Col xsOffset={4} smOffset={3} >
+                    <strong>Please Select an Option!</strong>
+                  </Col>
+              </Alert>
             </Col>
             :null
             }

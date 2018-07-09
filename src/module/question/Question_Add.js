@@ -147,14 +147,14 @@ class QuestionAdd extends Component {
           </div>
         );
       } else {
-        for(var i in this.props.editOption)
+        for(var index in this.props.editOption)
           {
             localStorage.setItem("_id", this.props.editQuestion._id);
             localStorage.setItem("question", this.props.editQuestion.question);
             localStorage.setItem("start_date", dateformat(this.props.editQuestion.start_date,"isoDate"));
             localStorage.setItem("end_date", dateformat(this.props.editQuestion.end_date,"isoDate"));
-            localStorage.setItem("option"+i, this.props.editOption[i].option);
-            localStorage.setItem("_id"+i, this.props.editOption[i]._id);
+            localStorage.setItem("option"+index, this.props.editOption[index].option);
+            localStorage.setItem("_id"+index, this.props.editOption[index]._id);
           }
       return (
         <div className="QuestionAdd">

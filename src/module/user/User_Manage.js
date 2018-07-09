@@ -81,7 +81,6 @@ class UserManage extends Component {
   }
 
   onClickAdmin(cell, row, rowIndex, userDetail,access) {
-    this.setState({update:true});
     axios.get(`http://172.24.125.116:8000/api/user`)
       .then(res => this.setState({
         userDetail: res.data,

@@ -41,8 +41,8 @@ class Question extends Component {
               return (
                 <div className="Question" >
                   <Col sm={8}>
-                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} checked>{this.props.list_option.option}</Radio><Badge className="pull-right"> {this.props.list_option.count} votes</Badge>
-                    <ProgressBar now={this.props.list_option.percentage} label={`${Math.ceil(this.props.list_option.percentage)}%`} />
+                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} defaultChecked>{this.props.list_option.option}</Radio><Badge className="pull-right"> {this.props.list_option.count} votes</Badge>
+                    <ProgressBar now={this.props.list_option.percentage} label={`${Math.ceil(this.props.list_option.percentage).toFixed(1)}%`} />
                   </Col>
                 </div>
               );
@@ -51,7 +51,7 @@ class Question extends Component {
                   <div className="Question">
                     <Col sm={8}>
                       <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} >{this.props.list_option.option}</Radio><Badge className="pull-right"> {this.props.list_option.count===undefined?0:this.props.list_option.count} votes</Badge>
-                      <ProgressBar now={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} label={`${Math.ceil(this.props.list_option.percentage===undefined?0:this.props.list_option.percentage)}%`} />
+                      <ProgressBar now={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} label={`${this.props.list_option.percentage===undefined?0:this.props.list_option.percentage.toFixed(1)}%`} />
                     </Col>
                   </div>
                 );

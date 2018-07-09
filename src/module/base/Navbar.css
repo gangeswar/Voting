@@ -106,3 +106,7 @@ left: -33px;
 h3 {
   margin-top: 0;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
