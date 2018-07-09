@@ -16,9 +16,9 @@ router.get('/', (req, res, next) => {
     }
   ]).then(result => {
     res.status(200).json(result);
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
@@ -32,10 +32,10 @@ router.post('/', (req, res, next) => {
         error: "user already exist"
       })
     } else {
-      bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) {
+      bcrypt.hash(req.body.password, 10, (error, hash) => {
+        if (error) {
           return res.status(500).json({
-            error: err
+            error: error
           });
         } else {
           if (validator.isEmail(req.body.email_id) && (validator.isAlpha(req.body.user_name) && (req.body.user_name.length > 3 && req.body.user_name.length < 15)) && (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}/.test(req.body.password))) {
@@ -46,12 +46,12 @@ router.post('/', (req, res, next) => {
               password: req.body.password
             });
             user.save().then(
-              res.status(200).json({
+              res.status(201).json({
                 message: "successfully created"
               })
-            ).catch(err => {
+            ).catch(error => {
               res.status(500).json({
-                error: err
+                error: error
               })
             });
           }
@@ -86,7 +86,7 @@ router.put('/:user_id', (req, res, next) => {
       }).then(result => {
         res.status(200).json(result);
       });
-    }).catch(err => {
+    }).catch(error => {
       res.status(500).json({
         error: "Can't change as admin"
       })
@@ -100,7 +100,7 @@ router.put('/:user_id', (req, res, next) => {
           }).then(result => {
             res.status(200).json(result);
           });
-        }).catch(err => {
+        }).catch(error => {
           res.status(500).json({
             error: "Current password does not same"
           })
@@ -123,13 +123,12 @@ router.delete('/:user_id', (req, res, next) => {
     res.status(200).json({
       message: "user deleted"
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
-
 
 router.post('/login', (req, res, next) => {
   User.find().then(result => {

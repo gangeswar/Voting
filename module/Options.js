@@ -13,9 +13,9 @@ router.post('/question/:question_id/option', (req, res, next) => {
   });
   options.save().then(result => {
     res.status(201).json(result)
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
@@ -25,7 +25,7 @@ router.get('/question/:question_id/option', (req, res, next) => {
     question_id: req.params.question_id
   }).exec().then(result => {
     res.status(200).json(result);
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "option does not exist"
     })
@@ -40,7 +40,7 @@ router.get('/question/:question_id/option/:option_id', (req, res, next) => {
     Options.findById(req.params.option_id).exec().then(result => {
       res.status(200).json(result);
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "option does not exist"
     })
@@ -56,7 +56,7 @@ router.put('/option/:option_id', (req, res, next) => {
     }).then(result => {
       res.status(200).json(result);
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "user does not exist"
     })
@@ -70,7 +70,7 @@ router.delete('/option/:option_id', (req, res, next) => {
     res.status(200).json({
       message: "is delete"
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "user does not exist"
   })

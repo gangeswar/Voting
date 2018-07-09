@@ -16,9 +16,9 @@ const Options = require('../model/OptionsSchema');
 router.get('/', (req, res, next) => {
   Questions.find().then(result => {
     res.status(200).json(result);
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
@@ -27,8 +27,8 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Questions.find({
     question: req.body.question
-  }).then(ques => {
-    if (ques.length) {
+  }).then(questionObject => {
+    if (questionObject.length) {
       return res.status(409).json({
         message: "Question already exist"
       })
@@ -41,9 +41,9 @@ router.post('/', (req, res, next) => {
       });
       questions.save().then(result => {
         res.status(201).json(result)
-      }).catch(err => {
+      }).catch(error => {
         res.status(500).json({
-          error: err
+          error: error
         })
       });
     }
@@ -53,7 +53,7 @@ router.post('/', (req, res, next) => {
 router.get('/:question_id', (req, res, next) => {
   Questions.findById(req.params.question_id).exec().then(result => {
     res.status(200).json(result);
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "question does not exist"
     })
@@ -67,7 +67,7 @@ router.put('/:question_id', (req, res, next) => {
     }).then(result => {
       res.status(200).json(result);
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "user does not exist"
     })
@@ -82,7 +82,7 @@ router.delete('/:question_id', (req, res, next) => {
     res.status(200).json({
       message: "is delete"
     });
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
       error: "Question does not exist for delete operation"
     })
@@ -91,8 +91,7 @@ router.delete('/:question_id', (req, res, next) => {
 
 router.get('/user/:user_id/myquestion', (req, res, next) => {
   const id = req.params.user_id;
-  const count_option = Answer.aggregate([
-
+  const countOption = Answer.aggregate([
     {
       $group: {
         _id: {
@@ -158,68 +157,67 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
       }
     },
   ]).then(result => {
-    const option_select = [];
     const question = [];
     const option = [];
-    for (var i of result) {
+    for (var questionObject of result) {
       question.push({
-        question: i.Question,
-        option_id: i.option_id
+        question: questionObject.Question,
+        option_id: questionObject.option_id
       });
-      for (var j of i.Options) {
-        option.push(j);
+      for (var optionObject of questionObject.Options) {
+        option.push(optionObject);
       }
     }
 
-    count_option.then(doc2 => {
-      const question2 = [];
-      const option2 = [];
+    countOption.then(count => {
+      const questionCount = [];
+      const optionCount = [];
       const final = [];
-      for (var i of question) {
-        for (var j of doc2) {
-          if (i.question._id.toString() == j._id.toString()) {
-            question2.push({
-              _id: j._id,
-              TotalCount: j.TotalCount,
-              question: i.question.question,
-              start_date: moment(i.question.start_date).format('L'),
-              end_date: moment(i.question.end_date).format('L'),
+      for (var questionObject of question) {
+        for (var optionObject of count) {
+          if (questionObject.question._id.toString() == optionObject._id.toString()) {
+            questionCount.push({
+              _id: optionObject._id,
+              TotalCount: optionObject.TotalCount,
+              question: questionObject.question.question,
+              start_date: moment(questionObject.question.start_date).format('L'),
+              end_date: moment(questionObject.question.end_date).format('L'),
               options: [],
-              option_id: i.option_id
+              option_id: questionObject.option_id
             });
           }
         }
       }
 
-      for (var k of option) {
-        for (var l of doc2) {
-          for (var m of l.Options) {
-            if (k._id.toString() == m._id.toString()) {
-              option2.push({
-                _id: m._id,
-                count: m.count,
-                percentage: m.percentage,
-                option: k.option,
-                question_id: k.question_id
+      for (var optionObject of option) {
+        for (var countObject of count) {
+          for (var object of countObject.Options) {
+            if (optionObject._id.toString() == object._id.toString()) {
+              optionCount.push({
+                _id: object._id,
+                count: object.count,
+                percentage: object.percentage,
+                option: optionObject.option,
+                question_id: optionObject.question_id
               });
             }
           }
         }
       }
 
-      for (var questions of question2) {
+      for (var questions of questionCount) {
         final.push({
           questions
         });
         var Total = questions.TotalCount;
-        for (var m of option2) {
-          if (questions._id.toString() == m.question_id.toString()) {
+        for (var optionObject of optionCount) {
+          if (questions._id.toString() == optionObject.question_id.toString()) {
             questions.options.push({
-              _id: m._id,
-              count: m.count,
-              percentage: (m.percentage / Total),
-              option: m.option,
-              question_id: m.question_id
+              _id: optionObject._id,
+              count: optionObject.count,
+              percentage: (optionObject.percentage / Total),
+              option: optionObject.option,
+              question_id: optionObject.question_id
             });
           }
         }
@@ -228,9 +226,9 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
       res.status(200).json(final);
     })
 
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
@@ -253,9 +251,9 @@ router.post('/myquestion', (req, res, next) => {
       });
       answer.save().then(result => {
         res.status(200).json(result)
-      }).catch(err => {
+      }).catch(error => {
         res.status(500).json({
-          error: err
+          error: error
         })
       });
     }
@@ -302,43 +300,43 @@ router.get('/user/:user_id/availablequestion', (req, res, next) => {
       as: 'Options'
     }
   }]).then(result => {
-    const total = []
+    const totalQuestion = []
     const available = [];
-    const my_available = [];
-    const available_question = [];
-    selected_question.then(doc1 => {
-      result.map(ans => {
-        total.push(ans._id.toString())
+    const myAvailable = [];
+    const availableQuestion = [];
+    selected_question.then(select => {
+      result.map(resultMap => {
+        totalQuestion.push(resultMap._id.toString())
       })
-      doc1.map(ans1 => {
-        available.push(ans1.Question._id.toString())
+      select.map(selectMap => {
+        available.push(selectMap.Question._id.toString())
       })
-      Array.prototype.diff = function(a) {
+      Array.prototype.diff = function(array) {
         return this.filter(function(i) {
-          return a.indexOf(i) < 0;
+          return array.indexOf(i) < 0;
         });
       };
-      my_available.push(total.diff(available));
-      result.map(ans => {
-        for (var i of my_available[0]) {
-          if (ans._id == i) {
-            available_question.push({
-              _id: ans._id,
-              question: ans.question,
-              start_date: moment(ans.start_date).format('L'),
-              end_date: moment(ans.end_date).format('L'),
-              options: ans.Options
+      myAvailable.push(totalQuestion.diff(available));
+      result.map(resultMap => {
+        for (var i of myAvailable[0]) {
+          if (resultMap._id == i) {
+            availableQuestion.push({
+              _id: resultMap._id,
+              question: resultMap.question,
+              start_date: moment(resultMap.start_date).format('L'),
+              end_date: moment(resultMap.end_date).format('L'),
+              options: resultMap.Options
             });
             break;
           }
         }
       })
-      res.status(200).json(available_question);
+      res.status(200).json(availableQuestion);
     });
 
-  }).catch(err => {
+  }).catch(error => {
     res.status(500).json({
-      error: err
+      error: error
     })
   });
 });
@@ -402,18 +400,18 @@ router.get('/user/question', (req, res, next) => {
       }
     }
   ]).then(result => {
-    const user_question = [];
-    const option_detail = [];
-    const final = [];
+    const questionDetail = [];
+    const optionDetail = [];
+    const attendedQuestion = [];
     result.map(question_detail => {
-      for(var i of question_detail.Options) {
-        for(var j of question_detail.optionCount) {
-            if(i._id.toString()==j._id.toString()) {
-              option_detail.push({_id:i._id,question_id:i.question_id,option:i.option,count:j.count,percentage:j.percentage});
+      for(var optionObject of question_detail.Options) {
+        for(var countObject of question_detail.optionCount) {
+            if(optionObject._id.toString()==countObject._id.toString()) {
+              optionDetail.push({_id:optionObject._id,question_id:optionObject.question_id,option:optionObject.option,count:countObject.count,percentage:countObject.percentage});
             }
         }
       }
-      user_question.push({
+      questionDetail.push({
         _id: question_detail._id,
         question: question_detail.Question.question,
         start_date: moment(question_detail.Question.start_date).format('L'),
@@ -422,23 +420,23 @@ router.get('/user/question', (req, res, next) => {
         option:[]
       })
     })
-    for (var questions of user_question) {
-      final.push(
+    for (var questions of questionDetail) {
+      attendedQuestion.push(
         questions
       );
-      for (var m of option_detail) {
-        if (questions._id.toString() == m.question_id.toString()) {
+      for (var optionObject of optionDetail) {
+        if (questions._id.toString() == optionObject.question_id.toString()) {
           questions.option.push({
-            _id: m._id,
-            count: m.count,
-            percentage: (m.percentage / questions.TotalCount),
-            option: m.option,
-            question_id: m.question_id
+            _id: optionObject._id,
+            count: optionObject.count,
+            percentage: (optionObject.percentage / questions.TotalCount),
+            option: optionObject.option,
+            question_id: optionObject.question_id
           });
         }
       }
     }
-    res.status(200).json(final);
+    res.status(200).json(attendedQuestion);
   })
 });
 
