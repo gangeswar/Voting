@@ -103,7 +103,7 @@ class Report extends Component {
       return (
         <div className="Report">
           <Jumbotron>
-            <Col xsOffset={4} smOffset={4} >
+            <Col xsOffset={2} smOffset={4} >
               <h1>Question Report</h1>
             </Col>
           </Jumbotron>

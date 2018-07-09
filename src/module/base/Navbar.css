@@ -11,6 +11,16 @@ display: flex;
 color: #505050;
 }
 
+@media only screen and (max-width: 768px) {
+  #pagination {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 10%;
+  display: flex;
+  color: #505050;
+  }
+}
+
 #pagination-list {
 display: flex;
 list-style: none;
@@ -91,4 +101,8 @@ left: -33px;
 
 .navbar-brand:hover {
     color: #9d9d9d  !important;
+}
+
+h3 {
+  margin-top: 0;
 }

@@ -52,7 +52,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.history.push("/report");
+    if(localStorage.getItem("user_id")!==null && localStorage.getItem("admin")==="1") {
+      this.props.history.push("/report");
+    } else {
+        this.props.history.push("/");
+    }
   }
 
   render() {

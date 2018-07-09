@@ -5,10 +5,10 @@ from 'react';
 import {
   Radio,
   Badge,
-  ProgressBar
+  ProgressBar,
+  Col
 }
 from 'react-bootstrap';
-import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './Question.css';
 
@@ -39,24 +39,20 @@ class Question extends Component {
         } else if(this.props.myVoting===1) {
             if(this.props.validate===this.props.list_option._id) {
               return (
-                <div className="Question" style={{
-                    display: 'inline-block',
-                    position: 'relative',
-                    margin: '0 auto' }}>
-                  <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} checked>{this.props.list_option.option} <Badge> {this.props.list_option.count} votes</Badge></Radio>
-                  <CircularProgressbar className='CircularProgressbar' percentage={this.props.list_option.percentage} text={`${Math.round(this.props.list_option.percentage)}%`} />
-                  <ProgressBar now={this.props.list_option.percentage} label={`${Math.round(this.props.list_option.percentage)}%`} />
+                <div className="Question" >
+                  <Col sm={8}>
+                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} checked>{this.props.list_option.option}</Radio><Badge className="pull-right"> {this.props.list_option.count} votes</Badge>
+                    <ProgressBar now={this.props.list_option.percentage} label={`${Math.ceil(this.props.list_option.percentage)}%`} />
+                  </Col>
                 </div>
               );
             } else if (this.props.validate!==this.props.list_option._id) {
                 return (
-                  <div className="Question" style={{
-                      display: 'inline-block',
-                      position: 'relative',
-                      margin: '0 auto' }}>
-                    <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} >{this.props.list_option.option} <Badge> {this.props.list_option.count} votes</Badge></Radio>
-                    <CircularProgressbar className='CircularProgressbar' percentage={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} text={`${this.props.list_option.percentage===undefined?0:Math.round(this.props.list_option.percentage)}%`} />
-                      <ProgressBar now={this.props.list_option.percentage} label={`${Math.round(this.props.list_option.percentage)}%`} />
+                  <div className="Question">
+                    <Col sm={8}>
+                      <Radio name={this.props.list_option.question_id} value={this.props.list_option._id} >{this.props.list_option.option}</Radio><Badge className="pull-right"> {this.props.list_option.count===undefined?0:this.props.list_option.count} votes</Badge>
+                      <ProgressBar now={this.props.list_option.percentage===undefined?0:this.props.list_option.percentage} label={`${Math.ceil(this.props.list_option.percentage===undefined?0:this.props.list_option.percentage)}%`} />
+                    </Col>
                   </div>
                 );
               }

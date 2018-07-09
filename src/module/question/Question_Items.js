@@ -5,6 +5,7 @@ from 'react';
 import {
   Jumbotron,
   Col,
+  Row,
   Button,
   Alert
 }
@@ -107,7 +108,6 @@ class QuestionItem extends Component {
               onPageChange={this.handlePageChange}
               />
             </div>
-
         );
     } else {
         return(
@@ -138,7 +138,7 @@ class OptionItem extends Component {
   }
 
   submitQuestion(id) {
-    if (this.state.radio != null) {
+    if (this.state.radio !== null) {
       this.props.onDelete(id);
       axios.post(`http://172.24.125.116:8000/api/question/myquestion`, {
         user_id: localStorage.getItem("user_id"),
@@ -183,6 +183,7 @@ class OptionItem extends Component {
       return(
         <div className="OptionItem">
           <form>
+            <Row>
             <Col xsOffset={3}>
                 <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
                   {option_item}
@@ -195,22 +196,27 @@ class OptionItem extends Component {
             </Col>
              {
              this.state.click==null && this.state.radio==null?
-             <Alert bsStyle="danger">
-                <Col xsOffset={4} smOffset={5} >
+             <Col smOffset={3} sm={4}>
+             <Alert bsStyle="danger" >
+                <Col xsOffset={4} smOffset={3} >
                   <strong>Please Select an Option!</strong>
                 </Col>
             </Alert>
+            </Col>
             :null
             }
             {
             this.state.radio!=null?
-            <Alert bsStyle="success">
-              <Col xsOffset={4} smOffset={5} >
-                <strong>Please click submit button</strong>
-              </Col>
-           </Alert>
+            <Col smOffset={3} sm={4}>
+              <Alert bsStyle="success">
+                <Col xsOffset={4} smOffset={3} >
+                  <strong>Please click submit button</strong>
+                </Col>
+             </Alert>
+           </Col>
            :null
            }
+           </Row>
           </form>
         </div>
       );
@@ -218,6 +224,7 @@ class OptionItem extends Component {
       return(
         <div className="OptionItem">
           <form>
+          <Row>
             <fieldset disabled>
               <Col  xsOffset={3}>
                   <h4><li><strong> {this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
@@ -230,11 +237,14 @@ class OptionItem extends Component {
                 </Col><br/><br/>
               </Col>
             </fieldset>
-            <Alert bsStyle="warning">
-              <Col xsOffset={4} smOffset={5}>
+            <Col smOffset={3} sm={4}>
+            <Alert bsStyle="warning" >
+              <Col xsOffset={4} smOffset={3}>
                 <strong >This question expired!</strong>
               </Col>
            </Alert>
+           </Col>
+           </Row>
           </form>
         </div>
       );

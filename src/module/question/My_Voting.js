@@ -56,7 +56,7 @@ class QuestionItem extends Component {
         return(
           <div className="QuestionItem">
             <Jumbotron>
-              <Col xsOffset={5} smOffset={4}>
+              <Col xsOffset={4} smOffset={4}>
                 <h1>My Voting</h1>
               </Col>
             </Jumbotron>
@@ -136,7 +136,7 @@ class OptionItem extends Component {
         <div className="OptionItem">
           <form >
             <fieldset disabled>
-              <Col  xsOffset={3}>
+              <Col xsOffset={1} smOffset={3}>
                 <h4><li><strong>{this.props.list_question.question} <Col smOffset={8}> {this.props.list_question.start_date} - {this.props.list_question.end_date}</Col></strong></li></h4>
                 {option_item}
               </Col>

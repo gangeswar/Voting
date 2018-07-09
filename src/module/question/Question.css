@@ -68,6 +68,24 @@
   margin-top: 5%;
 }
 
+@media only screen and (max-width: 768px) {
+  .center-progress {
+    position: relative;
+      margin: auto;
+      width: 50%;
+      margin-left: 50%;
+      margin-top: -70%;
+      margin-bottom: 10%;
+  }
+
+  .report-table {
+    width: 50%;
+    height: 40%;
+    margin-top: 0%;
+  }
+}
+
+
 .jumbotron {
   background-color: #444444;
   margin-top: -4%;
@@ -98,4 +116,11 @@
 
 .pagination {
   margin-top: 5%;
+}
+
+.nav-underline {
+  text-decoration: none;
+}
+.nav-underline:hover {
+  border-bottom: 4px solid #00d8ff;
 }

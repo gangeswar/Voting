@@ -70,6 +70,7 @@ class Login extends Component {
       }
       return (
         <div className="Login">
+        <Row>
           <Jumbotron>
             <Col xsOffset={5} smOffset={5}>
               <h1>Sign In</h1>
@@ -94,13 +95,17 @@ class Login extends Component {
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
+              <Col sm={4} smOffset={4}>
                 <Alert bsStyle="danger">
                   <Col xsOffset={5} smOffset={5} >
                     <strong>{this.state.error}</strong>
                   </Col>
                 </Alert>
+              </Col>
                :null
               }
+              </form>
+              </Row>
               <div >
                 <Col xsOffset={2} smOffset={4} >
                   <strong>
@@ -109,7 +114,6 @@ class Login extends Component {
                   </strong>
                 </Col>
               </div>
-          </form>
         </div>
       );
     }

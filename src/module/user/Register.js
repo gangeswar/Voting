@@ -29,7 +29,7 @@ class Register extends Component {
     this.state = {
       submit: false,
       email: "",
-      userName: "",
+      userName: localStorage.getItem("user_id")!==null?localStorage.getItem("user_name"):"",
       password: "",
       error:null
     }
@@ -38,6 +38,8 @@ class Register extends Component {
   componentDidMount(){
     if(localStorage.getItem("user_id")!==null) {
       this.props.history.push(`/user_profile/${localStorage.getItem("user_id")}`);
+    } else {
+      this.props.history.push(`/register`);
     }
   }
 
@@ -49,7 +51,6 @@ class Register extends Component {
 
 
   getUserValidation() {
-    console.log();
     if (validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15)) return 'success';
     else if (!(validator.isAlpha(this.state.userName) && (this.state.userName.length > 3 && this.state.userName.length < 15))&& this.state.userName.length > 0) return 'error';
     return null;
@@ -214,11 +215,13 @@ class Register extends Component {
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
+              <Col sm={4} smOffset={4}>
                 <Alert bsStyle="danger">
-                  <Col xsOffset={5} smOffset={5} >
+                  <Col xsOffset={2} smOffset={2}>
                    <strong>{this.state.error}</strong>
                   </Col>
                 </Alert>
+              </Col>
                :null
               }
               </form>
@@ -232,6 +235,7 @@ class Register extends Component {
               <h1>Sign Up</h1>
               </Col>
            </Jumbotron>
+           <Row>
            <form onSubmit={this.handleSubmit.bind(this)}>
               <Row className="row-space">
                  <Col xs={8} xsOffset={2} sm={4} smOffset={4}>
@@ -285,13 +289,17 @@ class Register extends Component {
               </Col><br/><br/><br/>
               {
               this.state.error!=null?
-                <Alert bsStyle="danger">
-                  <Col xsOffset={4} smOffset={5} >
-                    <strong >{this.state.error}</strong>
-                  </Col>
-                </Alert>
+                <Col sm={4} smOffset={4}>
+                  <Alert bsStyle="danger">
+                    <Col xsOffset={4} smOffset={4} >
+                      <strong >{this.state.error}</strong>
+                    </Col>
+                  </Alert>
+                </Col>
                :null
               }
+               </form>
+              </Row>
               <div>
                 <Col xsOffset={3} smOffset={4} >
                   <strong >
@@ -300,7 +308,6 @@ class Register extends Component {
                   </strong>
                 </Col>
               </div>
-           </form>
         </div>
         );
       }
