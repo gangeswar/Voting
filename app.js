@@ -7,13 +7,14 @@ var cors = require('cors');
 const user = require("./module/User");
 const question = require("./module/Questions");
 const option = require("./module/Options");
+const config = require("./config.json")
 
 const app = express();
 
 app.use(morgan("dev"));
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1/my_database', {
+mongoose.connect(config.mongo.dbconnect, {
   useMongoClient: true
 });
 

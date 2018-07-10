@@ -146,9 +146,7 @@ router.get('/user/:user_id/myquestion', (req, res, next) => {
         foreignField: 'question_id',
         as: 'Options'
       }
-    },
-
-    {
+    }, {
       $project: {
         _id: 0,
         Question: 1,
@@ -318,8 +316,8 @@ router.get('/user/:user_id/availablequestion', (req, res, next) => {
       };
       myAvailable.push(totalQuestion.diff(available));
       result.map(resultMap => {
-        for (var i of myAvailable[0]) {
-          if (resultMap._id == i) {
+        for (var index of myAvailable[0]) {
+          if (resultMap._id == index) {
             availableQuestion.push({
               _id: resultMap._id,
               question: resultMap.question,
