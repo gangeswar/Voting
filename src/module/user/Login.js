@@ -17,6 +17,8 @@ import {
 }
 from 'react-router-dom';
 import './Login.css';
+import config from '../../../config.json';
+
 
 class Login extends Component {
 
@@ -63,6 +65,7 @@ class Login extends Component {
   }
 
   render() {
+      console.log();
       if (localStorage.getItem("admin")==="1") {
         return ( <Redirect to="/report" /> );
       } else if (localStorage.getItem("admin")==="0") {
@@ -92,10 +95,20 @@ class Login extends Component {
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2} smOffset={0}  sm={1}>
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
-              </Col><br/><br/><br/>
+              </Col>
+              </form>
+              </Row>
+              <div className="space">
+                <Col xsOffset={2} smOffset={4} >
+                  <strong>
+                      {config.data.signin}
+                    <Link to="/register"> Register now</Link>
+                  </strong>
+                </Col>
+              </div>
               {
               this.state.error!=null?
-              <Col sm={4} smOffset={4}>
+              <Col className="space" sm={4} smOffset={4}>
                 <Alert bsStyle="danger">
                   <Col xsOffset={5} smOffset={5} >
                     <strong>{this.state.error}</strong>
@@ -104,16 +117,6 @@ class Login extends Component {
               </Col>
                :null
               }
-              </form>
-              </Row>
-              <div >
-                <Col xsOffset={2} smOffset={4} >
-                  <strong>
-                    Don't have account?
-                    <Link to="/register"> Register now</Link>
-                  </strong>
-                </Col>
-              </div>
         </div>
       );
     }

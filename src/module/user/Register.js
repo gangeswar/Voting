@@ -21,6 +21,8 @@ import {
 from 'react-router-dom';
 import validator from 'validator';
 import './Login.css';
+import config from '../../../config.json';
+
 
 class Register extends Component {
 
@@ -212,10 +214,10 @@ class Register extends Component {
               </Col>
               <Col xs={1} xsOffset={2} smOffset={0}>
                 <Link to="/"><Button >Back</Button></Link>
-              </Col><br/><br/><br/>
+              </Col>
               {
               this.state.error!=null?
-              <Col sm={4} smOffset={4}>
+              <Col className="space" sm={4} smOffset={4}>
                 <Alert bsStyle="danger">
                   <Col xsOffset={2} smOffset={2}>
                    <strong>{this.state.error}</strong>
@@ -286,10 +288,20 @@ class Register extends Component {
               </Col>
               <Col xsPush={1} xs={1} xsOffset={2}   smOffset={0} >
                 <Button type="reset" onClick={this.reset.bind(this)} bsStyle="primary">Reset</Button>
-              </Col><br/><br/><br/>
+              </Col>
+               </form>
+              </Row>
+              <div className="space">
+                <Col xsOffset={3} smOffset={4} >
+                  <strong >
+                    {config.data.signup}
+                    <Link to="/"> Login</Link>
+                  </strong>
+                </Col>
+              </div>
               {
               this.state.error!=null?
-                <Col sm={4} smOffset={4}>
+                <Col className="space" sm={4} smOffset={4}>
                   <Alert bsStyle="danger">
                     <Col xsOffset={4} smOffset={4} >
                       <strong >{this.state.error}</strong>
@@ -298,29 +310,6 @@ class Register extends Component {
                 </Col>
                :null
               }
-
-              {
-              ((this.state.email==="") && (this.state.userName==="") && (this.state.password===""))?
-                <Col sm={4} smOffset={4}>
-                  <Alert bsStyle="danger">
-                    <Col xsOffset={4} smOffset={4} >
-                      <strong >Empty Field</strong>
-                    </Col>
-                  </Alert>
-                </Col>
-               :null
-              }
-
-               </form>
-              </Row>
-              <div>
-                <Col xsOffset={3} smOffset={4} >
-                  <strong >
-                    Already have account?
-                    <Link to="/"> Login</Link>
-                  </strong>
-                </Col>
-              </div>
         </div>
         );
       }

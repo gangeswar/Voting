@@ -86,12 +86,11 @@ class QuestionManage extends Component {
           this.setState({
             totalQuestion: res.data,
             renderedQuestions: res.data.slice((this.state.page - 1) * 5, (this.state.page - 1) * 5 + 5),
-            total: res.data.length,
-            update: true
+            total: res.data.length
           })
         })
       })
-
+      this.setState({update:true});
     }).catch(error => console.log(error));
   }
 

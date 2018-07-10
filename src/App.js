@@ -17,6 +17,7 @@ import Home from './module/question/Home';
 import QuestionManage from './module/question/Question_Manage';
 import QuestionItem from './module/question/Question_Items';
 import MyVoting from './module/question/My_Voting';
+import './App.css'
 
 
 class App extends Component {

@@ -85,12 +85,12 @@ class UserManage extends Component {
       .then(res => this.setState({
         userDetail: res.data,
         renderedUsers: res.data.slice((this.state.page - 1) * 5, (this.state.page - 1) * 5 + 5),
-        total: res.data.length,
-        update:true
+        total: res.data.length
       }))
     axios.put(`http://172.24.125.116:8000/api/user/${userDetail._id}`,{
         isadmin:access
       })
+    this.setState({update:true});
   }
 
   cellButton(cell, row, enumObject, rowIndex) {
