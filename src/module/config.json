@@ -1,0 +1,14 @@
+{
+  "data": {
+    "signin":"Don't have account?",
+    "signup":"Already have account?"
+  },
+  "url": {
+    "user":"https://voting-nodejs-tnxagyubvy.now.sh/api/user",
+    "login":"https://voting-nodejs-tnxagyubvy.now.sh/api/user/login",
+    "userQuestion":"https://voting-nodejs-tnxagyubvy.now.sh/api/question/user",
+    "question":"https://voting-nodejs-tnxagyubvy.now.sh/api/question",
+    "option":"https://voting-nodejs-tnxagyubvy.now.sh/api/option",
+    "attendedQuestion":"https://voting-nodejs-tnxagyubvy.now.sh/api/question/myquestion"
+  }
+}

@@ -1,0 +1,120 @@
+#pagination-container {
+display: flex;
+justify-content: center;
+}
+
+#pagination {
+margin-top: 2%;
+margin-bottom: 2%;
+margin-left: -10%;
+display: flex;
+color: #505050;
+}
+
+@media only screen and (max-width: 768px) {
+  #pagination {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 10%;
+  display: flex;
+  color: #505050;
+  }
+}
+
+#pagination-list {
+display: flex;
+list-style: none;
+margin: 0 0 0 10px;
+padding: 0;
+}
+
+.pagination-button {
+display: flex;
+height: 50px;
+width: 50px;
+border: 1px solid #777;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+
+.pagination-list-item {
+margin-right: 10px;
+}
+
+.pagination-list-item.active {
+background: #505050;
+color: white;
+}
+
+.pagination-go-first {
+margin-right: 40px;
+position: relative;
+margin-left: 10px;
+}
+
+.pagination-go-first:before {
+position: absolute;
+content: '...';
+right: -33px;
+}
+
+.pagination-go-last {
+margin-left: 40px;
+position: relative;
+margin-right: 10px;
+}
+
+.pagination-go-last:before {
+position: absolute;
+content: '...';
+left: -33px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top:0;
+    opacity: 0.9;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 0% 4% 3% 4%;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.navbar-brand {
+    color: #00d8ff  !important;
+}
+
+.navbar-brand:hover {
+    color: #9d9d9d  !important;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-underline {
+  margin-top: 1%;
+  text-decoration: none;
+}
+.nav-underline:hover {
+  border-bottom: 4px solid #00d8ff;
+}

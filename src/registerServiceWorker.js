@@ -49,8 +49,6 @@ export default function register() {
         registerValidSW(swUrl);
       }
     });
-  } else {
-    console.log("PWA is working on:", process.env.NODE_ENV);
   }
 }
 
@@ -58,7 +56,6 @@ function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
-      console.log("working PWA :-)");
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {

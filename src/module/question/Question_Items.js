@@ -1,0 +1,251 @@
+import React, {
+  Component
+}
+from 'react';
+import {
+  Jumbotron,
+  Col,
+  Row,
+  Button,
+  Alert
+}
+from 'react-bootstrap';
+import {
+  Redirect
+}
+from 'react-router-dom';
+import axios from 'axios';
+import Question from './Question';
+import './Question.css';
+import Pagination from '../base/Pagination';
+import config from '../config.json';
+
+
+class QuestionItem extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      questions: [],
+      renderedQuestions: [],
+      page: 1,
+      update:true
+    }
+    this.handlePageChange = this.handlePageChange.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get(`${config.url.userQuestion}/${localStorage.getItem("user_id")}/availablequestion`)
+      .then(res => this.setState({
+        questions: res.data,
+        renderedQuestions: res.data.slice(0, 2),
+        total: res.data.length,
+      }));
+  }
+
+  componentDidUpdate(){
+    if(this.state.update)
+    {
+      setTimeout(() => {
+        axios.get(`${config.url.userQuestion}/${localStorage.getItem("user_id")}/availablequestion`)
+          .then(res => this.setState({
+            questions: res.data,
+            renderedQuestions: res.data.slice((this.state.page - 1) * 2, (this.state.page - 1) * 2 + 2),
+            total: res.data.length,
+            update:false
+          }))
+      })
+    }
+  }
+
+  submitQuestion(id) {
+    axios.get(`${config.url.userQuestion}/${localStorage.getItem("user_id")}/availablequestion`)
+      .then(res => this.setState({
+        questions: res.data,
+        renderedQuestions: res.data.slice((this.state.page - 1) * 2, (this.state.page - 1) * 2 + 2),
+        total: res.data.length,
+        update:true
+      }))
+  }
+
+  handlePageChange(page) {
+    const renderedQuestions = this.state.questions.slice((page - 1) * 2, (page - 1) * 2 + 2);
+    this.setState({page, renderedQuestions});
+  }
+
+  render() {
+      const { page, total } = this.state;
+      var questionItem;
+      questionItem = this.state.renderedQuestions.map(list_question => {
+            return (
+              <OptionItem   key={list_question._id} onDelete={this.submitQuestion.bind(this)}  list_question={list_question}/>
+            );
+          });
+      if (localStorage.getItem("user_id") != null && localStorage.getItem("admin")==="0") {
+          return (
+            <div className="QuestionItem">
+              <Jumbotron>
+                <Col xsOffset={4} smOffset={4}>
+                  <h1>Questions</h1>
+                </Col>
+              </Jumbotron>
+              {
+                questionItem.length===0?<Col smOffset={4}><h2>There is no data to display</h2></Col>
+                :<ol>
+                  {questionItem}
+                </ol>
+              }
+              <Pagination
+              margin={2}
+              page={page}
+              count={Math.ceil(total / 2)}
+              onPageChange={this.handlePageChange}
+              />
+
+            </div>
+        );
+    } else {
+        return(
+          <Redirect to="/"/>
+        );
+    }
+  }
+}
+
+
+class OptionItem extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      options: [],
+      radio: null,
+      click:"",
+      questionItem: 0,
+      radio_arr: []
+    }
+  }
+
+  componentWillMount() {
+    this.setState({
+      options: this.props.list_question.options
+    });
+  }
+
+  submitQuestion(id) {
+    if (this.state.radio !== null) {
+      this.props.onDelete(id);
+      axios.post(config.url.attendedQuestion , {
+        user_id: localStorage.getItem("user_id"),
+        question_id: this.props.list_question._id,
+        option_id: this.state.radio
+      }).then(res => {
+        this.setState({
+          radio_arr: res.data.option_id
+        });
+      })
+    } else {
+        this.setState({click:null});
+    }
+  }
+
+  radioSubmit(selectradio) {
+    this.setState({
+      radio: selectradio
+    });
+  }
+
+  reset() {
+    this.setState({
+      radio: null,
+      click:"",
+    });
+  }
+
+  render() {
+    var option_item;
+    option_item = this.state.options.map(list_option => {
+      return (
+        <Question key={list_option._id} clickRadio={this.radioSubmit.bind(this)} list_option={list_option} questionItem={this.state.questionItem} radio_arr={this.state.radio_arr} />
+      );
+    });
+    const currentDate = new Date();
+
+    var dateString = this.props.list_question.end_date;
+    var dateParts = dateString.split("/");
+    var endDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+    if(endDate>=currentDate)
+      return(
+        <div className="OptionItem">
+          <form>
+            <Row>
+            <Col xsOffset={3}>
+                <h4><li><strong> {this.props.list_question.question} </strong></li></h4>
+                  {option_item}
+                <Col xs={1} sm={1}>
+               <Button onClick={this.submitQuestion.bind(this,this.props.list_question._id)} bsStyle="success">Submit</Button>
+               </Col>
+               <Col xsOffset={5} smOffset={0} smPush={1} sm={1}>
+                  <Button type="reset"  onClick={this.reset.bind(this)} bsStyle="info">Clear</Button>
+              </Col><br/><br/>
+            </Col>
+             {
+             this.state.click==null && this.state.radio==null?
+             <Col smOffset={3} sm={4}>
+               <Alert bsStyle="danger" >
+                  <Col xsOffset={4} smOffset={3} >
+                    <strong>Please Select an Option!</strong>
+                  </Col>
+              </Alert>
+            </Col>
+            :null
+            }
+            {
+            this.state.radio!=null?
+            <Col smOffset={3} sm={4}>
+              <Alert bsStyle="success">
+                <Col xsOffset={4} smOffset={3} >
+                  <strong>Please click submit button</strong>
+                </Col>
+             </Alert>
+           </Col>
+           :null
+           }
+           </Row>
+          </form>
+        </div>
+      );
+    else {
+      return(
+        <div className="OptionItem">
+          <form>
+          <Row>
+            <fieldset disabled>
+              <Col  xsOffset={3}>
+                  <h4><li><strong> {this.props.list_question.question} </strong></li></h4>
+                    {option_item}
+                <Col xs={1} sm={1}>
+                  <Button bsStyle="success">Submit</Button>
+                 </Col>
+                 <Col xsOffset={5} smOffset={0} smPush={1} sm={1}>
+                    <Button type="reset" bsStyle="info">Clear</Button>
+                </Col><br/><br/>
+              </Col>
+            </fieldset>
+            <Col smOffset={3} sm={4}>
+            <Alert bsStyle="warning" >
+              <Col xsOffset={4} smOffset={3}>
+                <strong >This question expired!</strong>
+              </Col>
+           </Alert>
+           </Col>
+           </Row>
+          </form>
+        </div>
+      );
+    }
+  }
+}
+
+
+export default QuestionItem;
