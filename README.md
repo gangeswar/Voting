@@ -129,14 +129,37 @@ We are always open to [your feedback](https://github.com/facebookincubator/creat
 After creation, your project should look like this:
 
 ```
-my-app/
+pwa-react/
   README.md
   node_modules/
   package.json
   public/
     index.html
-    favicon.ico
+    fingerprint2.png
   src/
+    media/
+      fingerprint2.png
+      user.png
+    module/
+      user/
+        Login.css
+        Login.js
+        Register.js
+        User_Manage.js
+      base/
+        Navbar.css
+        Navbar.js
+        Pagination.js
+      question/
+        Home.js
+        My_Voting.js
+        Question_Add.js
+        Question_Items.js
+        Question_Manage.js
+        Question.css
+        Question.js
+        Report.js
+      config.json
     App.css
     App.js
     App.test.js
