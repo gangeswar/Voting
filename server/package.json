@@ -1,0 +1,23 @@
+{
+  "name": "shopping",
+  "version": "1.0.0",
+  "description": "simple e-commerce application",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_PATH=server nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "mysql": "^2.16.0",
+    "paypal-rest-sdk": "^1.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}

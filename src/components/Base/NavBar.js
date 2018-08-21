@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import {
   Collapse,
   Navbar,
-  NavbarBrand,
   NavbarNav,
   NavItem,
   NavLink,
   NavbarToggler
 } from 'mdbreact';
+import {Link} from 'react-router-dom';
 
 class NavBar extends Component {
 
@@ -37,16 +37,16 @@ class NavBar extends Component {
   render() {
     return (
       <Navbar color="purple" dark expand="lg">
-        <NavbarBrand> 
-          <NavLink to="/">
-            <strong>Navbar</strong>
-          </NavLink>
-        </NavbarBrand>
+         
+          <Link style={{color:'white'}} to='/'>
+            <h3><strong>Shop Store</strong></h3>
+          </Link>
+        
         {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
         <Collapse isOpen={this.state.collapse} navbar>
           <NavbarNav left>
             <NavItem >
-              <NavLink className="nav-link" to="/shop">My Shop</NavLink>
+              <NavLink className="nav-link" to="/shop"><strong>My Shop</strong></NavLink>
             </NavItem>
           </NavbarNav>
           <NavbarNav right>
