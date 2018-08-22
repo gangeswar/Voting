@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Card} from 'mdbreact';
 import axios from 'axios';
 
+import config from '../../config.json';
+
 class Home extends Component {
   constructor() {
     super();
@@ -11,7 +13,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    axios.get("http://172.24.125.116:8000/api/image")
+    axios.get(config.url.home)
     .then(image=>{
       console.log(image);
       this.setState({image:image.data}) 

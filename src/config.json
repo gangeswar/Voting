@@ -1,0 +1,12 @@
+{
+    "url": {
+        "home": "http://172.24.125.116:8000/api/image",
+        "shop": "http://172.24.125.116:8000/api/product",
+        "signup": "http://172.24.125.116:8000/api/user/signup"
+    },
+    "payment": {
+        "env": "sandbox",
+        "currency": "USD",
+        "sandbox": "AVjV13vSJSV89et9VOI7U9YYJtVBD-urHJQ4G81xs7h58P1VOm2h704FGrVqHr5zNstq_H_mbrEgkA8_"
+    }
+}

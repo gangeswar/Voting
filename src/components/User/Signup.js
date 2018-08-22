@@ -4,6 +4,8 @@ import { Col } from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
+import config from '../../config.json';
+
 class Signup extends React.Component  {
 
   constructor() {
@@ -12,40 +14,25 @@ class Signup extends React.Component  {
       userName: '',
       emailId: '',
       password: '',
-      conformPassword: '',
-      name_error: '',
-      email_error: '',
-      password_error: '',
-      confirmPassword_error: '',
       validation: false,
-      resultdata: ''
     }
   }
   
-  clearError(event) {
+  handleEmailChange(event) {
     this.setState({
-      name_error: '',
-      email_error: '',
-      password_error: '',
-      confirmPassword_error: ''
+      emailId: event.target.value
     });
   }
 
-  handleEmailChange(e) {
+  handleUserChange(event) {
     this.setState({
-      emailId: e.target.value
+      userName: event.target.value
     });
   }
 
-  handleUserChange(e) {
+  handlePasswordChange(event) {
     this.setState({
-      userName: e.target.value
-    });
-  }
-
-  handlePasswordChange(e) {
-    this.setState({
-      password: e.target.value
+      password: event.target.value
     });
   }
 
@@ -53,18 +40,16 @@ class Signup extends React.Component  {
   signUp(event) {
     event.preventDefault();
     console.log(event.target.value);
-    axios.post(`http://172.24.125.116:8000/api/user/signup`, {
+    axios.post(config.url.signup, {
       name: this.state.userName,
       emailId: this.state.emailId,
       password: this.state.password    })
     .then(result => {
       this.setState({
-        validation: true,
-        errorMessage: ''
+        validation: true
       });
     }).catch (err => {
       this.setState ({
-        email_error: "Email Exists",
         validation: false
       });
     });

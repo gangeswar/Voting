@@ -4,6 +4,8 @@ import { Container, Row, Card, CardImage, CardBody, CardText, CardTitle, CardFoo
 import {Col} from 'reactstrap';
 import { connect } from 'react-redux';
 
+import config from '../../config.json';
+
 class Order extends Component {
 
   constructor() {
@@ -14,7 +16,7 @@ class Order extends Component {
   }
 
   componentWillMount() {
-    axios.get(`http://172.24.125.116:8000/api/product/${this.props.productId}`)
+    axios.get(`${config.url.shop}/${this.props.productId}`)
     .then(product=>{
       this.setState({product:product.data}) 
     })

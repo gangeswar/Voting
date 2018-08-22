@@ -7,36 +7,36 @@ import '../../base';
 
 class Phone extends Component {
 
-    state = { isSignedIn: false }
-    uiConfig = {
-        signInFlow: 'popup',
-        signInOptions: [
-            firebase.auth.PhoneAuthProvider.PROVIDER_ID
-        ],
-        callbacks: {
-            signInSuccess: () => false
-        }
-    };
-
-    componentDidMount = () => {
-        firebase.auth().onAuthStateChanged(user => {
-            this.setState({
-                isSignedIn: !!user
-            })
-        })
+  state = { isSignedIn: false }
+  uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => false
     }
+  };
 
-    render() {
-        return (
-            <div className="App">
-                {
-                    this.state.isSignedIn ? (<Cart />) : (
-                        <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({
+        isSignedIn: !!user
+      })
+    })
+  }
 
-                    )}
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="App">
+        {
+          this.state.isSignedIn ? (<Cart />) : (
+            <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
+
+          )}
+      </div>
+    );
+  }
 }
 
 export default Phone;
