@@ -18,7 +18,7 @@ class Order extends Component {
   componentWillMount() {
     axios.get(`${config.url.shop}/${this.props.productId}`)
     .then(product=>{
-      this.setState({product:product.data}) 
+      this.setState({product:[product.data]}) 
     })
     .catch(error=>{
       console.log(error);

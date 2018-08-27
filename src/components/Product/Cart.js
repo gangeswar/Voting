@@ -2,16 +2,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Container, Input, Fa, Modal, ModalBody, ModalFooter } from 'mdbreact';
+import { Alert } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import axios from 'axios';
+import { Switch, Redirect, Route } from 'react-router-dom';
 
-import firebase from 'firebase';
+import config from '../../config.json';
+
 import Payment from '../Payment/Payment'
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      error: '',
+      emailId: '',
+      password: '',
+      login:0
     }
     this.toggle = this.toggle.bind(this);
   }
@@ -21,11 +29,11 @@ class Cart extends Component {
   }
 
   addButton(cell, row, enumObject, rowIndex) {
-    return (<Button size="sm" color="primary" style={{ borderRadius: "50%" }} onClick={() => this.props.addToCart(row)} rounded> + </Button>);
+    return (<Button size="sm" color="primary" style={{ borderRadius: "50%" }} onClick={() => this.props.addToCart(row)} rounded><strong><h5>+</h5></strong> </Button>);
   }
 
   subButton(cell, row, enumObject, rowIndex) {
-    return (<Button size="sm" color="primary" style={{ borderRadius: "50%" }} onClick={() => this.props.removeFromCart(row)} rounded> - </Button>);
+    return (<Button size="sm" color="primary" style={{ borderRadius: "50%" }} onClick={() => this.props.removeFromCart(row)} rounded><strong><h5>-</h5></strong></Button>);
   }
 
   clearButton(cell, row, enumObject, rowIndex) {
@@ -38,13 +46,47 @@ class Cart extends Component {
     });
   }
 
+  handleEmailChange(event) {
+    this.setState({
+      emailId: event.target.value
+    });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({
+      password: event.target.value
+    });
+  }
+
+  login(event) {
+    event.preventDefault();
+    axios.post(config.url.login, {
+      emailId: this.state.emailId,
+      password: this.state.password
+    }).then(result => {
+      this.setState({
+        validation: true,
+        error: '',
+        login:1
+      });
+    }).catch(err => {
+      this.setState({
+        validation: false,
+        error: "Invalid EmailId or password"
+      });
+    });
+  }
+
   render() {
-    console.log(this.state.totalPrice);
+    if(this.state.login===1) {return(
+      <Payment total={this.state.totalPrice} />
+    )}
+    else {
     return (
       <Container>
         <BootstrapTable data={sort(this.props.cart)} striped hover>
-          <TableHeaderColumn isKey dataField='_id'>Product ID</TableHeaderColumn>
-          <TableHeaderColumn dataField='productName' dataSort>Product Name</TableHeaderColumn>
+          
+          <TableHeaderColumn isKey dataField='productName' dataSort>Product Name</TableHeaderColumn>
           <TableHeaderColumn dataField='quantity' dataSort>Product Quantity</TableHeaderColumn>
           <TableHeaderColumn dataField='price' dataSort>Product Price</TableHeaderColumn>
           <TableHeaderColumn dataField='button' dataFormat={this.addButton.bind(this)}>Add</TableHeaderColumn>
@@ -61,19 +103,20 @@ class Cart extends Component {
             </button>
           </div>
           <ModalBody className="grey-text">
-            <Input size="sm" label="Your email" icon="envelope" group type="email" validate error="wrong" success="right" />
-            <Input size="sm" label="Password" icon="lock" group type="text" validate error="wrong" success="right" />
+            <Input size="sm" label="Email" icon="envelope" group type="email" ref="emailId" validate error="wrong" onChange={this.handleEmailChange.bind(this)} value={this.state.emailId} success="right" />
+            <Input size="sm" label="Password" icon="lock" group type="password" ref="password" onChange={this.handlePasswordChange.bind(this)} value={this.state.password} validate />
+            {this.state.error === '' ? null : <Alert color="danger"> {this.state.error}
+            </Alert>}
             <p className="font-small grey-text d-flex justify-content-middle">Need An Account? <Link to="/signup" className="dark-grey-text font-weight-bold ml-1"> Sign Up</Link></p>
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.toggle}>Close</Button>{' '}
-            <Payment total={this.state.totalPrice} />
-            <a onClick={() => firebase.auth().signOut()}>cart page</a>
+            <Button color="primary" onClick={this.login.bind(this)}>Login</Button>
           </ModalFooter>
         </Modal>
       </Container>
     )
   }
+}
 }
 
 function sort(items) {

@@ -1,17 +1,20 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host:'127.0.0.1',
-  user:'root',
-  password:'aspire@123',
-  database:'shopping'
+   server:'sql12.freesqldatabase.com',
+  user:'sql12253137',
+  password:'4pdNgIjdW3',
+  database:'sql12253137',
+  port: '3306'
 });
 
 connection.connect((error) => {
   if(error) {
     console.log("connection failed");
   }
-  console.log("connection successful");
+  else{
+    console.log("connection successful");
+  }
 });
 
 module.exports = connection;

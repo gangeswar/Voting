@@ -1,8 +1,9 @@
 import React from 'react';
 import { Container, Row, Input, Button, Card, CardBody } from 'mdbreact';
-import { Col } from 'reactstrap';
+import { Col, Alert } from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
+import validator from 'validator';
 
 import config from '../../config.json';
 
@@ -15,6 +16,9 @@ class Signup extends React.Component  {
       emailId: '',
       password: '',
       validation: false,
+      email_error:'',
+      password_error:'',
+      confirmPassword_error:''
     }
   }
   
@@ -39,20 +43,57 @@ class Signup extends React.Component  {
 
   signUp(event) {
     event.preventDefault();
-    console.log(event.target.value);
-    axios.post(config.url.signup, {
-      name: this.state.userName,
-      emailId: this.state.emailId,
-      password: this.state.password    })
-    .then(result => {
+    const error =[];
+    if(!(validator.isEmail(this.state.emailId))) {
       this.setState({
-        validation: true
+        email_error: 'Enter a valid Email'
       });
-    }).catch (err => {
-      this.setState ({
-        validation: false
+      error.push(0);
+    } else {
+      this.setState({
+        email_error: ''
       });
-    });
+      error.push(1);
+    }
+    if(!(validator.isAlphanumeric(this.state.password))) {
+      this.setState({
+        password_error: 'No special characters allowed'
+      });
+      error.push(0);
+    } else {
+      this.setState({
+        password_error: ''
+      });
+      error.push(1);
+    }
+    // if(!(this.state.password == this.state.Confirmpassword)) {
+    //   this.setState({
+    //     confirmPassword_error: 'Password should be same'
+    //   });
+    //   error.push(0);
+    // } else {
+    //   this.setState({
+    //     confirmPassword_error: ''
+    //   });
+    //   error.push(1);
+    // }
+
+    if(!error.includes(0)) {
+      axios.post(config.url.signup, {
+        userName: this.state.userName,
+        emailId: this.state.emailId,
+        password: this.state.password    
+      }).then(result => {
+        console.log(result)
+        this.setState({
+          validation: true
+        });
+      }).catch (err => {
+        this.setState ({
+          validation: false
+        });
+      });
+    }
   }
 
   render() {
@@ -76,8 +117,14 @@ class Signup extends React.Component  {
                 <CardBody className="mx-4 mt-4">
                 <Input label="Name" icon="user" group type="text" ref="name" validate error="wrong"  onChange={this.handleUserChange.bind(this)} value={this.state.name} success="right"/>
                 <Input label="Email" icon="envelope" group type="email" ref="emailId" validate error="wrong"  onChange={this.handleEmailChange.bind(this)} value={this.state.emailId} success="right"/>
+                {this.state.email_error=== ''?null :<Alert color="danger"> {this.state.email_error}
+                </Alert>}
                 <Input label="Password" icon="lock" group type="password" ref="password"  onChange={this.handlePasswordChange.bind(this)} value={this.state.password} validate/>
+                {this.state.password_error=== ''?null :<Alert color="danger"> {this.state.password_error}
+                </Alert>}
                 <Input label="Confirm password" icon="exclamation-triangle" group type="password" validate error="wrong" success="right"/>
+                {this.state.confirmPassword_error=== ''?null :<Alert color="danger"> {this.state.confirmPassword_error}
+                </Alert>}
                 <div className="text-center mb-4 mt-5">
                 <Button color="primary" type="submit" className="btn-block z-depth-2">Sign Up</Button>
                 </div>

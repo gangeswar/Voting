@@ -1,0 +1,5 @@
+{
+  "mongo": {
+    "dbconnect":"mongodb+srv://shopping:shop@cluster0-cwcgk.mongodb.net/test?retryWrites=true"
+  }
+}

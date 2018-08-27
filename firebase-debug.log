@@ -1,261 +1,154 @@
-[debug] [2018-08-21T11:20:45.333Z] ----------------------------------------------------------------------
-[debug] [2018-08-21T11:20:45.337Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
-[debug] [2018-08-21T11:20:45.337Z] CLI Version:   3.19.3
-[debug] [2018-08-21T11:20:45.337Z] Platform:      linux
-[debug] [2018-08-21T11:20:45.337Z] Node Version:  v10.9.0
-[debug] [2018-08-21T11:20:45.470Z] Time:          Tue Aug 21 2018 16:50:45 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:20:45.470Z] ----------------------------------------------------------------------
+[debug] [2018-08-23T09:10:44.973Z] ----------------------------------------------------------------------
+[debug] [2018-08-23T09:10:44.975Z] Command:       /usr/local/bin/node /usr/local/bin/firebase login
+[debug] [2018-08-23T09:10:44.975Z] CLI Version:   3.19.3
+[debug] [2018-08-23T09:10:44.975Z] Platform:      linux
+[debug] [2018-08-23T09:10:44.976Z] Node Version:  v10.9.0
+[debug] [2018-08-23T09:10:44.976Z] Time:          Thu Aug 23 2018 14:40:44 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:10:44.976Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-08-21T11:20:45.753Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-08-21T11:20:45.754Z] > authorizing via signed-in user
-[debug] [2018-08-21T11:20:45.757Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-08-21T11:20:45.757Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- { refresh_token: '1/FIObBHP3nh3Oyz6iHjkPnsAkzqZM2Y1dBifBFgis6tI',
+[info] 
+[info] Visit this URL on any device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=7711272&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info] 
+[info] Waiting for authentication...
+[debug] [2018-08-23T09:11:10.879Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RACl2hFtQorTbmu6CWmhTvTzTVYMvIXeE0A8BDTRGot-4mi2jp1pcoLRV2AR1n2_nBfrlwPzQ2k4b1sAsINrfCs',
   client_id:
    '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
-  grant_type: 'refresh_token',
-  scope:
-   'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Tue Aug 21 2018 16:50:45 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:20:46.189Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:20:46.298Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/shopping-fec80  
-  
- Tue Aug 21 2018 16:50:46 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:20:47.730Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:20:47.731Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/shopping-fec80/tokens  
-  
- Tue Aug 21 2018 16:50:47 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:20:49.072Z] <<< HTTP RESPONSE 200
-[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions.
- Please upgrade using npm install --save firebase-functions@latest in your functions directory.
-[info] 
-[info] === Deploying to 'shopping-fec80'...
-[info] 
-[info] i  deploying functions, hosting
-[debug] [2018-08-21T11:21:20.401Z] > [functions] package.json contents: {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "serve": "firebase serve --only functions",
-    "shell": "firebase functions:shell",
-    "start": "node index.js",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "dependencies": {
-    "firebase-admin": "~5.12.1",
-    "firebase-functions": "^1.0.3",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "morgan": "^1.9.0",
-    "mysql": "^2.16.0"
-  },
-  "private": true
-}
-[info] i  functions: ensuring necessary APIs are enabled...
-[debug] [2018-08-21T11:21:20.402Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/shopping-fec80?view=CONSUMER_VIEW  
-  
- Tue Aug 21 2018 16:51:20 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:20.403Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/shopping-fec80?view=CONSUMER_VIEW  
-  
- Tue Aug 21 2018 16:51:20 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:22.591Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:21:22.860Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: all necessary APIs are enabled
-[debug] [2018-08-21T11:21:22.861Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/shopping-fec80  
-  
- Tue Aug 21 2018 16:51:22 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:24.379Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:21:24.380Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/868021950418:getServerAppConfig  
-  
- Tue Aug 21 2018 16:51:24 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:25.164Z] <<< HTTP RESPONSE 200
-[info] i  functions: preparing functions directory for uploading...
-[debug] [2018-08-21T11:21:25.169Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/shopping-fec80/configs  
-  
- Tue Aug 21 2018 16:51:25 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:25.639Z] <<< HTTP RESPONSE 200
-[info] i  functions: packaged functions (42.77 KB) for uploading
-[debug] [2018-08-21T11:21:30.267Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/shopping-fec80/locations/us-central1/functions:generateUploadUrl  
-  
- Tue Aug 21 2018 16:51:30 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:30.963Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:21:30.964Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-d90f75ac-0973-4341-a230-4c09efc74dca/82078888-db4c-41d2-a527-f91811c78688.zip?GoogleAccessId=service-868021950418@gcf-admin-robot.iam.gserviceaccount.com&Expires=1534852290&Signature=BBBaN1c8uTsWyWpWJRDxJMAENVjVFYLabyasM8PpxzIQTBCg6iMakonAsGUBZ12X5ZjkCemPhwWsRBsryPddpqJbbF5Tx7ZNcWUrQaz2UQy2qeie5GfXtR6ZkK60MkPU13ZSTRyxo4LkvW3yWlQtuPbzywUzwj6%2BrzSENKXtO7Tx8mxWPvctUhLhVLj0CB06U076Me%2Fwu9cDFIpdOwekgS8uZFLkzZ2EoWqjma9GLZnJhtFhEgwc3xFeikj1InXyzBlbZ%2BhjGZvVr7JywRMnMEwHLQl%2BZp0gEPrgSnG0lZd9J%2FoA%2BG7Lerq%2Fo6sVyoFF2xUEVk%2FkT%2Bty7HAn3pDfAA%3D%3D  
- ReadStream {
-  _readableState:
-   ReadableState {
-     objectMode: false,
-     highWaterMark: 65536,
-     buffer: BufferList { length: 1 },
-     length: 43796,
-     pipes: null,
-     pipesCount: 0,
-     flowing: null,
-     ended: true,
-     endEmitted: false,
-     reading: false,
-     sync: false,
-     needReadable: false,
-     emittedReadable: true,
-     readableListening: false,
-     resumeScheduled: false,
-     emitClose: false,
-     destroyed: false,
-     defaultEncoding: 'utf8',
-     awaitDrain: 0,
-     readingMore: false,
-     decoder: null,
-     encoding: null },
-  readable: true,
-  domain: null,
-  _events: { end: [Function] },
-  _eventsCount: 1,
-  _maxListeners: undefined,
-  path: '/tmp/firebase-functions-152602tBFmYyjH318.zip',
-  fd: 19,
-  flags: 'r',
-  mode: 438,
-  start: undefined,
-  end: Infinity,
-  autoClose: true,
-  pos: undefined,
-  bytesRead: 43796,
-  closed: false } 
- Tue Aug 21 2018 16:51:30 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:31.634Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: functions folder uploaded successfully
-[info] i  hosting: preparing build directory for upload...
-[debug] [2018-08-21T11:21:32.447Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/shopping-fec80/uploads/-LKRCwfxUQkDXHtbKcJW?fileCount=49&message=  
-  
- Tue Aug 21 2018 16:51:32 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:21:32.634Z] Error: connect ECONNREFUSED 23.251.151.130:443
-    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1161:14)
-[error] 
-[error] Error: Server Error. connect ECONNREFUSED 23.251.151.130:443
-[debug] [2018-08-21T11:27:53.958Z] ----------------------------------------------------------------------
-[debug] [2018-08-21T11:27:53.960Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
-[debug] [2018-08-21T11:27:53.960Z] CLI Version:   3.19.3
-[debug] [2018-08-21T11:27:53.960Z] Platform:      linux
-[debug] [2018-08-21T11:27:53.960Z] Node Version:  v10.9.0
-[debug] [2018-08-21T11:27:53.960Z] Time:          Tue Aug 21 2018 16:57:53 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:27:53.961Z] ----------------------------------------------------------------------
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:41:10 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:11:10.895Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-23T09:11:27.860Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RACl2hFtQorTbmu6CWmhTvTzTVYMvIXeE0A8BDTRGot-4mi2jp1pcoLRV2AR1n2_nBfrlwPzQ2k4b1sAsINrfCs',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:41:27 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:11:27.867Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-23T09:12:51.006Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RACl2hFtQorTbmu6CWmhTvTzTVYMvIXeE0A8BDTRGot-4mi2jp1pcoLRV2AR1n2_nBfrlwPzQ2k4b1sAsINrfCs',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:42:51 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:12:51.011Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-23T09:14:25.039Z] ----------------------------------------------------------------------
+[debug] [2018-08-23T09:14:25.041Z] Command:       /usr/local/bin/node /usr/local/bin/firebase login
+[debug] [2018-08-23T09:14:25.041Z] CLI Version:   3.19.3
+[debug] [2018-08-23T09:14:25.042Z] Platform:      linux
+[debug] [2018-08-23T09:14:25.042Z] Node Version:  v10.9.0
+[debug] [2018-08-23T09:14:25.042Z] Time:          Thu Aug 23 2018 14:44:25 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:14:25.042Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-08-21T11:27:53.972Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-08-21T11:27:53.972Z] > authorizing via signed-in user
-[debug] [2018-08-21T11:27:53.974Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/shopping-fec80  
-  
- Tue Aug 21 2018 16:57:53 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:27:55.555Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:27:55.557Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/shopping-fec80/tokens  
-  
- Tue Aug 21 2018 16:57:55 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:27:56.705Z] <<< HTTP RESPONSE 200
-[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions.
- Please upgrade using npm install --save firebase-functions@latest in your functions directory.
 [info] 
-[info] === Deploying to 'shopping-fec80'...
+[info] Visit this URL on any device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=677980746&redirect_uri=http%3A%2F%2Flocalhost%3A9005
 [info] 
-[info] i  deploying functions, hosting
-[debug] [2018-08-21T11:28:00.908Z] > [functions] package.json contents: {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "serve": "firebase serve --only functions",
-    "shell": "firebase functions:shell",
-    "start": "node index.js",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "dependencies": {
-    "firebase-admin": "~5.12.1",
-    "firebase-functions": "^1.0.3",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "morgan": "^1.9.0",
-    "mysql": "^2.16.0"
-  },
-  "private": true
-}
-[info] i  functions: ensuring necessary APIs are enabled...
-[debug] [2018-08-21T11:28:00.909Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/shopping-fec80?view=CONSUMER_VIEW  
-  
- Tue Aug 21 2018 16:58:00 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:00.910Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/shopping-fec80?view=CONSUMER_VIEW  
-  
- Tue Aug 21 2018 16:58:00 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:03.263Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:28:03.302Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: all necessary APIs are enabled
-[debug] [2018-08-21T11:28:03.304Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/shopping-fec80  
-  
- Tue Aug 21 2018 16:58:03 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:04.931Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:28:04.932Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/868021950418:getServerAppConfig  
-  
- Tue Aug 21 2018 16:58:04 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:05.806Z] <<< HTTP RESPONSE 200
-[info] i  functions: preparing functions directory for uploading...
-[debug] [2018-08-21T11:28:05.810Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/shopping-fec80/configs  
-  
- Tue Aug 21 2018 16:58:05 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:06.274Z] <<< HTTP RESPONSE 200
-[info] i  functions: packaged functions (42.77 KB) for uploading
-[debug] [2018-08-21T11:28:06.640Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/shopping-fec80/locations/us-central1/functions:generateUploadUrl  
-  
- Tue Aug 21 2018 16:58:06 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:07.469Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-21T11:28:07.470Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-d90f75ac-0973-4341-a230-4c09efc74dca/f736437d-3a8d-41af-bcb6-c4275701ba5c.zip?GoogleAccessId=service-868021950418@gcf-admin-robot.iam.gserviceaccount.com&Expires=1534852687&Signature=FO8Rr%2FQxYfQb%2F4tjbi41cU%2B%2BpaDNr7HRjfQ9zAQEX%2FJJZ3CyP6fuuMu%2BNuF8%2BO4I9h3QJk%2BO6XERdBq00oAMkCF%2B%2ByDgknKMvt%2FxmSkP0ehY8cLz7Z34Ndoii576%2FOyajNemuNc7JINv%2Ffyd2yyGSCEukiG%2F%2Bhllp%2B3tIvXBk4OqORD3ysui%2FNayCyiqsHvuo6hhG9BoDmORm7DiVxIzWKW6nwN9j44WB6Qe2t3O1Dfm7zQl4%2BsDxU8meP3DX0%2BnRjEmkucq1oQqJCe5y8temVnBVLKCXLCz4aPrCr35b5%2By%2FqffyWcW%2F%2FLRU0JIE2ra%2BLVkrpJizIerfHsDZUzclQ%3D%3D  
- ReadStream {
-  _readableState:
-   ReadableState {
-     objectMode: false,
-     highWaterMark: 65536,
-     buffer: BufferList { length: 1 },
-     length: 43796,
-     pipes: null,
-     pipesCount: 0,
-     flowing: null,
-     ended: true,
-     endEmitted: false,
-     reading: false,
-     sync: false,
-     needReadable: false,
-     emittedReadable: true,
-     readableListening: false,
-     resumeScheduled: false,
-     emitClose: false,
-     destroyed: false,
-     defaultEncoding: 'utf8',
-     awaitDrain: 0,
-     readingMore: false,
-     decoder: null,
-     encoding: null },
-  readable: true,
-  domain: null,
-  _events: { end: [Function] },
-  _eventsCount: 1,
-  _maxListeners: undefined,
-  path: '/tmp/firebase-functions-16902tbejmlevOFW2.zip',
-  fd: 19,
-  flags: 'r',
-  mode: 438,
-  start: undefined,
-  end: Infinity,
-  autoClose: true,
-  pos: undefined,
-  bytesRead: 43796,
-  closed: false } 
- Tue Aug 21 2018 16:58:07 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:08.740Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: functions folder uploaded successfully
-[info] i  hosting: preparing build directory for upload...
-[debug] [2018-08-21T11:28:09.496Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/shopping-fec80/uploads/-LKRETVLIZzvgYyFkQZ9?fileCount=49&message=  
-  
- Tue Aug 21 2018 16:58:09 GMT+0530 (India Standard Time)
-[debug] [2018-08-21T11:28:10.409Z] Error: connect ECONNREFUSED 23.251.151.130:443
-    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1161:14)
-[error] 
-[error] Error: Server Error. connect ECONNREFUSED 23.251.151.130:443
+[info] Waiting for authentication...
+[debug] [2018-08-23T09:14:30.644Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RADZ_eaf-UbSM9JqFWBm_cM8OQJR8F-vQVyb8UrhSxVMjafYkgV_5OWGbAxuIeGAQbre2xzaZRuGWhUeqj2sECU',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:44:30 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:14:30.659Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-23T09:14:34.411Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RAA_FT0PxpsSFUWxXXBUrdYr1gxPKt70Hh02rtjkmfq5DNON7hHomlgOQ2qQ97FuspdebGClUeG5XIVbvbrSPew',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:44:34 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:14:34.418Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-23T09:17:28.301Z] >>> HTTP REQUEST POST https://accounts.google.com/o/oauth2/token  
+ { code:
+   '4/RAB5SA-fTQPc3v-kOkzvMDVvwtutwXnlI8_qLKhXugj0n6qwKAmAOk7ppMkHK_Qjp9T6E1uHgOXbpeqc-MrY7Jc',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  redirect_uri: 'http://localhost:9005',
+  grant_type: 'authorization_code' } 
+ Thu Aug 23 2018 14:47:28 GMT+0530 (India Standard Time)
+[debug] [2018-08-23T09:17:28.306Z] Token Fetch Error: Error
+    at new FirebaseError (/usr/local/lib/node_modules/firebase-tools/lib/error.js:11:16)
+    at Request._callback (/usr/local/lib/node_modules/firebase-tools/lib/api.js:35:11)
+    at self.callback (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:442:20)
+    at Request.onRequestError (/usr/local/lib/node_modules/firebase-tools/node_modules/request/request.js:877:8)
+    at ClientRequest.emit (events.js:182:13)
+    at ClientRequest.EventEmitter.emit (domain.js:442:20)
+    at ClientRequest.onError (/usr/local/lib/node_modules/firebase-tools/node_modules/tunnel-agent/index.js:179:21)
+    at Object.onceWrapper (events.js:273:13)
+[debug] [2018-08-24T06:53:56.011Z] ----------------------------------------------------------------------
+[debug] [2018-08-24T06:53:56.014Z] Command:       /usr/local/bin/node /usr/local/bin/firebase login
+[debug] [2018-08-24T06:53:56.014Z] CLI Version:   3.19.3
+[debug] [2018-08-24T06:53:56.014Z] Platform:      linux
+[debug] [2018-08-24T06:53:56.014Z] Node Version:  v10.9.0
+[debug] [2018-08-24T06:53:56.063Z] Time:          Fri Aug 24 2018 12:23:56 GMT+0530 (India Standard Time)
+[debug] [2018-08-24T06:53:56.063Z] ----------------------------------------------------------------------
+[debug] 

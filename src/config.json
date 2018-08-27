@@ -1,8 +1,9 @@
 {
     "url": {
-        "home": "http://172.24.125.116:8000/api/image",
-        "shop": "http://172.24.125.116:8000/api/product",
-        "signup": "http://172.24.125.116:8000/api/user/signup"
+        "home": "https://shopping.now.sh/api/image",
+        "shop": "https://shopping.now.sh/api/product",
+        "signup": "https://shopping.now.sh/api/user/signup",
+        "login": "https://shopping.now.sh/api/user/login"
     },
     "payment": {
         "env": "sandbox",

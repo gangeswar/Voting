@@ -303,7 +303,7 @@ module.exports = {
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       filename: 'service-worker.js',
       runtimeCaching: [{
-        urlPattern: /^http:\/\/172\.24\.125\.116\:8000\/api/,
+        urlPattern: /^https:\/\/shopping\.now\.sh\/api/,
         handler: 'networkFirst'
       }, {
         urlPattern: /\/image\//,
