@@ -1,11 +1,11 @@
 import React from 'react';
 import PaypalExpressBtn from 'react-paypal-express-checkout';
+import { withRouter } from 'react-router-dom';
 
 import config from '../../config.json';
+import Success from './Success';
 
-import firebase from 'firebase';
-
-export default class Payment extends React.Component {
+class Payment extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -16,32 +16,26 @@ export default class Payment extends React.Component {
   }
   render() {
     console.log(this.props.total);
-    const onSuccess = (payment) => 
-    ( <div>
-        <h2>Order Summary</h2>
-        <a onClick={() => firebase.auth().signOut()}>shop page</a>
-      </div>
-      );
+    const onSuccess = (payment) =>{
+      <Success payment={payment} />
+      this.props.history.push('/cart/success');
+    }
 
     const onCancel = (data) => {
       console.log('The payment was cancelled!', data);
-      this.setState = ({
-        cancel: data
-      })
+      this.props.history.push('/cart/cancel');
     }
 
     const onError = (error) => {
       console.log("Error!", error);
-      this.setState = ({
-        error:error
-      })
+      this.props.history.push('/cart/error');
     }
 
-    let env = config.payment.env; 
+    let env = config.payment.env;
     let currency = config.payment.currency;
 
     const client = {
-      sandbox : config.payment.sandbox,
+      sandbox: config.payment.sandbox,
       production: 'YOUR-PRODUCTION-APP-ID',
     }
     return (
@@ -50,15 +44,9 @@ export default class Payment extends React.Component {
           Click here to proceed the payment with paypal
         </h1>
         <PaypalExpressBtn env={env} client={client} currency={currency} total={this.props.total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />
-        {
-          this.state.payment===null?null : 
-          <div>
-            <h1>Payment Sucessfull</h1>
-            <p>Product shipped to the address:</p>
-            {this.state.payment}
-          </div>
-        }
       </div>
     );
   }
 }
+
+export default withRouter (Payment);

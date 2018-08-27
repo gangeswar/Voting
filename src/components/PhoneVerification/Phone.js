@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-import Cart from '../Product/Cart';
+import Payment from '../Payment/Payment';
 import '../../base';
 
 class Phone extends Component {
@@ -30,7 +30,7 @@ class Phone extends Component {
     return (
       <div className="App">
         {
-          this.state.isSignedIn ? (<Cart />) : (
+          this.state.isSignedIn ? (<Payment />) : (
             <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
 
           )}

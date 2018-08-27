@@ -5,7 +5,6 @@ import { Button, Container, Input, Fa, Modal, ModalBody, ModalFooter } from 'mdb
 import { Alert } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import axios from 'axios';
-import { Switch, Redirect, Route } from 'react-router-dom';
 
 import config from '../../config.json';
 
@@ -85,7 +84,6 @@ class Cart extends Component {
     return (
       <Container>
         <BootstrapTable data={sort(this.props.cart)} striped hover>
-          
           <TableHeaderColumn isKey dataField='productName' dataSort>Product Name</TableHeaderColumn>
           <TableHeaderColumn dataField='quantity' dataSort>Product Quantity</TableHeaderColumn>
           <TableHeaderColumn dataField='price' dataSort>Product Price</TableHeaderColumn>
